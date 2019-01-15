@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/travels.css">
+		<title></title>
+		<style>
+			.isend{
+				padding-bottom: 70px;
+				background-color: #fff;
+				margin: 0;
+			}	
+
+			.isempty{
+				padding-right: 25px;
+				display: block;
+				margin-top: 60px;
+			}
+
+		</style>
+	</head>
+	<body class="detailbody">
+
+		<header id="defaulthead" class="defaulthead headfixed airhead">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span style="display: none;"> &nbsp; </span>&nbsp;</h1>
+			<i id="headact" class="fa fa-share-square-o" style="color: #fff; font-size:22px"></i>
+		</header>
+
+		<div class="contentbox">
+			<div class="coverimg"></div>
+			<div class="headinfo">
+				<h1> &nbsp; </h1>
+				<ul class="numinfo">
+					<li class="do_favorite"><i style="color: #74d3c0;" class="fa fa-star-o" id="isfavorite"></i><span>收藏</span></li>
+					<li><i style="color: #ffa800;" class="fa fa-eye"></i><span id="view">0</span></li>
+					<li class="do_like"><i style="color: #f88d9c;" class="fa fa-heart-o" id="islike"></i><span id="numlike">0</span></li>
+					<li class="do_comment"><i style="color: #1493e3;" class="fa fa-commenting-o"></i><span class="numcomment">0</span></li>
+				</ul>
+			</div>
+
+			<div class="detaildesc">
+				<div class="d-head">
+					<img class="headimgs" src="img/my-head.png" />
+					<h1><b class="headname"> - </b><span id="tatravels">共有<span id="numType"> - </span>条游记</span></h1>
+					<p id="d-head-bottom"><span id="d-city"> - </span><span id="create_time"> - </span></p>
+				</div>
+				<div class="d-content">
+					<div class="triangle"></div>
+					<ul>
+						<li><i class="fa fa-map-marker"></i>出行城市<span id="city"> - </span></li>
+						<li><i class="fa fa-calendar"></i>出发时间<span id="playDate"> - </span></li>
+						<li><i class="fa fa-clock-o"></i>出行天数<span id="playDays"> - </span></li>
+						<li><i class="fa fa-dollar"></i>人均消费<span id="consume"> - </span></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="travelcontent"> &nbsp; </div>
+			<div class="isend">已经到底了~</div>
+
+			<ul class="menu-bottom">
+				<li class="showcomment">
+					<b class="numcomment"></b>
+					<i class="mb-icon-0"></i>
+					<span>游记回复</span>
+				</li>
+				<li class="showreward">
+					<b>0</b>
+					<i class="mb-icon-1"></i>
+					<span>赞赏</span>
+				</li>
+				<!--<li>
+			<i class="mb-icon-2"></i>
+			<span>分享</span>
+		</li>-->
+			</ul>
+
+		</div>
+
+		<div class="comment_list">
+			<h1 class="c-l-title">游记回复 <span class="numcomment"> - </span><b class="c-l-cancel">返回</b><b class="c-l-addnew">+ 评论</b></h1>
+			<ul>
+				<!--<li>
+			<div class="d-head">
+				<img src="img/find/test_02.png" />
+				<h1>我在永宁江边</h1><b>删除</b>
+				<p class="d-head-bottom">2018-05-05 13:21</p>
+			</div>
+			<p class="c-l-content">哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+			<div class="c-l-back">
+				<h2>引用@言午话的回复</h2>
+				<p>哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+			</div>
+		</li>
+		<li>
+			<div class="d-head">
+				<img src="img/find/test_02.png" />
+				<h1>我在永宁江边</h1>
+				<p class="d-head-bottom">2018-05-05 13:21</p>
+			</div>
+			<p class="c-l-content">哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+		</li>-->
+				<div class="isempty"><i class="fa fa-comments-o"></i><span>没有回复</span></div>
+			</ul>
+			<div class="comment_box"><input id="keyingval" type="text" placeholder="评论" /><button id="subeval">回复</button></div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var commentPid = '';
+			var gdata = GetRequest();
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			function plusReady() {
+				getdetail();
+				plus.webview.currentWebview().setStyle({
+					softinputMode: "adjustResize"
+				});
+				setbcolor('light');
+			};
+
+			$(function() {
+
+				if (gdata.nickname) {
+					var avatar = localStorage.getItem('ajaxlinkhead') + gdata.avatar;
+					$('.detaildesc .d-head h1 b').text(gdata.nickname);
+					$('.detaildesc .d-head img').attr({
+						'src': avatar
+					});
+					$('.detaildesc .d-head h1 b,.detaildesc .d-head img').attr({
+						'hsrc': avatar
+					});
+				}
+
+				mui('.linedate-scroll').scroll({
+					scrollY: false, //是否竖向滚动
+					scrollX: true, //是否横向滚动
+					indicators: false,
+					deceleration: 0.003
+				});
+
+			})
+
+			var saying = 0;
+			var nowbcolor = 'light';
+			var nowscroll = 0;
+			$(window).bind("scroll", function() {
+				var sTop = $(window).scrollTop();
+				sTop = parseInt(sTop);
+				if (saying == 0) {
+					nowscroll = sTop;
+					if (sTop > 240) {
+						$('#defaulthead').removeClass('airhead');
+						$('#defaulthead h1 span').show();
+						$('#headact').css('color', '#b8c4ca');
+						if (window.plus) {
+							setbcolor('dark');
+							nowbcolor = 'dark';
+						}
+					} else {
+						$('#defaulthead').addClass('airhead');
+						$('#defaulthead h1 span').hide();
+						$('#headact').css('color', '#fff');
+						if (window.plus) {
+							setbcolor('light');
+							nowbcolor = 'light';
+						}
+					}
+				}
+			});
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				setbcolor('dark');
+				plus.webview.currentWebview().close();
+			})
+
+			mui('body').on('tap', '#headact', function(e) {
+				$('input').blur();
+				onshare();
+			});
+
+			var commmentdata = {};
+
+			function getdetail() {
+				var subjson = {
+					'is_ajax': 1
+				};
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + "/travels/detail-" + gdata.tid, subjson, function(result) {
+
+					var v = result.info;
+					var l = result.list;
+					if (v && l) {
+
+						$('.travelcontent').html(v.content);
+						$('.headinfo h1,.defaulthead h1 span').text(v.title);
+
+						$('.travelcontent img').each(function(i) {
+							var thissrc = $(this).attr('src');
+							$(this).attr('src', localStorage.getItem('ajaxlinkhead') + thissrc);
+						})
+
+						var readimg=$('.coverimg');
+						var wsrc=localStorage.getItem('ajaxlinkhead') + v.cover_image;
+						var imgname = wsrc.substr(wsrc.lastIndexOf('/') + 1);
+						readimg.addClass('img_cache_bg');
+						readimg.attr('imgname', imgname);
+						img_cache(wsrc, '_bg', imgname);
+
+						//			$.ajax({url:localStorage.getItem('ajaxlinkhead')+'/index/img',type: "post",data: {is_ajax:1,id:v.cover_id},dataType: "json",
+						//				success:function(map){
+						//					var datapicurl = localStorage.getItem('ajaxlinkhead')+map.pic_url;
+						//					if(coverString('.jpeg', datapicurl) || coverString('.jpg', datapicurl) || coverString('.png', datapicurl)) {
+						//						//$('.coverimg').css('backgroundImage','url('+datapicurl+')');
+						//						
+						//					}
+						//				}
+						//			});
+
+						var playDate = v.playDate;
+						if (playDate != '' && playDate != '0' && playDate != 0) {
+							$('#playDate').text(sbackstr(playDate));
+						};
+
+						var create_time = v.create_time;
+						if (create_time != '' && create_time != '0' && create_time != 0) {
+							$('#create_time').text(sbackstr(create_time));
+						};
+
+						if (v.playDays != '') {
+							$('#playDays').text(v.playDays + '天')
+						};
+						if (v.consume != '') {
+							$('#consume').text(v.consume + '元')
+						};
+						if (v.city != '') {
+							$('#city').text(v.city)
+						};
+						if (v.view != '') {
+							$('#view').text(v.view)
+						};
+						if (l.numType != '') {
+							$('#numType').text(l.numType)
+						};
+						if (l.numlike != '') {
+							$('#numlike').text(l.numlike)
+						};
+
+						if (l.isfavorite == 1) {
+							$('#isfavorite').addClass('fa-star favorite');
+							$('.do_favorite').find('span').text('已收藏');
+							$('#isfavorite').removeClass('fa-star-o');
+						}
+
+						if (l.islike == 1) {
+							$('#islike').addClass('fa-heart like');
+							$('#islike').removeClass('fa-heart-o');
+						}
+
+						if (v.city != '' && v.city && v.city != undefined && v.city != 'undefined') {
+							var s = ',' + v.city;
+							s = s.substring(1, s.length);
+							s = s.split(",");
+							$('#d-city').text(s[0]);
+						};
+
+						var numcomment = l.numcomment;
+						if (numcomment != '' && numcomment != '0' && numcomment != 0) {
+							$('.numcomment').text(numcomment);
+						}
+
+						$('.detaildesc .d-head img,.detaildesc .d-head h1 b').attr({
+							uid: v.uid
+						});
+
+						if (v.uid == plus.storage.getItem("user_uid")) {
+							var uname = plus.storage.getItem("user_nickname");
+							var uimg = plus.storage.getItem("user_headimg");
+							if (uname == '' || !uname) {
+								uname = plus.storage.getItem("user_username");
+							};
+							$('.detaildesc .d-head h1 b').text(uname);
+							$('.detaildesc .d-head img').attr({
+								'src': uimg
+							});
+							$('.detaildesc .d-head h1 b,.detaildesc .d-head img').attr({
+								'hsrc': uimg
+							});
+						} else {
+							memberinfo(v.uid)
+						}
+
+						if (l.comment != '') {
+							$('.isempty').hide();
+							$.each(l.comment, function(a, b) {
+								commmentdata[b.id] = b;
+							})
+
+							$.each(l.comment, function(a, b) {
+
+								var del = '';
+								if (b.uid == plus.storage.getItem("user_uid")) {
+									del = '<b class="link_del" lid="' + b.id + '">删除</b>';
+								}
+
+								var li = '<li><div class="d-head"><img src="' + localStorage.getItem('ajaxlinkhead') + b.picurl +
+									'" /><h1>' + b.nickname + '</h1>' + del + '<p class="d-head-bottom">' + sbackstrmm(b.create_time) +
+									'</p></div><p class="c-l-content" uid="' + b.uid + '" pid="' + b.id + '">' + b.content + '</p>';
+
+								if (b.pid && b.pid != '0' && commmentdata[b.pid]) {
+									li += '<div class="c-l-back"><h2>引用 @ ' + commmentdata[b.pid].nickname + ' 的回复</h2><p>' + commmentdata[b.pid]
+										.content + '</p></div>';
+								}
+
+								li += '</li>';
+
+								$('.comment_list ul').append(li);
+							});
+						}
+
+					} else {
+						plus.nativeUI.toast('获取数据失败');
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					closecssWaiting();
+					plus.nativeUI.toast('获取数据失败，发生错误');
+				});
+			};
+
+
+			function memberinfo(vuid) {
+				var subjson = {
+					'is_ajax': 1,
+					'id': vuid
+				};
+				showcssWaiting();
+				$.post(localStorage.getItem('ajaxlinkhead') + '/user/member/index', subjson, function(result) {
+
+					var r = result.userInfo;
+					$('.detaildesc .d-head h1 b').text(r.nickname || r.username || '-');
+					var uimg = r.avatar || r.image || r.headimgurl;
+					uimg = localStorage.getItem('ajaxlinkhead') + uimg;
+					$('.detaildesc .d-head img').attr({
+						'src': uimg
+					});
+					$('.detaildesc .d-head h1 b,.detaildesc .d-head img').attr({
+						'hsrc': uimg
+					});
+
+					closecssWaiting();
+				}, 'json').fail(function() {
+					closecssWaiting();
+				})
+			}
+
+			//忽略大小写判断是否包含子字符串
+			function coverString(subStr, str) {
+				var reg = eval("/" + subStr + "/ig");
+				return reg.test(str);
+			}
+
+			function sbackstr(num) {
+				var timestamp = Number(num);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				var backstr = newDate.format('yyyy-MM-dd');
+				return backstr;
+			}
+
+			function sbackstrmm(num) {
+				var timestamp = Number(num);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				var backstr = newDate.format('yyyy-MM-dd hh:mm');
+				return backstr;
+			}
+
+			var nbodyheight = $(window).height();
+			$('.comment_list ul').css('height', nbodyheight - 135 + 'px')
+			window.onresize = function() {
+				var bodyheight = $(window).height();
+				$('.comment_list ul').css('height', bodyheight - 135 + 'px')
+				$('.comment_box').css('top', bodyheight - 60 + 'px');
+			};
+
+			var keyingtype = 1;
+
+			//评论按钮事件
+			mui('body').on('tap', '.isempty,.c-l-addnew', function() {
+				$('#keyingval').val('');
+				$('#keyingval').attr('placeholder', '评论');
+				$('#keyingval').focus();
+				keyingtype = 1;
+			});
+
+			mui('body').on('tap', '.headimgs,.headname', function(e) {
+
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+
+				var open_url = 'expertdetail.html?uid=' + $(this).attr('uid') + '&hsrc=' + $(this).attr('hsrc');
+				plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+
+			});
+
+			//收藏按钮事件
+			mui('body').on('tap', '.do_favorite', function() {
+				var that = this;
+				if ($(that).find('i').hasClass('favorite')) {
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/unfavorite", {
+						is_ajax: 1,
+						id: gdata.tid,
+						type: '23'
+					}, function(data) {
+						$(that).find('i').removeClass('fa-star favorite').addClass('fa-star-o');
+						$(that).find('span').text('收藏');
+						mui.toast('取消收藏');
+					});
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/favorite", {
+						is_ajax: 1,
+						id: gdata.tid,
+						type: '23'
+					}, function(data) {
+						$(that).find('i').removeClass('fa-star-o').addClass('fa-star favorite');
+						$(that).find('span').text('已收藏');
+						mui.toast('收藏成功');
+					});
+				}
+			});
+
+			//点赞按钮事件
+			mui('body').on('tap', '.do_like', function() {
+				var that = this;
+				var likeNum = Number($('#numlike').text());
+				if ($(that).find('i').hasClass('like')) {
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/unlike", {
+						is_ajax: 1,
+						id: gdata.tid,
+						type: '23'
+					}, function(data) {
+						$(that).find('i').removeClass('like fa-heart').addClass('fa-heart-o');
+						$('#numlike').text(' ' + (likeNum - 1));
+						mui.toast('已取消点赞');
+					});
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/like", {
+						is_ajax: 1,
+						id: gdata.tid,
+						type: '23'
+					}, function(data) {
+						$(that).find('i').removeClass('fa-heart-o').addClass('fa-heart like');
+						$('#numlike').text(' ' + (likeNum + 1));
+						mui.toast('已点赞');
+					});
+				}
+			});
+
+			mui('body').on('tap', '.showcomment,.do_comment', function(e) {
+				saying = 1;
+				$('.comment_list').fadeIn();
+				$('.contentbox,.defaulthead').hide();
+				setbcolor('dark');
+			});
+
+			mui('body').on('tap', '.showreward', function(e) {
+				var hbdom = $('.detaildesc .d-head h1 b');
+				var uid = hbdom.attr('uid');
+				var hsrc = hbdom.attr('hsrc');
+				var text = hbdom.text();
+				if (hsrc == undefined) {
+					hsrc = '';
+				}
+				if (text == ' - ') {
+					text = '';
+				}
+				var nurl = 'reward.html?uid=' + uid + '&hsrc=' + hsrc + '&uname=' + text;
+				setbcolor('dark');
+				mui.openWindow({
+					url: nurl,
+					id: 'reward.html'
+				});
+				if (nowbcolor == 'light') {
+					plus.webview.getWebviewById('reward.html').addEventListener('close', function() {
+						setbcolor('light');
+					})
+				}
+			});
+
+			mui('body').on('tap', '.c-l-cancel', function(e) {
+				$('.c-l-cancel').addClass('active');
+				$('.defaulthead,.contentbox').show();
+				$(window).scrollTop(nowscroll);
+				setbcolor(nowbcolor);
+				$('input').blur();
+				saying = 0;
+				setTimeout(function() {
+					$('.comment_list').hide();
+					$('.c-l-cancel').removeClass('active');
+				}, 200);
+			});
+
+			var subsay = 0;
+			//发表按钮点击事件
+			mui('body').on('tap', '#subeval', function() {
+				var comVal = $('#keyingval').val();
+				if (comVal != '') {
+
+					if (comVal.length < 2) {
+						mui.toast('多写点吧');
+						$('#keyingval').focus();
+						return;
+					}
+
+					var subjson = {
+						'is_ajax': 1,
+						'cid': gdata.tid,
+						'type': '23',
+						'content': comVal
+					}
+
+					if (keyingtype == 2) {
+
+						if (commentPid == '') {
+							mui.toast('引用回复ID为空');
+							return false;
+						}
+
+						subjson.pid = commentPid;
+
+					}
+
+					if (subsay == 1) {
+						return
+					}
+					subsay = 1;
+					showcssWaiting()
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/comment", subjson, function(map) {
+
+						if (map.code == 1) {
+
+							$('#keyingval').val('');
+							$('#keyingval').blur();
+							$('.isempty').hide();
+							var uname = plus.storage.getItem("user_nickname");
+
+							if (uname == '' || !uname) {
+								uname = plus.storage.getItem("user_username");
+							};
+
+							var nowdate = new Date();
+
+							var li = '<li><div class="d-head"><img src="' + plus.storage.getItem("user_headimg") + '" /><h1>' + uname +
+								'</h1><b class="link_del">删除</b><p class="d-head-bottom">' + sbackstrmm(nowdate.getTime() / 1000) +
+								'</p></div><p class="c-l-content" uid="' + plus.storage.getItem("user_uid") + '">' + comVal + '</p>';
+
+							if (subjson.pid && commmentdata[commentPid]) {
+								li += '<div class="c-l-back"><h2>引用@' + commmentdata[commentPid].nickname + '的回复</h2><p>' + commmentdata[
+									commentPid].content + '</p></div>';
+							}
+
+							li += '</li>';
+
+							if ($('.comment_list ul li').length > 0) {
+								$('.comment_list ul li').eq(0).before(li);
+							} else {
+
+								$('.comment_list ul').append(li);
+							}
+
+							$('.numcomment').text($('.comment_list ul li').length);
+
+							$('.comment_list ul').scrollTop(0);
+
+						}
+						closecssWaiting()
+						mui.toast(map.msg);
+						subsay = 0;
+					}, 'json').fail(function() {
+						closecssWaiting()
+						subsay = 0;
+						plus.nativeUI.toast('提交失败');
+					});
+
+				} else {
+					$('#keyingval').focus();
+					mui.toast('评论内容不能为空');
+				}
+			})
+
+			//删除评论
+			mui('body').on('tap', '.link_del', function(e) {
+				var thisid = $(this).attr('lid');
+				var thisparent = $(this).parents('li');
+				plus.nativeUI.confirm("确定要删除这条评论？", function(e) {
+					if (e.index == 0) {
+						$.post(localStorage.getItem('ajaxlinkhead') + "/user/center/delete_comment.html", {
+							is_ajax: 1,
+							act: 'del',
+							id: thisid
+						}, function(data) {
+							mui.toast(data.msg);
+							if (data.code == 1) {
+								thisparent.remove();
+
+								var llength = $('.comment_list ul li').length;
+								$('.numcomment').text(llength);
+
+								if (llength == 0) {
+									$('.isempty').show();
+								}
+
+							}
+						}, 'json').fail(function(data) {
+							mui.toast('删除失败，发生错误');
+						});
+					}
+				});
+			})
+
+			mui('body').on('tap', '.c-l-content', function(e) {
+				var thisuid = $(this).attr('uid');
+				if (thisuid == plus.storage.getItem("user_uid")) {
+					mui.toast('不能给自己回复');
+				} else {
+					$('#keyingval').val('');
+					$('#keyingval').attr('placeholder', '回复：' + $(this).parents('li').find('h1').text());
+					$('#keyingval').focus();
+					keyingtype = 2;
+					commentPid = $(this).attr('pid');
+				}
+			});
+
+			$('#keyingval').blur(function() {
+				$('#keyingval').val('');
+				$('#keyingval').attr('placeholder', '评论');
+				keyingtype = 1;
+			})
+
+			mui('body').on('tap', '#tatravels', function(e) {
+				var hbdom = $('.detaildesc .d-head h1 b');
+				setbcolor('dark');
+				if (hbdom.attr('uid') == plus.storage.getItem("user_uid")) {
+					var pagemytravels = plus.webview.getWebviewById('mytravels.html');
+					if (pagemytravels) {
+						plus.webview.currentWebview().close();
+						if (!pagemytravels.isVisible()) {
+							pagemytravels.show();
+						}
+					} else {
+						mui.openWindow({
+							url: 'mytravels.html',
+							id: 'mytravels.html'
+						});
+						setTimeout(function() {
+							plus.webview.getWebviewById('traveldetail.html').close('none');
+						}, 300)
+					}
+				} else {
+					var tatravels = plus.webview.getWebviewById('tatravels.html');
+					if (tatravels) {
+						tatravels.close('none');
+					}
+					setTimeout(function() {
+						mui.openWindow({
+							url: 'tatravels.html?uid=' + hbdom.attr('uid') + '&hsrc=' + hbdom.attr('hsrc') + '&uname=' + hbdom.text(),
+							id: 'tatravels.html'
+						});
+					}, 200)
+				}
+			});
+		</script>
+	</body>
+</html>

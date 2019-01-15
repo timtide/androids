@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/userdata.css" />
+		<title></title>
+		<style>
+
+			.headpush{
+				margin-bottom: 20px;
+			}
+
+			.defaultlist{
+				display: none;
+			}
+
+			.defaultlist li i,.defaultlist li.forminput .fa-stack{
+				position: absolute;
+				right: 0;
+			}
+
+			.fa-circle{
+				color: #bac5cb;
+			}
+
+			.defaultlist li .sendcode{
+				width: 80px;
+				background-color: #ff9800;
+				color: #fff;
+				text-align: center;
+				font-size: 12px;
+				position: absolute;
+				right: 50px;
+				line-height: 36px;
+				border-radius: 5px;
+				margin-top: 8px;
+			}
+
+			.defaultlist li .sendcode.sending{
+				background-color: #ccc;
+			}
+
+			#regionbtn{
+				width: 100%;
+				height: 52px;
+				position: absolute;
+			}
+
+			.findpaypw{
+				text-align: center;
+				font-size: 14px;
+				color: #ff9800;
+				position: absolute;
+				width: 100%;
+				bottom: 30px;
+				text-shadow: 0 0 20px rgba(0,0,0,0.2);
+			}
+
+			.defaultlist li .left{
+				font-size: 16px;
+				padding-left: 0;
+			}
+
+			.mui-checkbox, .mui-radio{
+				float: left;
+				width:33.3%;
+				clear: none;
+				font-size: 14px;
+			}
+
+			.mui-checkbox.mui-left label, .mui-radio.mui-left label{
+				padding-left: 50px;
+			}
+
+			.mui-checkbox input[type=checkbox], .mui-radio input[type=radio]{
+				top: 10px;
+				width: 20px;
+				height: 20px;
+			}
+
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+				font-size: 20px;
+			}
+
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+				color: #ffbe4e;
+			}
+
+			.defaultlist#heightform,.defaultlist#weightform{
+				overflow: visible;
+			}
+
+			 .mui-input-row.mui-input-range label{
+				font-size: 14px;
+				color: #333;
+			}
+
+			 .mui-input-row.mui-input-range input{
+				font-size:22px;
+				color: #ff9800;
+			 }
+
+			 .mui-input-row.mui-input-range label span{
+				font-size: 12px;
+				color: #999;
+				margin-left: 5px;
+			 }
+
+			 .mui-input-range input[type=range]{
+				background-color: #ccc;
+			 }
+
+			 .mui-input-row.mui-input-range{
+				padding: 0;
+				margin-top: 80px;
+			 }
+
+			 .mui-input-range input[type='range']::-webkit-slider-thumb{
+				background-color: #ff9800;
+				border-color: #ff9800;
+				width: 18px;
+				height: 18px;
+			 }
+
+			 .mui-input-range .mui-tooltip{
+				width: 78px;
+				font-size: 30px;
+				height: 78px;
+				line-height: 76px;
+				border-radius: 60px;
+			 }
+
+			.coverinput{
+				position: absolute;
+				z-index: 10;
+				width: 100%;
+				height: 52px;
+				left: 0;
+			}
+
+			#posform .fa{
+				right: 35px;
+				line-height: 52px;
+				color: #ddd;
+			}
+
+			#posform dl{
+				background-color: #fafafa;
+				overflow: hidden;
+				padding:  10px 10px;
+				display: none;
+			}
+
+			#posform dl dd{
+				float: left;
+				background-color: #fff;
+				border:1px solid #ffcc80;
+				padding: 3px 12px;
+				border-radius: 5px;
+				margin: 3px 5px;
+				font-size: 13px;
+				color: #555;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			#posform dl dd:active{
+				background-color: #ffcc80;
+			}
+
+			#posform dl dd.active{
+				background-color: #ffcc80;
+				color: #fff;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1 id="titletext"></h1>
+			<i id="headact">保存</i>
+		</header>
+		<div class="headpush"></div>
+
+		<ul class="defaultlist noicon" id="nicknameform">
+			<li class="forminput">
+				<input type="text" id="nickname" class="left changedata" placeholder="请输入你的昵称" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="signatureform" style="margin-top: 20px;">
+			<li class="forminput"><textarea id="signature" class="left changedata" placeholder="输入一段签名介绍" style="width:100%;margin:0;"></textarea></li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="qqform">
+			<li class="forminput">
+				<input id="qq" type="tel" class="left changedata" placeholder="输入QQ号码" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="mobileform">
+			<li class="forminput">
+				<input type="tel" class="left changedata" id="mobile" placeholder="请输入手机号" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="emailform">
+			<li class="forminput">
+				<input type="email" class="left changedata" id="email" placeholder="请输入电子邮箱" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="userlogpwform">
+			<li class="forminput">
+				<input type="password" class="left changedata" id="oldpw" placeholder="请输入原密码" maxlength="20" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+			<li class="forminput">
+				<input type="password" class="left changedata" id="newpw" placeholder="请输入新密码" maxlength="20" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+			<li class="forminput">
+				<input type="password" class="left changedata" id="againpw" placeholder="请再次输入新密码" maxlength="20" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+			<p class="tip" style="padding-top: 15px;">- 登录密码请设置为</p>
+			<p class="tip">- <b>6-20个数字、英文字母组合的字符</b></p>
+
+			<div class="findpaypw"><i class="fa fa-meh-o"></i> 忘记了登录密码？</div>
+		</ul>
+
+		<ul class="defaultlist noicon" id="sexform">
+			<li>
+				<div class="mui-input-row mui-radio mui-left"><label sexval='0'>保密</label><input name="radio1" type="radio" value="0"
+					 checked></div>
+				<div class="mui-input-row mui-radio mui-left"><label sexval='1'>男</label><input name="radio1" type="radio" value="1"></div>
+				<div class="mui-input-row mui-radio mui-left"><label sexval='2'>女</label><input name="radio1" type="radio" value="2"></div>
+			</li>
+			<input type="hidden" class="changedata" id="sex" />
+		</ul>
+
+		<div class="defaultlist noicon" id="heightform">
+			<div class="mui-input-row mui-input-range field-contain">
+				<div><label>身高<span>/ CM</span></label><input type="text" id='field-height-input' value='160'></div>
+				<div><input type="range" id='field-height' value="160" min="140" max="200" /></div>
+			</div>
+		</div>
+
+		<div class="defaultlist noicon" id="weightform">
+			<div class="mui-input-row mui-input-range field-contain">
+				<div><label>体重<span>/ KG</span></label><input type="text" id='field-weight-input' value='60'></div>
+				<div><input type="range" id='field-weight' value="60" min="40" max="100" /></div>
+			</div>
+		</div>
+
+		<ul class="defaultlist noicon" id="birthdayform">
+			<li class="forminput">
+				<div class="coverinput" id="birthdaybtn"></div>
+				<input type="text" id="birthday" class="left changedata" placeholder="填入你的生日" dayaval='' />
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon" id="posform">
+			<li class="forminput">
+				<div class="coverinput" id="provincebtn"></div>
+				<input type="text" id="pos_province" class="left changedata" placeholder="填入省份" pid='' />
+				<i class="fa fa-plus-square-o"></i>
+			</li>
+			<dl id="provincelist"></dl>
+			<li class="forminput">
+				<div class="coverinput" id="citybtn"></div>
+				<input type="text" id="pos_city" class="left changedata" placeholder="填入城市" cid='' />
+				<i class="fa fa-plus-square-o"></i>
+			</li>
+			<dl id="citylist"></dl>
+		</ul>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var setstatus = '';
+			var sextext = '';
+
+			var rangeList = document.querySelectorAll('input[type="range"]');
+			for (var i = 0, len = rangeList.length; i < len; i++) {
+				rangeList[i].addEventListener('input', function() {
+					if (this.id.indexOf('field') >= 0) {
+						document.getElementById(this.id + '-input').value = this.value;
+					}
+				});
+			}
+
+			document.getElementById('field-height-input').addEventListener('input', function() {
+				document.getElementById('field-height').value = this.value;
+			});
+
+			document.getElementById('field-weight-input').addEventListener('input', function() {
+				document.getElementById('field-weight').value = this.value;
+			});
+
+			mui('body').on('tap', '.mui-radio', function(e) {
+				$('#sex.changedata').val($(this).find('label').attr('sexval'));
+				sextext = $(this).text();
+			});
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input,textarea').blur();
+				plus.webview.currentWebview().hide('slide-out-right', 200);
+			})
+
+			//日期选择
+			mui('body').on('tap', '#birthdaybtn', function(e) {
+				plus.nativeUI.pickDate(function(e) {
+					var ssstime = parseInt(e.date.getTime() / 1000);
+					var newDate = new Date();
+					newDate.setTime(parseInt(e.date.getTime() / 1000) * 1000);
+					$('#birthday').attr('dayval', ssstime).val(newDate.format('yyyy-MM-dd'));
+				}, function(e) {});
+			})
+
+			function setform(setnum) {
+				$('.defaultlist').hide();
+				setstatus = setnum;
+				$('#' + setnum + 'form').show();
+				var setstatusdata = plus.storage.getItem("user_" + setnum);
+				var setstatusdom = $('#' + setnum + '.changedata');
+				setstatusdom.val(setstatusdata);
+				
+				switch (setnum) {
+					case 'nickname':
+						$('#titletext').text('昵称');
+						break;
+					case 'signature':
+						$('#titletext').text('签名介绍');
+						break;
+					case 'qq':
+						$('#titletext').text('QQ');
+						break;
+					case 'mobile':
+						$('#titletext').text('电话');
+						break;
+					case 'pos':
+						$('#titletext').text('常住地');
+						$('#pos_province').attr('pid', plus.storage.getItem("user_pos_province"));
+						$('#pos_city').attr('cid', plus.storage.getItem("user_pos_city"));
+						getprovince();
+						getcity();
+						break;
+					case 'birthday':
+						$('#titletext').text('生日');
+						var newDate = new Date();
+						newDate.setTime(Number(setstatusdata) * 1000);
+						setstatusdom.val(newDate.format('yyyy-MM-dd'));
+						break;
+					case 'height':
+						$('#titletext').text('身高');
+						$('#field-height-input,#field-height').val(setstatusdata);
+						break;
+					case 'weight':
+						$('#titletext').text('体重');
+						$('#field-weight-input,#field-weight').val(setstatusdata);
+						break;
+					case 'email':
+						$('#titletext').text('邮箱');
+						if (isContains(setstatusdata, 'qj_') == true) {
+							setstatusdata = setstatusdata + '（无效）';
+						}
+						break;
+					case 'sex':
+						$('#titletext').text('性别');
+						$('.mui-radio input').prop("checked", false);
+						$(".mui-radio input[type='radio'][value=" + setstatusdata + "]").prop("checked", true);
+						break;
+					case 'userlogpw':
+						$('#titletext').text('登录密码');
+						$('#userlogpwform .changedata').val('');
+						break;
+				}
+			}
+
+			function plusReady() {
+
+				mui.back = function() {
+					$('input,textarea').blur();
+					plus.webview.currentWebview().hide('slide-out-right', 200);
+				}
+
+			}
+
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			$('input').keyup(function() {
+				var thisval = $(this).val()
+				if (thisval.length > 0) {
+					$(this).siblings('.fa-stack').show();
+				} else {
+					$(this).siblings('.fa-stack').hide();
+				}
+			})
+
+			mui('body').on('tap', '.fa-stack', function(e) {
+				$(this).siblings('input').val('');
+				$(this).hide();
+			})
+
+			mui('body').on('tap', '#headact', function(e) {
+
+				$('input,textarea').blur();
+				var subjson = "";
+				var editdata = '';
+
+				function defaultdata() {
+					editdata = $('#' + setstatus + '.changedata').val();
+					editdata = $.trim(editdata);
+					setsubdata();
+				}
+
+				switch (setstatus) {
+					case 'nickname':
+						defaultdata();
+						break;
+					case 'signature':
+						defaultdata();
+						break;
+					case 'qq':
+						defaultdata();
+						break;
+					case 'mobile':
+						defaultdata();
+						break;
+					case 'sex':
+						defaultdata();
+						break;
+					case 'pos':
+
+						subjson = {
+							'is_ajax': 1,
+							'uid': plus.storage.getItem("user_uid"),
+							'nickname': plus.storage.getItem("user_nickname"),
+							'email': plus.storage.getItem("user_email"),
+							//'qq':plus.storage.getItem("user_qq"),
+							'mobile': plus.storage.getItem("user_mobile"),
+							'sex': plus.storage.getItem("user_sex"),
+							//'height':plus.storage.getItem("user_height"),
+							//'weight':plus.storage.getItem("user_weight"),
+							'birthday': plus.storage.getItem("user_birthday"),
+							'signature': plus.storage.getItem("user_signature"),
+							//'pos_province':plus.storage.getItem("user_pos_province"),
+							//'pos_city':plus.storage.getItem("user_pos_city")
+						};
+
+						if (subjson.pos_province == $('#pos_province').attr('pid') && subjson.pos_city == $('#pos_city').attr('cid')) {
+							mui.toast('未作修改');
+							return;
+						} else {
+							subjson.pos_province = $('#pos_province').attr('pid');
+							subjson.pos_city = $('#pos_city').attr('cid');
+						}
+
+						saveedit(subjson);
+
+						break;
+					case 'birthday':
+						editdata = $('#birthday').attr('dayval');
+						setsubdata();
+						break;
+					case 'height':
+						editdata = $('#field-height').val();
+						setsubdata();
+						break;
+					case 'weight':
+						editdata = $('#field-weight').val();
+						setsubdata();
+						break;
+					case 'email':
+						editdata = $('#' + setstatus + '.changedata').val();
+						editdata = $.trim(editdata);
+						var isEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+						if (!(isEmail.test(editdata))) {
+							mui.toast('邮箱格式不正确');
+						} else {
+							if (isContains(editdata, 'qj_') == true) {
+								mui.toast('邮箱无效');
+							} else {
+								setsubdata();
+							}
+						};
+						break;
+				};
+
+				function setsubdata() {
+					if (editdata == "") {
+						mui.toast('不能编辑为空');
+						return;
+					}
+					if (editdata == plus.storage.getItem("user_" + setstatus)) {
+						mui.toast('未作修改');
+						return;
+					}
+
+					subjson = {
+						'is_ajax': 1,
+						'uid': plus.storage.getItem("user_uid"),
+						'nickname': plus.storage.getItem("user_nickname"),
+						'email': plus.storage.getItem("user_email"),
+						//'qq':plus.storage.getItem("user_qq"),
+						'mobile': plus.storage.getItem("user_mobile"),
+						'sex': plus.storage.getItem("user_sex"),
+						//'height':plus.storage.getItem("user_height"),
+						//'weight':plus.storage.getItem("user_weight"),
+						'birthday': plus.storage.getItem("user_birthday"),
+						'signature': plus.storage.getItem("user_signature"),
+						//'pos_province':plus.storage.getItem("user_pos_province"),
+						//'pos_city':plus.storage.getItem("user_pos_city"),
+					};
+
+					subjson[setstatus] = editdata;
+					saveedit(subjson);
+
+				}
+
+			})
+
+			var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+			var saving = 0;
+
+			function saveedit(getjson) {
+				if (saving == 1) {
+					return
+				}
+				saving = 1;
+				showcssWaiting();
+
+				$.post(ajaxlinkhead + '/user/profile/index', getjson, function(result) {
+
+					closecssWaiting();
+					mui.toast(result.msg);
+					var userdata = plus.webview.getWebviewById('userdata.html');
+					saving = 0;
+					setTimeout(function() {
+						plus.webview.currentWebview().hide('slide-out-right', 200)
+					}, 1000);
+					console.log(setstatus);
+					if (result.err == 0) {
+						if (setstatus != 'pos') {
+							plus.storage.setItem("user_" + setstatus, getjson[setstatus]);
+							var launchpage = plus.webview.getLaunchWebview();
+							if (setstatus == 'signature') {
+								launchpage.evalJS("$('#userdata span').text('" + getjson[setstatus] + "');");
+								if (!userdata) {
+									var upgrade = plus.webview.getWebviewById('upgrade.html');
+									if (upgrade) {
+										upgrade.evalJS("$('#signature div.left').text('" + getjson[setstatus] + "');");
+									}
+									return
+								}
+							}
+							userdata.evalJS("$('#" + setstatus + " span.right').text('" + getjson[setstatus] + "');");
+							switch (setstatus) {
+								case 'sex':
+									userdata.evalJS("$('#" + setstatus + " span.right').text('" + sextext + "');");
+									break;
+								case 'birthday':
+									userdata.evalJS("$('#" + setstatus + " span.right').text('" + $('#birthday').val() + "');");
+									break;
+								case 'height':
+									userdata.evalJS("$('#" + setstatus + " span.right').text('" + getjson[setstatus] + " cm');");
+									break;
+								case 'weight':
+									userdata.evalJS("$('#" + setstatus + " span.right').text('" + getjson[setstatus] + " kg');");
+									break;
+								case 'nickname':
+									launchpage.evalJS("$('.headbox h1 a').text('" + getjson[setstatus] + "');");
+									break;
+							};
+						} else if (setstatus == 'pos') {
+							plus.storage.setItem("user_pos_province", getjson.pos_province);
+							plus.storage.setItem("user_pos_city", getjson.pos_city);
+							userdata.evalJS("$('#" + setstatus + " span.right').text('" + $('#pos_province').val() + ' ' + $('#pos_city').val() +
+								"');");
+						}
+					}
+				}).fail(function() {
+					closecssWaiting();
+					mui.toast('保存失败，发生错误');
+					saving = 0;
+				});
+			}
+
+			//判断一个字符串是否包含一个子串
+			function isContains(str, substr) {
+				return str.indexOf(substr) >= 0;
+			};
+
+			mui('body').on('tap', '.findpaypw', function(e) {
+				$('input,textarea').blur();
+				mui.openWindow({
+					url: 'findpw.html',
+					id: 'findpw.html',
+					styles: {
+						top: 0,
+						bottom: 0
+					}
+				});
+			});
+
+			function setuserlogpw(getson) {
+				var oldpw = $('#oldpw').val();
+				var newpw = $('#newpw').val();
+				var againpw = $('#againpw').val();
+
+				var isPw = /^(\w){6,20}$/;
+				//清空显示层中的数据
+				if (oldpw == "") {
+					mui.toast('原密码不能为空');
+				} else if (oldpw.length < 6) {
+					mui.toast('原密码长度不能小于6位');
+				} else if (newpw == "") {
+					mui.toast('新密码不能为空');
+				} else if (againpw == "") {
+					mui.toast('请确认密码');
+				} else if (newpw.length < 6) {
+					mui.toast('新密码长度不能小于6位');
+				} else if (againpw.length < 6) {
+					mui.toast('确认密码长度不能小于6位');
+				} else if (!(isPw.test(newpw))) {
+					mui.toast('新密码格式不对');
+				} else if (againpw != newpw) {
+					mui.toast('两次密码不相同');
+				} else {
+					getson.name = "password";
+					getson.value = newpw;
+					getson.old_password = oldpw;
+					$.post(localStorage.getItem('ajaxlinkhead') + "coolpay/app/user.php?act=moduserinfo", getson, function(data) {
+						mui.toast(data.message);
+						outputObj(getson);
+						if (data.err != '1') {
+							$('#oldpw,#newpw,#againpw').val('');
+							setTimeout(function() {
+								plus.webview.currentWebview().hide('slide-out-right', 200);
+							}, 1000);
+						}
+					}, 'json').fail(function() {
+						mui.toast('修改失败，请检查网络');
+					})
+				}
+			}
+
+			var getregioning = 0;
+
+			mui('body').on('tap', '#provincebtn', function(e) {
+				getprovince();
+			});
+
+			mui('body').on('tap', '#citybtn', function(e) {
+				if ($('#citylist').is(':visible')) {
+					$('#citylist').hide();
+				} else {
+					if ($('#pos_province').attr('pid') == '') {
+						mui.toast('请先选择省份');
+						return;
+					}
+					$('#citylist').show();
+				}
+			});
+
+
+			function getprovince() {
+				if ($('#provincelist').is(':visible')) {
+					$('#provincelist').hide();
+					return;
+				}
+
+				if (getregioning == 1) {
+					$('#provincelist').show();
+					return;
+				};
+
+				getregioning = 1;
+				showcssWaiting();
+
+				var pos_province_data = plus.storage.getItem("pos_province_data");
+				if (pos_province_data) {
+					pos_province_data = JSON.parse(pos_province_data);
+					pickpv(pos_province_data);
+					closecssWaiting();
+				} else {
+					$.post(ajaxlinkhead + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'ct',
+						name: '中国'
+					}, function(result) {
+
+						if (result.data != '') {
+							pickpv(result.data);
+							pos_province_data = result.data;
+							pos_province_data = JSON.stringify(pos_province_data);
+							plus.storage.setItem("pos_province_data", pos_province_data);
+
+						} else {
+							mui.toast('没有找到省份');
+						};
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getregioning = 0;
+					})
+
+				}
+
+			}
+
+			function pickpv(src) {
+				var pid = $('#pos_province').attr('pid');
+				src.forEach(function(i, e) {
+					if (pid == i.provinceId) {
+						$('#provincelist').append("<dd class='active'  pid='" + i.provinceId + "'>" + i.provinceName + "</dd>");
+						$('#pos_province').val(i.provinceName);
+					} else {
+						$('#provincelist').append("<dd pid='" + i.provinceId + "'>" + i.provinceName + "</dd>");
+					}
+				});
+				if (pid == '') {
+					$('#provincelist').show();
+				}
+			}
+
+			mui('body').on('tap', '#provincelist dd', function(e) {
+				var pid = $('#pos_province').attr('pid');
+				var newpid = $(this).attr('pid');
+				$('#pos_province').attr('pid', newpid).val($(this).text());
+				if (pid != newpid) {
+					$('#pos_city').attr('cid', '').val('');
+					getcity();
+				}
+				$('#provincelist').hide();
+				$(this).addClass('active').siblings('#provincelist dd').removeClass('active');
+			});
+
+			var getciting = 0;
+
+			function getcity() {
+				var pid = $('#pos_province').attr('pid');
+				if (pid == '') {
+					mui.toast('请先选择省份');
+					return;
+				}
+
+				if (getciting == 1) {
+					return
+				}
+				getciting = 1;
+
+				showcssWaiting();
+				$('#citylist').empty();
+
+				var pos_city_data = plus.storage.getItem("pos_city_data");
+				if (!pos_city_data) {
+					pos_city_data = {};
+				} else {
+					pos_city_data = JSON.parse(pos_city_data);
+				};
+
+				if (pos_city_data[pid]) {
+					pickcity(pos_city_data[pid], $('#pos_city').attr('cid'));
+					getciting = 0;
+					closecssWaiting();
+				} else {
+					$.post(ajaxlinkhead + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'pov',
+						name: pid
+					}, function(result) {
+						if (result.data != '') {
+							pickcity(result.data, $('#pos_city').attr('cid'));
+							pos_city_data[pid] = result.data;
+							pos_city_data = JSON.stringify(pos_city_data);
+							plus.storage.setItem("pos_city_data", pos_city_data);
+						} else {
+							mui.toast('没有找到城市');
+						};
+						getciting = 0;
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getciting = 0;
+					})
+				}
+			}
+
+			function pickcity(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#citylist').append("<dd class='active' cid='" + i.cityCode + "'>" + i.cityName + "</dd>");
+						$('#pos_city').val(i.cityName);
+					} else {
+						$('#citylist').append("<dd cid='" + i.cityCode + "'>" + i.cityName + "</dd>");
+					};
+				});
+				$('#citylist').show();
+			}
+
+			mui('body').on('tap', '#citylist dd', function(e) {
+				$('#pos_city').attr('cid', $(this).attr('cid')).val($(this).text());
+				$(this).addClass('active').siblings('#citylist dd').removeClass('active');
+			});
+		</script>
+	</body>
+</html>

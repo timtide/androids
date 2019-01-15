@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	</head>
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script>
+			var isplus = GetRequest().isplus;
+
+			function GetRequest() {
+				var url = location.search; //获取url中"?"符后的字串
+				url = decodeURI(url); //中文编码解码
+				url = decodeURI(url); //中文编码解码
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+
+			function plusReady() {
+				var wbox = plus.webview.getWebviewById('webpage' + isplus + '.html');
+				mui.back = function() {
+					wbox.evalJS('backorclose();')
+					return;
+				}
+			}
+			
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+			
+		</script>
+	</body>
+</html>

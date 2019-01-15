@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/expert.css">
+		<title></title>
+		<script>
+			function clip(ImgD) {
+				if (ImgD.width > 0 && ImgD.height > 0) {
+					if (ImgD.width / ImgD.height >= 1) {
+						ImgD.style.height = '100%';
+						ImgD.style.width = 'auto';
+					} else {
+						ImgD.style.width = '100%';
+						ImgD.style.height = 'auto';
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed airhead">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="e-general">达人</span><span class="e-exper">体验师</span><span class="e-cust">定制师</span>资料</h1>
+		</header>
+
+		<img class="expert-bg" src="img/expert/expert-bg-0.jpg" />
+
+		<div class="c-body">
+			<img class="c-body-leftimg" src="img/my-head.png" data-preview-src="" data-preview-group="0" />
+			<h2><span id="nickname"> &nbsp; </span><b class="occupation">
+					<div class="e-general"></div>
+					<div class="e-exper"></div>
+					<div class="e-cust"></div><span class="e-general">旅行达人</span><span class="e-exper">旅游体验师</span><span class="e-cust">路书定制师</span>
+				</b></h2>
+			<p><i class="fa fa-genderless"></i><span id="signature"> - </span></p>
+			<div class="actbtnbox"><span id="focus" class="active"><i class="fa fa-plus"> 关注</i></span><span id="chat"><i class="fa fa-comments-o">
+						聊天</i></span></div>
+			<div><button id="postlist">动态<b>0</b></button><button id="tatravels">游记<b>0</b></button><button class="e-general" id="companion">约伴<b>0</b></button><button
+				 class="e-exper" id="fans">粉丝<b>0</b></button><button class="e-cust" id="books">路书<b>0</b></button></div>
+		</div>
+		<div class="service-data">
+			<!--	<div class="borderline"></div>-->
+			<p class="e-exper e-cust">服务评价 <span id="service-data-num">0</span> 条</p>
+			<ul class="e-exper e-cust">
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+			</ul>
+			<span class="evaluate e-cust">服务好评率： <b>90</b>%</span>
+			<!--<div class="borderline e-exper e-cust"></div>-->
+		</div>
+
+		<div id="nonote">还没有动态</div>
+
+		<div class="moreinfo" style="display: none;">
+			<p class="content" style="display: none;"></p>
+			<dl class="photolist" style="display: none;">
+				<!--<dd><span class="msgimg"><img  onload="clip(this);" src="img/noimg.jpg" data-preview-src="" data-preview-group="1"/></span></dd>
+		<dd><span class="msgimg"><img  onload="clip(this);" src="img/banner/index-banner-1.jpg" data-preview-src="" data-preview-group="1"/></span></dd>
+		<dd><span class="msgimg"><img  onload="clip(this);" src="img/banner/index-banner-1.jpg" data-preview-src="" data-preview-group="1"/></span></dd>-->
+			</dl>
+			<div class="bottom">
+				<i class="fa fa-ellipsis-h"></i>
+				<div>查看更多</div>
+			</div>
+		</div>
+
+		<h1 class="listhead e-cust" style="padding-left: 18px; padding-top: 24px;">TA的路书<span>/ 0</span></h1>
+		<h1 class="listhead e-general e-exper" style="padding-left: 18px; padding-top: 24px; border-top: 6px #fafafa solid;">TA的游记<span>/
+				0</span></h1>
+
+		<div id="nopline" class="e-exper e-cust">还没有发布记录</div>
+		<div class="mui-scroll-wrapper p-line">
+			<div class="mui-scroll">
+				<ul class="p-linelist"></ul>
+			</div>
+		</div>
+
+		<!--<ul class="skill">
+	<h1 class="listhead">TA的技能<span id="skillnum">/ 2</span></h1>
+</ul>-->
+
+		<ul class="personal-data">
+			<h1 class="listhead">TA的资料</h1>
+			<li>◆<p>奇记账号</p><span id="username"></span></li>
+			<li>◆<p>性别</p><span id="sex"></span></li>
+			<li style="display: none;">◆<p>身高</p><span id="height"></span></li>
+			<li>◆<p>生日</p><span id="birthday"></span></li>
+			<li id="dangqi" class="e-exper e-cust">◆<p>档期</p><span id="renttime"></span></li>
+		</ul>
+
+		<ul class="evaluate-list e-exper e-cust" style="display: block;">
+			<h1 class="listhead">评价<span>/ 0</span><i class="fa fa-commenting-o needct"> 我要评价</i></h1>
+			<!--<li class="eli">
+		<div class="left">
+			<img class="headimg" src="img/my-head.png"/>
+		</div>
+		<div class="right">
+			<h2>戒为良药  <i class="fa fa-trash-o del-eli"> 删除</i></h2>
+			<p>长期在外奔波的我早已忘记了自己的生日时间了;瞬间让我感到温暖和感动;满满浓浓的兄弟情; 在亲爱的队友和领导们的祝福中度过了人生最难忘,最有意义的一次徒步旅行。</p>
+			<span>2018.04.26 15:30</span>
+			<ul>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+			</ul>
+		</div>
+	</li>
+	<li class="eli">
+		<div class="left">
+			<img class="headimg" src="img/my-head.png"/>
+		</div>
+		<div class="right">
+			<h2>戒为良药 <i class="fa fa-trash-o del-eli"> 删除</i></h2>
+			<p>长期在外奔波的我早已忘记了自己的生日时间了;瞬间让我感到温暖和感动;满满浓浓的兄弟情; 在亲爱的队友和领导们的祝福中度过了人生最难忘,最有意义的一次徒步旅行。</p>
+			<span>2018.04.26 15:30</span>
+			<ul>
+				<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star" style="color: #ddd;"></i></li>
+			</ul>
+		</div>
+	</li>-->
+			<div class="evaluate-more">更多</div>
+			<div class="addevaluate">
+				<h1>星级评分</h1>
+				<ul class="startlist">
+					<li><i class="fa fa-star "></i></li>
+					<li><i class="fa fa-star "></i></li>
+					<li><i class="fa fa-star "></i></li>
+					<li><i class="fa fa-star "></i></li>
+					<li><i class="fa fa-star "></i></li>
+				</ul>
+				<textarea placeholder="在这里写下关于TA的评价吧"></textarea>
+				<button class="subevaluate">发表</button>
+			</div>
+		</ul>
+
+		<div class="e-exper e-cust">
+			<div id="noevaluate">还没有评价</div>
+		</div>
+
+		<div class="pushbottom"></div>
+
+		<div class="askbox">
+			<div id="ask"><i></i><span>聊天</span></div>
+			<div id="reward" class="e-exper e-cust"><b>0</b><i></i><span>赞赏</span></div>
+			<div id="onshare"><i></i><span>分享</span></div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/expertdetail.js"></script>
+
+	</body>
+</html>

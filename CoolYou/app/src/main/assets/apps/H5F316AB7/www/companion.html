@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				background-color: #F7F8FA;
+				font-size: 14px;
+			}
+
+			#addcompanion {
+				color: #C5EDE5;
+			}
+
+			.companion_card {
+				background-color: #fff;
+				border-radius: 10px;
+				box-shadow: 0 0 12px #eee;
+				margin: 25px 20px 0;
+				padding: 10px;
+				text-align: center;
+			}
+
+			.companion_box {
+				border-radius: 6px;
+				border: 1px solid #FADDA1;
+				padding: 15px;
+				position: relative;
+			}
+
+			.companion_box.companion_box_green {
+				border-color: #C5EDE5;
+			}
+
+			.companion_num {
+				font-size: 12px;
+				padding-top: 10px;
+			}
+
+			.companion_num span {
+				font-size: 25px;
+				font-weight: bold;
+			}
+
+			.companion_status {
+				font-size: 15px;
+				color: #666666;
+				padding: 10px 0;
+			}
+
+			.companion_btn {
+				background-color: #F5BB40;
+				color: #fff;
+				padding: 7px 15px;
+				border-radius: 100px;
+				margin: 0 auto;
+				display: inline-block;
+			}
+
+			.companion_btn.companion_btn_green {
+				background-color: #70D3BE;
+				padding: 7px 20px;
+				margin-bottom: 15px;
+				display: inline-block;
+			}
+
+			.companion {
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+			}
+
+			.companion li {
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				width: 45px;
+				height: 45px;
+				margin-left: -15px;
+				display: inline-block;
+				border: 2px #fff solid;
+				border-radius: 50px;
+			}
+
+			.icon_box {
+				display: none;
+			}
+
+			.icon_box img {
+				width: 10px;
+				height: 10px;
+				background-color: #fff;
+			}
+
+			.icon_left_top {
+				position: absolute;
+				top: -5px;
+				left: -5px;
+			}
+
+			.icon_right_top {
+				position: absolute;
+				top: -5px;
+				right: -5px;
+				transform: rotateY(180deg);
+			}
+
+			.icon_right_bottom {
+				position: absolute;
+				bottom: -5px;
+				right: -5px;
+				transform: rotate(180deg);
+			}
+
+			.icon_left_bottom {
+				position: absolute;
+				bottom: -5px;
+				left: -5px;
+				transform: rotateX(180deg);
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>约伴</h1>
+			<i id="addcompanion" class="fa fa-plus"></i>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="companion_card">
+			<div class="companion_box">
+				<div class="companion_num">
+					<span class="activeInviteNum">0</span> 个
+				</div>
+				<div class="companion_status">
+					当前正在发起的约伴
+				</div>
+				<span id="mycompanion_status" class="companion_btn">
+					点击查看加入约伴
+				</span>
+				<ul class="companion">
+					<!--<li style="background-image: url(img/find/test_01.png);"></li>-->
+				</ul>
+				<div class="icon_box">
+					<img src="img/companion/1.png" class="icon_left_top" />
+					<img src="img/companion/1.png" class="icon_right_top" />
+					<img src="img/companion/1.png" class="icon_right_bottom" />
+					<img src="img/companion/1.png" class="icon_left_bottom" />
+				</div>
+			</div>
+		</div>
+
+		<div class="companion_card">
+			<div class="companion_box companion_box_green">
+				<div class="companion_num">
+					<span class="historyInviteNum">0</span> 次
+				</div>
+				<div class="companion_status">
+					历史约伴次数
+				</div>
+				<span id="mycompanion_record" class="companion_btn companion_btn_green">
+					查看历史约伴记录
+				</span>
+				<div class="icon_box">
+					<img src="img/companion/2.png" class="icon_left_top" />
+					<img src="img/companion/2.png" class="icon_right_top" />
+					<img src="img/companion/2.png" class="icon_right_bottom" />
+					<img src="img/companion/2.png" class="icon_left_bottom" />
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				//返回事件
+				mui('body').on('tap', '#headback', function(e) {
+					plus.webview.currentWebview().close('slide-out-right', 200);
+				})
+
+				//添加约伴
+				mui('body').on('tap', '#addcompanion', function(e) {
+					mui.openWindow({
+						url: 'addcompanion.html',
+						id: 'addcompanion.html',
+						extras: {
+							category_id: category_id
+						}
+					})
+				})
+				//正在发起的约伴
+				mui('body').on('tap', '#mycompanion_status', function(e) {
+					if (isGetDataComplete) {
+						if (activeInvite.length <= 0) {
+							mui.toast('暂无约伴');
+							return;
+						}
+						mui.openWindow({
+							url: 'companion_list.html',
+							id: 'companion_list.html',
+							extras: {
+								activeInvite: activeInvite
+							}
+						})
+					} else {
+						mui.toast('数据加载中,请稍后再尝试');
+					}
+				})
+				//查看历史约伴
+				mui('body').on('tap', '#mycompanion_record', function(e) {
+					if (isGetDataComplete) {
+						if (historyInvite.length <= 0) {
+							mui.toast('暂无记录');
+							return;
+						}
+						mui.openWindow({
+							url: 'mycompanion_record.html',
+							id: 'mycompanion_record.html',
+							extras: {
+								historyInvite: historyInvite
+							}
+						})
+					} else {
+						mui.toast('数据加载中,请稍后再尝试');
+					}
+				})
+				//获取约伴数据
+				var currentView = plus.webview.currentWebview();
+				var category_id = currentView.category_id;
+				getAllData(category_id);
+			}
+			//获取约伴数据
+			var activeInvite = [];
+			var historyInvite = [];
+			var isGetDataComplete = false;
+
+			function getAllData(category_id) {
+				showcssWaiting();
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				$.getJSON(ajaxlinkhead + '/invite/list/' + category_id, {
+					is_ajax: 1
+				}, function(map) {
+					var today = parseInt(new Date(new Date().format('yyyy-MM-dd')).getTime() / 1000);
+					map.list.forEach(function(item, index) {
+						//判断时间区分约伴状态
+						var start_date = item.start_date;
+						//正在发起的
+						if (start_date >= today) {
+							activeInvite.push(item);
+						} else { //历史记录
+							historyInvite.push(item);
+						}
+					})
+					$('.activeInviteNum').html(activeInvite.length);
+					$('.historyInviteNum').html(historyInvite.length);
+					//正在发起的
+					activeInvite.forEach(function(item, index) {
+						var imgLi = '<li style="background-image: url(' +
+							ajaxlinkhead + item.avatar + ');"></li>';
+						$('.companion').append(imgLi);
+					})
+					isGetDataComplete = true;
+					closecssWaiting();
+					//历史记录
+				}).fail(function(e) {
+					mui.toast('网络异常...');
+					closecssWaiting();
+				});
+			}
+		</script>
+	</body>
+</html>

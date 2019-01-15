@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body,
+			.rightlist,
+			.leftlist {
+				background-color: #f4f7fd;
+			}
+
+			.defaulthead {
+				border: none;
+			}
+
+			.tapbox {
+				border-bottom: 1px #eee solid;
+				padding: 0 20px;
+				color: #b8c5cb;
+				background-color: #fafafa;
+			}
+
+			.mui-segmented-control {
+				font-size: 14px;
+			}
+
+			.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+				background-color: #f7b940;
+			}
+
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #f7b940;
+				border-bottom: 2px #f7b940 solid;
+			}
+
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #67cacb;
+				border-bottom: 2px #67cacb solid;
+				font-weight: bold;
+			}
+
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+
+			.mui-col-xs-4,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+
+			.mui-segmented-control .mui-control-item {
+				width: 100%;
+			}
+
+			.mui-fullscreen .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #67cacb;
+				background-color: #f4f7fd;
+				box-shadow: inset 0 -1px 0 #67cacb;
+				border-top: 1px #67cacb solid;
+				border-bottom: 1px #67cacb solid;
+			}
+
+			.mui-segmented-control.mui-segmented-control-inverted.mui-segmented-control-vertical .mui-control-item {
+				border: none;
+				background-color: #fff;
+				box-shadow: 0 -1px 0 #eee;
+				border-top: 1px #fff solid;
+				border-bottom: 1px #fff solid;
+				text-align: left;
+				text-indent: 15px;
+				font-size: 15px;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+
+			.mui-fullscreen .mui-segmented-control.mui-segmented-control-inverted .mui-control-item:first-child.mui-active {
+				border-top: 1px #f4f7fd solid;
+			}
+
+			.mui-fullscreen .mui-segmented-control.mui-segmented-control-inverted .mui-control-item:last-child.mui-active {
+				border-bottom: none;
+			}
+
+			.mui-fullscreen .leftlist {
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+				position: relative;
+				z-index: 10;
+				background-color: #fff;
+			}
+
+			.destbox {
+				margin: 3%;
+			}
+
+			.destbox .destli {
+				width: 44%;
+				padding-bottom: 44%;
+				margin: 3%;
+				float: left;
+				overflow: hidden;
+				height: 0;
+				border-radius: 12px;
+				color: #fff;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+				/*background: -webkit-linear-gradient(90deg,#6ed3bd,#63c0cb);
+    background: linear-gradient(90deg,#6ed3bd,#63c0cb);*/
+				background-color: #67cacb;
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.destbox .destli:active {
+				opacity: 0.7;
+			}
+
+			.destbox .destli h1 {
+				margin-left: 15px;
+				padding-top: 15px;
+				padding-right: 15px;
+				margin-bottom: 1px;
+				text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.destbox .destli span {
+				margin-left: 15px;
+				font-size: 12px;
+				font-style: italic;
+				letter-spacing: 1px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				max-width: 100%;
+				display: block;
+			}
+
+			.destbox .destli.active {
+				background: content-box;
+			}
+
+			.destbox .destli .fa {
+				display: none;
+				position: absolute;
+				margin-top: -30px;
+				margin-left: 20px;
+			}
+
+			.destbox .destli.active .fa {
+				display: block;
+			}
+
+			.destbox .destli .inner {
+				display: block;
+				width: 100%;
+				padding-bottom: 100%;
+				height: 0;
+				/*background: linear-gradient(0,rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0.1));*/
+			}
+
+			.destbox .destli.active .inner {
+				background: -webkit-linear-gradient(90deg, #6ed3bd, #63c0cb);
+				background: linear-gradient(90deg, #6ed3bd, #63c0cb);
+			}
+
+			.leftlist {
+				letter-spacing: 1px;
+			}
+
+			.leftlist span {
+				color: #999;
+				font-size: 12px;
+				margin-left: 5px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>选择您想去的国家或城市</h1>
+		</header>
+		<div id="headpush" class="headpush"></div>
+
+		<div id="slider" class="mui-slider">
+
+			<div class="tapbox" id="tapbox">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<!--<a class="mui-control-item mui-active" href="#item1mobile">'+title+'</a>
+			<a class="mui-control-item" href="#item2mobile">'+title+'</a>
+			<a class="mui-control-item" href="#item3mobile">'+title+'</a>
+			<a class="mui-control-item" href="#item4mobile">'+title+'</a>-->
+				</div>
+			</div>
+
+			<div class="mui-slider-group">
+
+				<!--	<div id="item1mobile" class="mui-slider-item mui-control-content box-content mui-active">
+
+			<div class="mui-content mui-row mui-fullscreen">
+				<div class="mui-col-xs-4 leftlist">
+					<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+						<a class="mui-control-item mui-active" href="#content1">韩国<span>/49</span></a>
+						<a class="mui-control-item" href="#content2">中国<span>/407</span></a>
+						<a class="mui-control-item" href="#content3">泰国<span>/8</span></a>
+					</div>
+				</div>
+				<div id="segmentedControlContents" class="mui-col-xs-8 rightlist">
+					<div id="content1" class="mui-control-content mui-active">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli active" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+					<div id="content2" class="mui-control-content">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+					<div id="content3" class="mui-control-content">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="item2mobile" class="mui-slider-item mui-control-content box-content">
+			<div class="mui-content mui-row mui-fullscreen">
+				<div class="mui-col-xs-4 leftlist">
+					<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+						<a class="mui-control-item mui-active" href="#content4">韩国<span>/49</span></a>
+						<a class="mui-control-item" href="#content5">中国<span>/407</span></a>
+						<a class="mui-control-item" href="#content6">泰国<span>/8</span></a>
+					</div>
+				</div>
+				<div id="segmentedControlContents" class="mui-col-xs-8 rightlist">
+					<div id="content4" class="mui-control-content mui-active">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli active" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+					<div id="content5" class="mui-control-content">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+					<div id="content6" class="mui-control-content">
+						<ul class="destbox">
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+							<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+								<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="item3mobile" class="mui-slider-item mui-control-content box-content"></div>
+
+		<div id="item4mobile" class="mui-slider-item mui-control-content box-content"></div>-->
+
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getcategory();
+			}
+
+			var l = document.getElementsByClassName('box-content');
+			var d = window.innerHeight - document.getElementById('headpush').clientHeight;
+			var a = d - document.getElementById('tapbox').clientHeight;
+			var h = a + 'px';
+			for (var i = 0; i < l.length; i++) {
+				l[i].style.height = h;
+			}
+
+			$('#slider').css('height', d + 'px');
+			mui('#slider').slider({
+				nterval: 0
+			});
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			mui('body').on('tap', '.destli', function(e) {
+				if (gdata.act) {
+					var newcid = $(this).attr('cid');
+					var newtitle = $(this).find('h1').text();
+					plus.webview.getWebviewById(gdata.act + '.html').evalJS('setcategory(' + newcid + ',"' + newtitle + '");');
+				}
+				plus.webview.currentWebview().close();
+			});
+
+			function getcategory(){
+				
+				$.get(localStorage.getItem('ajaxlinkhead') + '/index/index/category.html', {
+					model: 'line',
+					is_ajax: 1,
+					level: 3
+				}, function(data) {
+
+					var newlist1 = [];
+					var newlist2 = [];
+					if (data.list) {
+						$.each(data.list, function(i, v) {
+							if (v.title.indexOf('热门')) {
+								if (v.title.indexOf('国外')) {
+									newlist1.push(v);
+								}
+							} else {
+								newlist2.push(v);
+							}
+						})
+						newlist1 = newlist2.concat(newlist1);
+					}
+
+					$.each(newlist1, function(i, v) {
+						var title = v.title;
+						if (title.length > 3) {
+							title = title.substring(0, 2);
+						}
+						var active = '';
+						if (i == 0) {
+							active = 'mui-active';
+						}
+						var index = i + 1;
+						$('#slider .mui-slider-indicator').append('<a class="mui-control-item ' + active + '" href="#item' + index +
+							'mobile">' + title + '</a>');
+
+						var content = '<div id="item' + index + 'mobile" class="mui-slider-item mui-control-content box-content ' +
+							active + '">'
+
+						if (v._child) {
+							content +=
+								'<div class="mui-content mui-row mui-fullscreen"><div class="mui-col-xs-4 leftlist"><div id="segmentedControls' +
+								index +
+								'" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical" cid="' + v.id +
+								'"></div></div><div id="segmentedControlContents' + index + '" cid="' + v.id +
+								'" class="mui-col-xs-8 rightlist"></div></div></div>';
+						} else {
+							content += '<p style="text-align:center;margin-top:50px;color:#ccc;">没有列表</p></div>';
+						}
+
+						$('#slider .mui-slider-group').append(content);
+
+						$.each(v._child, function(a, b) {
+							var active = '';
+							if (a == 0) {
+								active = 'mui-active';
+							}
+
+							var slength = 0;
+							var destbox = '';
+
+							$('.rightlist[cid="' + v.id + '"]').append('<div id="content' + b.id + '" class="mui-control-content ' +
+								active + '"><ul class="destbox">' + destbox + '</ul></div>');
+
+							$.each(b._child, function(c, d) {
+								slength = c;
+								var dicon = d.icon || '';
+								if (dicon == '/uploads/picture/20170726/dc4242a9e86fc1c851f50c0c70957c03.jpg' || dicon == '') {
+									dicon = ''
+								} else {
+									dicon = localStorage.getItem('ajaxlinkhead') + dicon;
+								}
+
+								var cover_image = '';
+								var imgname = '';
+								if (dicon != '') {
+									cover_image = dicon;
+									imgname = cover_image.substr(cover_image.lastIndexOf('/') + 1);
+								}
+
+								destbox = '<li class="destli img_cache_bg" imgname="' + imgname + '" cid="' + d.id +
+									'"><div class="inner"><h1>' + d.title + '</h1><span>' + d.name +
+									'</span></div><i class="fa fa-check"></i></li>';
+
+								$('.rightlist[cid="' + v.id + '"] #content' + b.id + ' .destbox').append(destbox);
+
+								if (imgname != '') {
+									img_cache(cover_image, '_bg', imgname);
+								}
+							});
+
+							slength = slength + 1;
+							$('.mui-segmented-control[cid="' + v.id + '"]').append('<a class="mui-control-item ' + active +
+								'" href="#content' + b.id + '">' + b.title + '<span>/ ' + slength + '</span></a>');
+
+						});
+
+					});
+
+					var l = document.getElementsByClassName('box-content');
+					var d = window.innerHeight - document.getElementById('headpush').clientHeight;
+					var a = d - document.getElementById('tapbox').clientHeight;
+					var h = a + 'px';
+					for (var i = 0; i < l.length; i++) {
+						l[i].style.height = h;
+					}
+
+					$('#slider').css('height', d + 'px');
+					mui('#slider').slider({
+						nterval: 0
+					});
+
+				}, 'json').fail(function() {
+					mui.toast('目的地栏目获取失败');
+				})
+			}
+		</script>
+	</body>
+</html>

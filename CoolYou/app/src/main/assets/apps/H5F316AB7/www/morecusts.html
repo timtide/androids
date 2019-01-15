@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/travels.css" />
+		<title></title>
+		<style>
+			body {
+				background-color: #f4f7fd;
+			}
+
+			.defaulthead h1 div {
+				margin: 10px 0;
+				line-height: 30px;
+				border-radius: 5px;
+				font-weight: normal;
+				font-size: 14px;
+				text-shadow: none;
+				letter-spacing: 0;
+				background-color: #eee;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.defaulthead.airhead h1 div {
+				background-color: rgba(255, 255, 255, 0.4);
+			}
+
+			.defaulthead h1 div b {
+				margin-right: 3px;
+			}
+
+			.defaulthead i#headact {
+				color: #fff;
+			}
+
+			#bigbg {
+				width: 100%;
+				position: absolute;
+				top: 0;
+				z-index: -1;
+			}
+
+			#listnav {
+				color: #fff;
+				padding: 0 20px;
+				margin-top: 10px;
+			}
+
+			#listnav h3 {
+				margin-bottom: 5px;
+			}
+
+			#listnav #poscity {
+				font-size: 30px;
+				line-height: 34px;
+				letter-spacing: 2px;
+			}
+
+			#listnav #poscity span {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				max-width: 80%;
+				display: inline-block;
+			}
+
+			#listnav #poscity i {
+				font-size: 20px;
+				line-height: 34px;
+				vertical-align: top;
+				margin-left: 8px;
+			}
+
+			#listnav .line {
+				margin-top: 2px;
+				margin-bottom: 15px;
+				background-color: rgba(11, 11, 11, 0.2);
+				border-bottom: 1px rgba(255, 255, 255, 0.3) solid;
+				width: 100%;
+				height: 1px;
+				box-sizing: content-box;
+			}
+
+			#listnav h2 {
+				margin-top: 5px;
+				float: left;
+			}
+
+			#listnav h2 span {
+				font-size: 22px;
+				margin-right: 5px;
+			}
+
+			#listnav ul {
+				float: right;
+			}
+
+			#listnav ul li {
+				float: left;
+				width: 28px;
+				height: 28px;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				border-radius: 50px;
+				margin-left: -8px;
+				border: 2px #fff solid;
+			}
+
+			.custlist {
+				padding: 20px;
+				margin-top: 25px;
+			}
+
+			.custlist .custli {
+				background-color: #fff;
+				padding: 10px;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+				margin-bottom: 15px;
+				clear: both;
+				overflow: hidden;
+			}
+
+			.custlist .custli:last-child {
+				margin-bottom: 0;
+			}
+
+			.custlist .custli .leftcover {
+				height: 120px;
+				width: 90px;
+				float: left;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				margin-right: 15px;
+				box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.12);
+				background-color: #eee;
+			}
+
+			.custlist .custli h1 {
+				font-size: 16px;
+				font-weight: bold;
+				margin-top: 5px;
+				margin-bottom: 10px;
+			}
+
+			.custlist .custli h1 span {
+				float: right;
+			}
+
+			.custlist .custli h1 span.focus {
+				background-color: #70d3be;
+				color: #fff;
+				padding: 5px 10px;
+				padding-left: 8px;
+				font-size: 12px;
+				font-weight: normal;
+				margin-left: 10px;
+				margin-top: -5px;
+			}
+
+			.custlist .custli h1 span.reward {
+				color: #999;
+				font-weight: normal;
+				font-size: 14px;
+			}
+
+			.custlist .custli h1 span.reward i {
+				float: left;
+				width: 22px;
+				height: 22px;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				margin-right: 1px;
+				margin-top: -4px;
+				background-image: url(img/travel/travel-icon1.png);
+			}
+
+			.custlist .custli .starlist li {
+				color: #f7b940;
+				font-size: 14px;
+				float: left;
+				margin-right: 3px;
+				line-height: 23px;
+			}
+
+			.custlist .custli .starlist span {
+				color: #999;
+				font-size: 12px;
+				display: inline-block;
+				width: 55%;
+			}
+
+			.custlist .custli p {
+				margin-top: 5px;
+				font-size: 12px;
+				line-height: 18px;
+				color: #ccc;
+				max-height: 36px;
+				overflow: hidden;
+			}
+
+			.getmore {
+				display: none;
+				text-align: center;
+				border: 1px #ddd solid;
+				line-height: 40px;
+				font-size: 14px;
+				color: #999;
+				margin: 20px;
+				margin-top: 0;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.getmore:active {
+				background-color: #ddd;
+				color: #fff;
+			}
+
+			.isend {
+				margin-top: 0;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed airhead">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>
+				<div><b class="fa fa-search"></b>搜索定制师作者或城市名</div>
+			</h1>
+			<i id="headact" class="fa fa-ellipsis-h"></i>
+		</header>
+		<div class="headpush"></div>
+		<img id="bigbg" src="img/custslistbg.jpg" />
+
+		<div id="listnav">
+			<h3>当前分类</h3>
+			<b id="poscity"><span>热门</span><i class="fa fa-chevron-circle-down"></i></b>
+			<div class="line"></div>
+			<h4>过去共有</h4>
+			<h2><span>166579</span>人在哇旅行出游</h2>
+			<ul>
+				<li style="background-image: url(img/cust/test_01.png);"></li>
+				<li style="background-image: url(img/cust/test_02.png);"></li>
+				<li style="background-image: url(img/cust/test_03.png);"></li>
+				<li style="background-image: url(img/cust/test_04.png);"></li>
+				<li style="background-image: url(img/cust/test_05.png);"></li>
+			</ul>
+		</div>
+
+		<ul class="custlist">
+
+			<!--<li class="custli">
+		<div class="leftcover" style="background-image: url(img/customer/customer_01.jpg);"></div>
+		<h1>赖文璐<span class="focus">+ 关注</span><span class="reward"><i></i>83</span></h1>
+		<ul class="starlist">
+			<li class="fa fa-star"></li>
+			<li class="fa fa-star"></li>
+			<li class="fa fa-star"></li>
+			<li class="fa fa-star-half-o"></li>
+			<li class="fa fa-star-o"></li>
+			<span>好评率：96%</span>
+		</ul>
+		<p>擅长: 丽江 、西藏 、大理、四川、新疆、云南等13个目的地</p>
+	</li>-->
+
+		</ul>
+
+		<div class="getmore">加载更多</div>
+		<div class="isend" style="display:none;">已经到底了~</div>
+		<div class="isempty"><i class="fa fa-cloud"></i><span>没有获取到列表</span></div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+				setbcolor('dark');
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				setbcolor('light');
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			mui('body').on('tap', '#searchbox', function(e) {
+				$('input').blur();
+				setbcolor('dark');
+				mui.openWindow({
+					url: 'destination.html',
+					id: 'destination.html'
+				});
+				plus.webview.getWebviewById('destination.html').addEventListener('show', function() {
+					setbcolor('dark');
+				})
+			});
+
+			mui('body').on('tap', '.custli .focus', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				var uid = $(this).parents('.custli').attr('uid');
+				showcssWaiting()
+				mui.post(localStorage.getItem('ajaxlinkhead') + '/user/member/focus', {
+					id: uid
+				}, function(data) {
+					closecssWaiting();
+					mui.toast(data.msg);
+				}, 'json');
+				return false;
+			});
+
+			mui('body').on('tap', '.custli', function(e) {
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+
+				showcssWaiting();
+				var open_url = 'expertdetail.html?uid=' + $(this).attr('uid') + '&hsrc=' + $(this).attr('hsrc');
+				plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+
+			})
+
+			mui('body').on('tap', '#defaulthead h1,#poscity', function(e) {
+				$('input').blur();
+				setbcolor('dark');
+				mui.openWindow({
+					url: 'destination.html?act=morecusts',
+					id: 'destination.html'
+				});
+				plus.webview.getWebviewById('destination.html').addEventListener('show', function() {
+					setbcolor('dark');
+				})
+			});
+
+			var nowbcolor = 'light';
+			var nowscroll = 0;
+			$(window).bind("scroll", function() {
+
+				var sTop = $(window).scrollTop();
+				sTop = parseInt(sTop);
+
+				nowscroll = sTop;
+				if (sTop > 50) {
+
+					$('#defaulthead').removeClass('airhead');
+					$('#headact').css('color', '#b8c4ca');
+					if (window.plus) {
+						setbcolor('dark');
+						nowbcolor = 'dark';
+					}
+				} else {
+					$('#defaulthead').addClass('airhead');
+					$('#headact').css('color', '#fff');
+					if (window.plus) {
+						setbcolor('light');
+						nowbcolor = 'light';
+					}
+				}
+			});
+
+			mui('body').on('tap', '.getmore', function(e) {
+				memberlist();
+			});
+
+			function setcategory(a, b) {
+				memberlistcid = a;
+				$('#poscity span').text(b);
+				nextpage = 1;
+				memberlist();
+			}
+
+
+			var memberlistcid = '';
+			var getmemberlist = 0;
+			var nextpage = 1;
+			memberlist();
+
+			function memberlist() {
+				if (getmemberlist == 1) {
+					return
+				};
+				getmemberlist = 1;
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/member/member_list.html', {
+					is_ajax: 1,
+					gpid: 9,
+					page: nextpage,
+					cid: memberlistcid
+				}, function(result) {
+					//console.log(JSON.stringify(result.list));
+					if (nextpage == 1) {
+						$('.custlist li').remove();
+						$('.isend').hide();
+					}
+
+					if (result.list.length == 5) {
+						nextpage++;
+						$('.getmore').show();
+					} else {
+						$('.isend').show();
+						$('.getmore').hide();
+					}
+
+					var li = '';
+					$.each(result.list, function(i, v) {
+
+						var vimage = 'img/my-head-big.png';
+						if (v.image && v.image != '') {
+							vimage = localStorage.getItem('ajaxlinkhead') + v.image;
+						}
+						var vname = v.nickname || v.username || v.real_name || 'unknow';
+						var signature = v.signature || ' 未设置签名 ';
+
+						var evaluatenum = v.AvguComment * 20
+						evaluatenum = evaluatenum.toFixed();
+						v.AvguComment--;
+
+						var intavg = v.AvguComment;
+						intavg = intavg.toFixed();
+						intavg = v.AvguComment - intavg;
+						if (intavg >= 0.5) {
+							intavg = 1
+						} else {
+							intavg = 0
+						};
+
+						var AvguComment = v.AvguComment;
+						AvguComment = AvguComment.toFixed();
+
+						var starli = '';
+
+						for (var i = 0; i < 5; i++) {
+							if (AvguComment < i) {
+								starli += '<li class="fa fa-star-o"></li>';
+							}
+							if (AvguComment == i) {
+								if (intavg == 1) {
+									starli += '<li class="fa fa-star-half-o"></li>';
+								} else {
+									starli += '<li class="fa fa-star"></li>';
+								}
+
+							}
+							if (AvguComment > i) {
+								starli += '<li class="fa fa-star"></li>';
+							}
+						}
+						if (evaluatenum == 0) {
+							evaluatenum = '-'
+						}
+						li = '<li class="custli" uid="' + v.uid + '" hsrc="' + vimage + '"><div class="leftcover"></div><h1>' + vname +
+							'<span class="focus">+ 关注</span><span class="reward"><i></i>0</span></h1><ul class="starlist">' + starli +
+							'<span>好评率：' + evaluatenum + '%</span></ul><p>' + signature + '</p></li>';
+
+						$('.custlist').append(li);
+
+						var readimg = $('.custli[uid="' + v.uid + '"] .leftcover');
+						var wsrc = vimage;
+						var imgname = wsrc.substr(wsrc.lastIndexOf('/') + 1);
+						readimg.addClass('img_cache_bg');
+						readimg.attr('imgname', imgname);
+						img_cache(wsrc, '_bg', imgname);
+
+					});
+
+					if ($('.custlist li').length == 0) {
+						$('.isend').hide();
+						$('.isempty').show();
+					} else {
+						$('.isempty').hide();
+					}
+
+					getmemberlist = 0;
+					closecssWaiting();
+				}, 'json').fail(function() {
+					getmemberlist = 0;
+					if ($('.custlist li').length == 0) {
+						$('.isempty').show();
+					}
+					closecssWaiting();
+					mui.toast('获取列表失败');
+				})
+			};
+		</script>
+	</body>
+</html>

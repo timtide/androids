@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/userdata.css">
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>个人设置</h1>
+			<i id="headact" style="display: none;" class="fa fa-commenting-o"></i>
+		</header>
+		<div class="headpush"></div>
+
+		<ul class="defaultlist noicon" id="userheadbox">
+
+			<li id="userhead" style="padding-top: 25px; padding-bottom: 15px; margin-bottom: 25px;">
+				<span class="left"><img class="dataheadimg" src="img/my-head.png" onerror="nofind()"></span>
+				<i class="right fa fa-angle-right"></i><span class="right">编辑头像</span>
+			</li>
+			<li id="account"><span class="left">账号</span><i class="right fa fa-angle-right" style="opacity: 0;"></i><span class="right"></span></li>
+			<li id="nickname"><span class="left">昵称</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<li id="sex"><span class="left">性别</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<li id="birthday"><span class="left">生日</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<!--<li id="height"><span class="left">身高</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+	<li id="weight"><span class="left">体重</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>-->
+			<li id="mobile"><span class="left">电话</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<!--	<li id="qq"><span class="left">QQ</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>-->
+			<li id="email"><span class="left">邮箱</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<!--	<li id="pos"><span class="left">常住地</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>-->
+			<li id="signature"><span class="left">签名介绍</span><i class="right fa fa-angle-right"></i><span class="right"></span></li>
+			<li id="image"><span class="left">形象图</span><i class="right fa fa-angle-right"></i><span class="right">未设置</span></li>
+
+			<!--	<br /><li id="casheclear"><span class="left">清除缓存</span></li>-->
+
+			<br />
+			<button class="defaultblock" id="logout">退出登录</button>
+			<br /><br /><br />
+
+		</ul>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			mui('body').on('tap', '#headback', function(e) {
+				var inpage = plus.webview.getWebviewById('resetdata.html');
+				if (inpage) {
+					inpage.close('none');
+				}
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			//判断一个字符串是否包含一个子串
+			function isContains(str, substr) {
+				return str.indexOf(substr) >= 0;
+			};
+
+			var Launch;
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				Launch = plus.webview.getLaunchWebview();
+
+				plus.webview.getWebviewById('userdata.html').addEventListener('close', function() {
+					var inpage = plus.webview.getWebviewById('resetdata.html');
+					if (inpage) {
+						inpage.close('none');
+					}
+				})
+
+				$('.dataheadimg').attr('src', plus.storage.getItem("user_headimg"));
+				$('#account span.right').text(plus.storage.getItem("user_name"));
+				$('#nickname span.right').text(plus.storage.getItem("user_nickname") || '未设置');
+
+				switch (plus.storage.getItem("user_sex")) {
+					case '0':
+						$('#sex span.right').text('保密');
+						break;
+					case '1':
+						$('#sex span.right').text('男');
+						break;
+					case '2':
+						$('#sex span.right').text('女');
+						break;
+				}
+
+				$('#birthday span.right').text(getdatatime(plus.storage.getItem("user_birthday")));
+				var height = plus.storage.getItem("user_height") || '0';
+				$('#height span.right').text(height + ' cm');
+				var weight = plus.storage.getItem("user_weight") || '0';
+				$('#weight span.right').text(weight + ' kg');
+				$('#mobile span.right').text(plus.storage.getItem("user_mobile") || '未设置');
+				$('#qq span.right').text(plus.storage.getItem("user_qq") || '未设置');
+				var user_email = plus.storage.getItem("user_email");
+				if (user_email) {
+					if (isContains(user_email, 'qj_') == true) {
+						user_email = user_email + '（无效）';
+					}
+				}
+
+				$('#email span.right').text(user_email);
+				if (plus.storage.getItem("user_image")) {
+					$('#image span.right').text('已设置');
+				}
+
+				getregion();
+
+				$('#signature span.right').text(plus.storage.getItem("user_signature") || '未设置');
+
+				plus.webview.create('resetdata.html', 'resetdata.html', {
+					top: 0,
+					bottom: 0
+				});
+
+			}
+
+			function nofind() {
+				var img = event.srcElement;
+				img.src = "img/my-head.png";
+				img.onerror = null;
+			}
+
+			mui('.defaultlist').on('tap', 'li', function(e) {
+
+				var thisid = $(this).attr('id');
+
+				if (thisid == 'account') {
+					return;
+				}
+
+				if (thisid == 'userhead') {
+					mui.openWindow({
+						url: 'userhead.html',
+						id: 'userhead.html',
+						styles: {
+							top: 0,
+							bottom: 0
+						}
+					});
+					return;
+				}
+
+				if (thisid == 'image') {
+					mui.openWindow({
+						url: 'userimage.html',
+						id: 'userimage.html',
+						styles: {
+							top: 0,
+							bottom: 0
+						}
+					});
+					return;
+				}
+
+				if (thisid == 'casheclear') {
+					showcssWaiting();
+					plus.cache.clear();
+					Launch.reload();
+					Launch.addEventListener('loaded', function() {
+						closecssWaiting();
+						plus.nativeUI.toast('已清除缓存');
+					})
+					return;
+				}
+
+				var inpage = plus.webview.getWebviewById('resetdata.html');
+
+				if (inpage) {
+					inpage.evalJS('setform("' + thisid + '");');
+					inpage.show('slide-in-right', 200);
+				} else {
+					plus.webview.create('resetdata.html', 'resetdata.html', {
+						top: 0,
+						bottom: 0
+					});
+					var newinpage = plus.webview.getWebviewById('resetdata.html');
+					newinpage.addEventListener('loaded', function() {
+						newinpage.evalJS('setform("' + thisid + '");');
+						newinpage.show('slide-in-right', 200);
+					})
+				}
+
+			});
+
+			var logouting = 0;
+
+			mui('body').on('tap', '#logout', function(e) {
+				if (logouting == 1) {
+					return
+				};
+				logouting = 1;
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var sessid = plus.navigator.getCookie(ajaxlinkhead);
+
+				$.post(ajaxlinkhead + '/logout.html', {
+					is_ajax: 1
+				}, function(data) {
+
+				}, 'json').fail(function() {});
+
+				//要移除的数据
+				var removeItemnamearr = [
+					'user_birthday', 
+					'user_signature', 
+					'user_headimg', 
+					'user_weight', 
+					'user_login',
+					'user_password', 
+					'user_mobile', 
+					'user_pos_city', 
+					'user_uid', 
+					'user_nickname', 
+					'user_name', 
+					'user_sex',
+					'user_email',
+					'user_height', 
+					'user_pos_province',
+					'user_qq', 
+					'chatready', 
+					'user_image'
+				];
+
+				$.each(removeItemnamearr, function(i, v) {
+					plus.storage.removeItem(v);
+				});
+
+				//移除所有
+				//plus.storage.clear();
+
+				plus.navigator.removeAllCookie();
+
+				plus.storage.setItem("sessid", sessid);
+				plus.navigator.setCookie(ajaxlinkhead, sessid);
+
+				localStorage.setItem('ajaxlinkhead', ajaxlinkhead);
+
+				plus.nativeUI.toast('已注销当前账户');
+
+				//重载用户资料
+				Launch.evalJS("checklogin();resetstatus();");
+
+				mui.openWindow({
+					url: 'login.html?act=login',
+					id: 'login.html',
+					styles: {
+						top: 0,
+						bottom: 0
+					}
+				});
+
+				plus.webview.getWebviewById('login.html').addEventListener('show', function() {
+					setTimeout(function() {
+						plus.webview.getWebviewById('userdata.html').close('none')
+					}, 300);
+				});
+
+			});
+
+			//时间撮转换
+			function getdatatime(etime) {
+				if (etime == '0') {
+					return '未填写';
+				} else {
+					var newDate = new Date();
+					newDate.setTime(Number(etime) * 1000);
+					return newDate.format('yyyy-MM-dd');
+				}
+			}
+
+			function getregion() {
+				var pos_province = plus.storage.getItem("user_pos_province");
+				var pos_city = plus.storage.getItem("user_pos_city");
+				if (pos_province == '0') {
+					getcity('-')
+				} else {
+					var pos_province_data = plus.storage.getItem("pos_province_data");
+					if (pos_province_data) {
+						pos_province_data = JSON.parse(pos_province_data);
+						pickpv(pos_province_data, pos_province);
+					} else {
+						$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+							is_ajax: 1,
+							type: 'ct',
+							name: '中国'
+						}, function(result) {
+							if (result.data != '') {
+								pickpv(result.data, pos_province)
+
+								pos_province_data = result.data;
+								pos_province_data = JSON.stringify(pos_province_data);
+								plus.storage.setItem("pos_province_data", pos_province_data);
+
+							}
+						}, 'json');
+					}
+				}
+			}
+
+			function pickpv(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.provinceId) {
+						getcity(i.provinceName, str);
+					}
+				});
+			}
+
+			function getcity(b, pid) {
+				var pos_city = plus.storage.getItem("user_pos_city");
+				if (pos_city == '0') {
+					$('#pos span.right').text(b + ' -');
+				} else {
+
+					var pos_city_data = plus.storage.getItem("pos_city_data");
+					if (!pos_city_data) {
+						pos_city_data = {};
+					} else {
+						pos_city_data = JSON.parse(pos_city_data);
+					}
+
+					if (pos_city_data[pid]) {
+						pickcity(pos_city_data[pid], pos_city, b);
+					} else {
+
+						$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+							is_ajax: 1,
+							type: 'pov',
+							name: pid
+						}, function(result) {
+							if (result.data != '') {
+
+								pickcity(result.data, pos_city, b);
+								pos_city_data[pid] = result.data;
+								pos_city_data = JSON.stringify(pos_city_data);
+								plus.storage.setItem("pos_city_data", pos_city_data);
+
+							}
+						}, 'json');
+
+					}
+				}
+			}
+
+			function pickcity(src, str, a) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#pos span.right').text(a + ' ' + i.cityName);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

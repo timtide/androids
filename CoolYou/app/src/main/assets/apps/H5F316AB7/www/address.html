@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<title></title>
+		<style>
+			body{
+				background-color: #fff;
+			}
+
+			.addfirst,.delthis{
+				text-align: center;
+				width: 80%;
+				margin-left: 10%;
+				line-height: 44px;
+				padding: 0;
+				margin-top: 20px;
+				margin-bottom: 40px;
+				color: #b9c5cb;
+				background-color: #fff;
+				border: 1px #e8ecee dashed;
+				border-radius: 5px;
+			}
+
+			button.addfirst:enabled:active:active,button.delthis:enabled:active:active{
+				background-color: #d9dddf;
+			}
+
+			.address-edit{
+				display: none;
+			}
+
+			.defaulthead i.address-edit{
+				display: none;
+			}
+
+			.editform{
+				margin-top: 2px;
+			}
+
+			.editform li{
+				clear: both;
+				border-bottom: 1px #eee solid;
+				overflow: hidden;
+				font-size: 14px;
+				padding: 18px 24px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.editform li:active{
+				background-color: #eee;
+			}
+
+			.editform li .left{
+				float: left;
+			}
+
+			.editform li .right{
+				float: right;
+			}
+
+			.editform li span.left{
+				color: #666;
+				font-size: 13px;
+				margin-top: 2px;
+			}
+
+			.editform li input.left{
+				font-size: 15px;
+				background-color: transparent;
+				border: none;
+				padding: 0;
+				margin: 0;
+				line-height: 17px;
+				height: 17px;
+				margin-top: 7px;
+			}
+
+			.editform li i.right{
+				color: #a0abb2;
+				font-size: 20px;
+				margin-left: 10px;
+			}
+
+			.addresslist{
+				padding: 26px 16px;
+				padding-bottom: 0;
+			}
+
+			.addresslist li{
+				padding: 16px;
+				border-radius: 10px;
+				box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+				margin-bottom: 12px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.addresslist li:active{
+				background-color: #eee;
+			}
+
+			.addresslist li .top{
+				border-bottom: 1px #eee solid;
+			}
+
+			.addresslist li .top h1{
+				font-size: 16px;
+				line-height: 20px;
+				margin-bottom: 5px;
+			}
+
+			.addresslist li .top p{
+				color: #9fabb2;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				font-size: 13px;
+				line-height: 30px;
+			}
+
+			.addresslist li .top span{
+				color: #9fabb2;
+				font-size: 13px;
+				margin-bottom: 10px;
+				display: block;
+			}
+
+			.addresslist li .bottom{
+				overflow: hidden;
+				margin-top: 10px;
+			}
+
+			.addresslist li .bottom .left{
+				float: left;
+				font-size: 13px;
+				color: #999;
+			}
+
+			.addresslist li .bottom .left span{
+				position: relative;
+				top: -1px;
+			}
+
+			.addresslist li .bottom .left.setting{
+				color: #333;
+			}
+
+			.addresslist li .bottom .left i{
+				font-size: 18px;
+				margin-right: 3px;
+				width: 22px;
+				height: 24px;
+				color: #ccc;
+				line-height: 24px;
+				display: inline-block;
+				text-align: center;
+			}
+
+			.addresslist li .bottom .left i.fa-check-circle,.addresslist li .bottom .left.setting i.fa-circle-o,.addresslist li .bottom .left span.onset,.addresslist li .bottom .left.setting span.wait{
+				display: none;
+			}
+
+			.addresslist li .bottom .left.setting i{
+				color: #6bc9b4;
+			}
+
+			.addresslist li .bottom .left.setting i.fa-check-circle,.addresslist li .bottom .left.setting span.onset{
+				display: inline-block;
+			}
+
+			.addresslist li .bottom .right{
+				float: right;
+				font-size: 14px;
+			}
+
+			.addresslist li .bottom .right i{
+				background-color: #a0abb2;
+				border-radius: 30px;
+				width: 48px;
+				line-height: 24px;
+				height: 24px;
+				text-align: center;
+				color: #fff;
+				margin-left:10px;
+			}
+
+			.editform li.setuse{
+				color: #999;
+				font-size: 13px;
+			}
+
+			.setuse i{
+				margin-right: 5px;
+			}
+
+			.setuse i.wait{
+				color: #ccc;
+			}
+
+			.setuse .onset,.setuse.active .wait{
+				display: none;
+			}
+
+			.setuse.active .onset{
+				display: inline-block;
+			}
+
+			.setuse.active .onset{
+				color: #6bc9b4;
+			}
+
+			.coverbox{
+				z-index: 10;
+			}
+
+			.region-pickbox{
+				display: none;
+				position: fixed;
+				text-align: center;
+				z-index: 11;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				background-color: #fff;
+				box-shadow: 0 0 25px rgba(0,0,0,0.1);
+				height: 490px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.region-pickbox h1{
+				line-height: 30px;
+				color: #666;
+				font-size: 15px;
+				padding-top: 10px;
+			}
+
+			.region-pickbox h1 i{
+				position: absolute;
+				right: 10px;
+				width: 50px;
+				line-height: 30px;
+				color: #ccc;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.region-pickbox h1 i:active{
+				background-color: #eee;
+			}
+
+			.region-pickbox .ctrblock{
+				font-size: 13px;
+				color: #999;
+				margin-bottom: 15px;
+				margin-top: 10px;
+				font-weight: bold;
+				padding: 0 10px;
+				overflow: hidden;
+			}
+
+			.region-pickbox .ctrblock span{
+				float: left;
+				padding: 0 12px;
+				border-right: 1px #ddd solid;
+				line-height: 25px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.region-pickbox .ctrblock span:active{
+				opacity: 0.5;
+			}
+
+			.region-pickbox .ctrblock span.active{
+				color: #333;
+			}
+
+			.region-pickbox .ctrblock span:last-child{
+				border: none;
+			}
+
+			.region-pickbox .regionlist{
+				display: none;
+				clear: both;
+				font-size: 15px;
+				text-align: left;
+				line-height: 50px;
+				max-height: 400px;
+				overflow-y: auto;
+				border-top: 1px #eee solid;
+			}
+
+			.region-pickbox .regionlist p{
+				text-align: center;
+			}
+
+			.region-pickbox .regionlist.active{
+				display: block;
+			}
+
+			.region-pickbox .regionlist li{
+				padding-left: 20px;
+				border-bottom: 1px #eee solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.region-pickbox .regionlist li:active{
+				background-color: #eee;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="address-list">我的地址</span><span class="address-edit">邮寄地址编辑</span></h1>
+			<i id="headact" class="fa fa-plus address-list"></i>
+			<i id="headsave" class="fa address-edit" style="color: #6bc9b5;">保存</i>
+		</header>
+		<div class="headpush"></div>
+
+		<ul class="addresslist address-list"></ul>
+		<button class="addfirst  address-list">添加地址</button>
+
+		<div class="address-edit" style="margin-bottom: 50px;">
+			<input value="" type="hidden" id="aid" />
+			<ul class="editform">
+				<li id="m_user" puid=''><span class="left">收货人姓名</span><i class="right fa fa-angle-right"></i><span class="right">请选择</span></li>
+				<li id="m_region" rid=''><span class="left">所在区域</span><i class="right fa fa-angle-right"></i><span class="right">请选择</span></li>
+				<li><span class="left">详细地址</span><input type="text" class="left" id="m_address" placeholder="请输入收货地址" /></li>
+				<li><span class="left">手机号</span><input type="tel" class="left" id="m_mobile" placeholder="请输入11位有效的手机号码" /></li>
+				<li class="setuse active" isdefault='1'><i class="fa fa-circle-o wait"></i><i class="fa fa-check-circle onset"></i><span
+					 class="onset">默认</span><span class="wait">设为默认地址</span></li>
+			</ul>
+			<button class="delthis" style="display: none;"><i class="fa fa-trash-o"></i> 删除</button>
+		</div>
+
+		<div class="coverbox"></div>
+
+		<div class="region-pickbox">
+			<h1>所在地区<i class="fa fa-close"></i></h1>
+			<div class="ctrblock">
+				<span class="active" id="pos_province" pid="">请选择省份</span><span id="pos_city" cid="">选择市</span><span id="pos_dist"
+				 did="">选择区/县</span>
+			</div>
+			<ul class="regionlist active" id="provincelist"></ul>
+			<ul class="regionlist" id="citylist">
+				<p>请先选择省份</p>
+			</ul>
+			<ul class="regionlist" id="distlist">
+				<p>请先选择城市</p>
+			</ul>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getlist();
+				getpassengerlist();
+			}
+
+			mui('body').on('tap', '.setuse', function(e) {
+				if ($(this).attr('isdefault') == '0') {
+					$(this).attr('isdefault', '1').addClass('active');
+				} else {
+					$(this).attr('isdefault', '0').removeClass('active');
+				}
+			});
+
+			mui('body').on('tap', '#m_region', function(e) {
+				$('input').blur();
+				$('.coverbox').fadeIn('fast');
+				$('.region-pickbox').slideDown('fast');
+				getprovince();
+			});
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				if ($('.address-edit').is(':visible')) {
+					$('.address-edit').hide();
+					$('.address-list').show();
+				} else {
+					plus.webview.currentWebview().close('slide-out-right', 200);
+				}
+			})
+
+			mui('body').on('tap', '.addfirst,#headact', function(e) {
+				clearinfo();
+				$('#pid').attr('');
+				$('.delthis').hide();
+				$('.address-list').hide();
+				$('.address-edit').show();
+			});
+
+			mui('body').on('tap', '#headsave', function(e) {
+				$('input').blur();
+				saveaddress();
+			});
+
+			mui('body').on('tap', '#m_user', function(e) {
+				showuser();
+			});
+
+			function showuser() {
+				if (getpassengerdone == 0) {
+					mui.toast('未获取到联系人列表，请重试');
+					return;
+				}
+
+				if (passengerlist == [] || passengerlist == '') {
+					mui.openWindow({
+						url: 'passenger.html',
+						id: 'passenger.html'
+					});
+					return;
+				}
+
+				plus.nativeUI.actionSheet({
+						title: "选择联系人",
+						cancel: "取消",
+						buttons: passengerlist
+					},
+					function(e) {
+						if (e.index > 0) {
+							$('#m_user').attr('puid', passengerlist[e.index - 1].puid).find('span.right').text(passengerlist[e.index - 1].title);
+						};
+					}
+				);
+
+			}
+
+			var passengerlist = [];
+			var getpassengerdone = 0;
+
+			function getpassengerlist() {
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/profile/contacts?is_ajax=1', function(res) {
+					var resResult = res.result;
+					if (!resResult.length || resResult.length < 1) {} else {
+						resResult.forEach(function(i, e) {
+							passengerlist.push({
+								'title': i.uname,
+								'puid': i.id
+							});
+						});
+					}
+					getpassengerdone = 1;
+				}, 'json').fail(function() {
+					getpassengerdone = 1;
+				});
+			};
+
+			var listdata = {};
+
+			function getlist() {
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/profile/address?is_ajax=1', function(res) {
+					var resResult = res.result;
+					var listData = '';
+					var is_type = '';
+					if (!resResult.length || resResult.length < 1) {
+						mui.toast("暂无旅客信息，请添加！");
+					} else {
+						$(".addresslist li").remove();
+
+						resResult.forEach(function(i, e) {
+							listdata[i.id] = i;
+							var defaultset = '';
+							if (String(i.is_default) == '1') {
+								defaultset = 'setting';
+							}
+
+							listData = '<li><div class="top"  aid="' + i.id + '"><h1>' + i.uname + '</h1><p>' + i.addr + '</p><span>' +
+								i.mobile + '</span></div><div class="bottom"><div class="settingctrl left ' + defaultset + '" aid="' + i.id +
+								'"><i class="fa fa-circle-o"></i><i class="fa fa-check-circle"></i><span class="onset">当前默认地址</span><span class="wait">设为默认地址</span></div><div class="right"><i class="fa fa-trash"  aid="' +
+								i.id + '"></i><i class="fa fa-edit"  aid="' + i.id + '"></i></div></div></li>';
+
+							$(".addresslist").append(listData);
+
+						});
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			var saving = 0;
+
+			function saveaddress() {
+				if (saving == 1) {
+					mui.toast('正在提交中...');
+					return;
+				};
+
+				var subjson = {
+					'is_ajax': '1',
+					'id': $('#aid').attr('value'),
+					'uname': $("#m_user span.right").text(),
+					'cid': $("#m_user").attr("puid"),
+					'rid': $("#m_region").attr("rid"),
+					'addr': $("#m_address").val(),
+					'mobile': $("#m_mobile").val(),
+					'is_default': $('.setuse').attr('isdefault')
+				};
+
+				if (subjson.uname == '' || subjson.cid == '') {
+					mui.toast('收货人姓名不能为空');
+					return;
+				};
+				if (subjson.rid == '') {
+					mui.toast('请选择所在区域');
+					return;
+				};
+
+				if (subjson.addr == '') {
+					mui.toast('详细地址不能为空');
+					return;
+				};
+				if (subjson.mobile == '') {
+					mui.toast('手机号不能为空');
+					return;
+				};
+
+				showcssWaiting();
+				saving = 1;
+				$.post(localStorage.getItem('ajaxlinkhead') + '/user/profile/address', subjson, function(res) {
+					if (res.code == 1) {
+						setTimeout(function() {
+							mui.toast(res.msg);
+							getlist();
+							$('.address-edit').hide();
+							$('.address-list').show();
+						}, 500);
+					} else {
+						mui.toast(res.msg);
+					}
+					closecssWaiting();
+					saving = 0;
+				}, 'json').fail(function() {
+					saving = 0;
+					closecssWaiting();
+					plus.nativeUI.toast('提交失败，发生错误');
+				});
+			};
+
+			mui('.addresslist').on('tap', '.top,.fa-edit', function(e) {
+				getpinfo($(this).attr('aid'));
+				$('#aid').attr('value', $(this).attr('aid'));
+			});
+
+			function getpinfo(aid) {
+				showcssWaiting();
+				$("#m_user span.right").text(listdata[aid].uname);
+				$("#m_user").attr("puid", listdata[aid].cid);
+				$("#m_region").attr("rid", listdata[aid].rid);
+				getriddetail(listdata[aid].rid);
+				$("#m_address").val(listdata[aid].addr);
+				$("#m_mobile").val(listdata[aid].mobile);
+				$('.delthis').show();
+				if (String(listdata[aid].is_default) == '1') {
+					$('.setuse').attr('isdefault', '1').addClass('active');
+				} else {
+					$('.setuse').attr('isdefault', '0').removeClass('active');
+				}
+				$('.address-list').hide();
+				$('.address-edit').show();
+				closecssWaiting();
+			};
+
+			function clearinfo() {
+				$("#m_user").attr("puid", '').find('span.right').text('请选择');
+				$("#m_region").attr("rid", '').find('span.right').text('请选择');
+				$("#m_address").val('');
+				$("#m_mobile").val('');
+				$('.setuse').attr('isdefault', '1').addClass('active');
+			}
+
+			mui('body').on('tap', '.delthis', function(e) {
+				var gaid = $('#aid').attr('value');
+				plus.nativeUI.confirm("要删除该地址吗？", function(e) {
+					if (e.index == 0) {
+						actdel(gaid);
+					}
+				});
+			});
+
+			mui('body').on('tap', '.fa-trash', function(e) {
+				var gaid = $(this).attr('aid');
+				plus.nativeUI.confirm("要删除该地址吗？", function(e) {
+					if (e.index == 0) {
+						actdel(gaid);
+					}
+				});
+			});
+
+			var actdeling = 0;
+
+			function actdel(aid) {
+				if (actdeling == 1) {
+					mui.toast('正在删除中...');
+					return;
+				};
+				actdeling = 1;
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + "/user/profile/address?is_ajax=1&act=del&id=" + aid, function(res) {
+
+					setTimeout(function() {
+						getlist();
+						$('.address-edit').hide();
+						$('.address-list').show();
+						actdeling = 0;
+						closecssWaiting();
+						mui.toast("删除成功");
+					}, 500)
+
+				}, 'json').fail(function() {
+					actdeling = 0;
+					closecssWaiting();
+					plus.nativeUI.toast('删除失败，发生错误');
+				});
+			};
+
+			mui('body').on('tap', '.settingctrl', function(e) {
+
+				var thictr = $(this);
+				var aid = $(this).attr('aid');
+				var stype = listdata[aid].is_default;
+				if (String(stype) == '0') {
+					stype = 1;
+				} else {
+					stype = 0;
+				}
+
+				if (saving == 1) {
+					mui.toast('正在提交中...');
+					return;
+				};
+
+				var subjson = {
+					'is_ajax': '1',
+					'id': aid,
+					'uname': listdata[aid].uname,
+					'cid': listdata[aid].cid,
+					'rid': listdata[aid].rid,
+					'addr': listdata[aid].addr,
+					'mobile': listdata[aid].mobile,
+					'is_default': stype
+				};
+
+				showcssWaiting();
+				saving = 1;
+				$.post(localStorage.getItem('ajaxlinkhead') + '/user/profile/address', subjson, function(res) {
+					if (res.code == 1) {
+						setTimeout(function() {
+							mui.toast(res.msg);
+							listdata[aid].is_default = stype;
+							if (String(stype) == '0') {
+								thictr.removeClass('setting');
+							} else {
+								thictr.addClass('setting');
+							}
+						}, 500);
+					} else {
+						mui.toast(res.msg);
+					}
+					closecssWaiting();
+					saving = 0;
+				}, 'json').fail(function() {
+					saving = 0;
+					closecssWaiting();
+					plus.nativeUI.toast('提交失败，发生错误');
+				});
+			});
+
+			mui('body').on('tap', '.coverbox,.fa-close', function(e) {
+				$('.coverbox,.region-pickbox').fadeOut('fast');
+				setTimeout(function() {
+					$('#pos_province').attr('pid', '').addClass('active').text('请选择省份');
+					$('#pos_city').attr('cid', '').removeClass('active').text('选择市');
+					$('#pos_dist').attr('did', '').removeClass('active').text('选择区/县');
+					$('#provincelist').show();
+					$('#citylist').empty().append('<p>请先选择省份</p>').hide();
+					$('#distlist').empty().append('<p>请先选择城市</p>').hide();
+				}, 300)
+			});
+
+			//选择省份
+			var getregioning = 0;
+
+			function getprovince() {
+
+				if (getregioning == 1) {
+					return;
+				};
+				getregioning = 1;
+				showcssWaiting();
+
+				var pos_province_data = plus.storage.getItem("pos_province_data");
+				if (pos_province_data) {
+					pos_province_data = JSON.parse(pos_province_data);
+					pickpv(pos_province_data);
+					closecssWaiting();
+				} else {
+
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'ct',
+						name: '中国'
+					}, function(result) {
+
+						if (result.data != '') {
+							pickpv(result.data);
+							pos_province_data = result.data;
+							pos_province_data = JSON.stringify(pos_province_data);
+							plus.storage.setItem("pos_province_data", pos_province_data);
+
+						} else {
+							mui.toast('没有找到省份');
+						};
+
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getregioning = 0;
+					})
+
+				}
+
+			}
+
+			function pickpv(src) {
+				var pid = $('#pos_province').attr('pid');
+				src.forEach(function(i, e) {
+					if (pid == i.provinceId) {
+						$('#provincelist').append("<li pid='" + i.provinceId + "'>" + i.provinceName + "</li>");
+						$('#pos_province').text(i.provinceName);
+					} else {
+						$('#provincelist').append("<li pid='" + i.provinceId + "'>" + i.provinceName + "</li>");
+					}
+				});
+				if (pid == '') {
+					$('#provincelist').show();
+				}
+			}
+
+			mui('body').on('tap', '#provincelist li', function(e) {
+				var pid = $('#pos_province').attr('pid');
+				var newpid = $(this).attr('pid');
+				$('#pos_province').attr('pid', newpid).text($(this).text());
+				$('#pos_province').removeClass('active');
+				$('#pos_city').addClass('active');
+				if (pid != newpid) {
+					$('#pos_city').attr('cid', '').text('选择市');
+					$('#pos_dist').attr('did', '').text('选择区/县');
+					getcity();
+				}
+				$('#provincelist').hide();
+				$('#citylist').show();
+			});
+
+			mui('body').on('tap', '.ctrblock span', function(e) {
+				$(this).addClass('active').siblings('span').removeClass('active');
+				$('.regionlist').hide();
+				$('.regionlist').eq($(this).index()).show();
+			});
+
+			//选择城市
+			var getciting = 0;
+
+			function getcity() {
+				var pid = $('#pos_province').attr('pid');
+				if (pid == '') {
+					mui.toast('请先选择省份');
+					return;
+				}
+
+				if (getciting == 1) {
+					return
+				}
+				getciting = 1;
+
+				showcssWaiting();
+				$('#citylist').empty();
+
+				var pos_city_data = plus.storage.getItem("pos_city_data");
+				if (!pos_city_data) {
+					pos_city_data = {}
+				} else {
+					pos_city_data = JSON.parse(pos_city_data)
+				};
+
+				if (pos_city_data[pid]) {
+					pickcity(pos_city_data[pid], $('#pos_city').attr('cid'));
+					getciting = 0;
+					closecssWaiting();
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'pov',
+						name: pid
+					}, function(result) {
+						if (result.data != '') {
+							pickcity(result.data, $('#pos_city').attr('cid'));
+							pos_city_data[pid] = result.data;
+							pos_city_data = JSON.stringify(pos_city_data);
+							plus.storage.setItem("pos_city_data", pos_city_data);
+						} else {
+							mui.toast('没有找到城市');
+						};
+						getciting = 0;
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getciting = 0;
+					})
+				}
+			}
+
+			function pickcity(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#citylist').append("<li cid='" + i.cityCode + "'>" + i.cityName + "</li>");
+						$('#pos_city').text(i.cityName);
+					} else {
+						$('#citylist').append("<li cid='" + i.cityCode + "'>" + i.cityName + "</li>");
+					};
+				});
+				$('#citylist').show();
+			}
+
+			mui('body').on('tap', '#citylist li', function(e) {
+				var cid = $('#pos_city').attr('cid');
+				var newcid = $(this).attr('cid');
+				$('#pos_city').attr('cid', $(this).attr('cid')).text($(this).text());
+				$('#pos_city').removeClass('active')
+				$('#pos_dist').addClass('active');
+				if (cid != newcid) {
+					$('#pos_dist').attr('did', '').text('选择区/县');
+					getdist();
+				}
+				$('#citylist').hide();
+				$('#distlist').show();
+			});
+
+			//选择区/县
+			var getdisting = 0;
+
+			function getdist() {
+				var cid = $('#pos_city').attr('cid');
+				if (cid == '') {
+					mui.toast('请先选择城市');
+					return;
+				}
+
+				if (getdisting == 1) {
+					return
+				}
+				getdisting = 1;
+
+				showcssWaiting();
+				$('#distlist').empty();
+
+				var pos_dist_data = plus.storage.getItem("pos_dist_data");
+				if (!pos_dist_data) {
+					pos_dist_data = {}
+				} else {
+					pos_dist_data = JSON.parse(pos_dist_data)
+				};
+
+				if (pos_dist_data[cid]) {
+					pickdist(pos_dist_data[cid], $('#pos_dist').attr('did'));
+					getdisting = 0;
+					closecssWaiting();
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'city',
+						name: cid
+					}, function(result) {
+						if (result.data != '') {
+							pickdist(result.data, $('#pos_dist').attr('did'));
+							pos_dist_data[cid] = result.data;
+							pos_dist_data = JSON.stringify(pos_dist_data);
+							plus.storage.setItem("pos_dist_data", pos_dist_data);
+						} else {
+							mui.toast('没有找到区/县');
+						};
+						getdisting = 0;
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getdisting = 0;
+					})
+				}
+			}
+
+			function pickdist(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#distlist').append("<li did='" + i.cityCode + "' rid='" + i.region_id + "' >" + i.cityName + "</li>");
+						$('#pos_dist').text(i.cityName);
+					} else {
+						$('#distlist').append("<li did='" + i.cityCode + "' rid='" + i.region_id + "' >" + i.cityName + "</li>");
+					};
+				});
+				$('#distlist').show();
+			}
+
+			mui('body').on('tap', '#distlist li', function(e) {
+				$('.coverbox,.region-pickbox').fadeOut('fast');
+				$('#m_region').attr('rid', $(this).attr('rid')).find('span.right').text($('#pos_province').text() + ' ' + $(
+					'#pos_city').text() + ' ' + $(this).text());
+				setTimeout(function() {
+					$('#pos_province').attr('pid', '').addClass('active').text('请选择省份');
+					$('#pos_city').attr('cid', '').removeClass('active').text('选择市');
+					$('#pos_dist').attr('did', '').removeClass('active').text('选择区/县');
+					$('#provincelist').show();
+					$('#citylist').empty().append('<p>请先选择省份</p>').hide();
+					$('#distlist').empty().append('<p>请先选择城市</p>').hide();
+				}, 300)
+			});
+
+			//获取详细地址
+			function getriddetail(rid) {
+				var subjson = {
+					'is_ajax': 1
+				};
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/index/region/detail.html?is_ajax=1&region_id=' + rid, function(
+					result) {
+					closecssWaiting();
+					if (result.data && result.data != '') {
+						$('#m_region span.right').text(result.data.country + ' ' + result.data.provinceName + ' ' + result.data.cityName);
+					} else {
+						plus.nativeUI.toast('获取地址信息失败');
+					};
+				}, 'json').fail(function() {
+					closecssWaiting();
+					plus.nativeUI.toast('获取地址信息失败，发生错误');
+				});
+			};
+		</script>
+	</body>
+</html>

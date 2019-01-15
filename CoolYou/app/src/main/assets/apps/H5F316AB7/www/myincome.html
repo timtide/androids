@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.mui-content {
+				background-color: #fff;
+				margin-top: 225px;
+			}
+
+			.defaulthead {
+				border: none;
+			}
+
+			.head-info {
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 75px;
+				padding: 25px 15px;
+				text-align: center;
+				background-color: #fafafa;
+				background-position: bottom right;
+				background-repeat: no-repeat;
+				background-size: 60px auto;
+				background-image: url(img/wallet/bg-01.png);
+			}
+
+			.head-info span {
+				font-size: 14px;
+				color: #999;
+			}
+
+			.head-info h1 {
+				font-size: 28px;
+				color: #f2b21e;
+				font-weight: bold;
+				margin-top: 5px;
+			}
+
+			.my_tab {
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 180px;
+				text-align: center;
+				padding: 0 10px;
+				color: #999;
+				background-color: #fff;
+				box-shadow: 0 1px 6px #eee;
+			}
+
+			.my_tab_item {
+				padding: 12px 0;
+				font-size: 14px;
+			}
+
+			.my_tab_item.active {
+				color: #f7b940;
+				position: relative;
+			}
+
+			.my_tab_item.active:after {
+				content: ' ';
+				height: 2px;
+				background-color: #f7b940;
+				position: absolute;
+				bottom: 0;
+				width: 90%;
+				left: 5%;
+			}
+
+			.list-box {
+				padding-left: 25px;
+				display: none;
+				opacity: 0;
+				transition: all 0s linear;
+				margin-bottom: 10px;
+			}
+
+			.list-box.active {
+				display: block;
+				opacity: 1;
+			}
+
+			.list-box li {
+				padding: 15px;
+				padding-right: 25px;
+				padding-left: 0;
+				border-bottom: 1px #eee solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				overflow: hidden;
+			}
+
+			.list-box li:active {
+				opacity: 0.7;
+			}
+
+			.list-box h1 {
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+				margin-bottom: 3px;
+			}
+
+			.list-box b {
+				float: right;
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+			}
+
+			.list-box p {
+				font-size: 12px;
+				color: #9fabb2;
+			}
+
+			.list-box i {
+				clear: both;
+				float: right;
+				font-size: 12px;
+				color: #9fabb2;
+			}
+
+			.select_btn {
+				color: #70D3BE;
+				font-size: 16px;
+				margin-top: 14px;
+				margin-right: 20px;
+			}
+
+			.mui-backdrop {
+				top: 75px;
+			}
+
+			.select_box {
+				display: none;
+				position: fixed;
+				z-index: 10000;
+				top: 75px;
+				left: 0;
+				right: 0;
+				overflow: hidden;
+				text-align: center;
+				color: #000;
+				background: #fff;
+				padding: 17px 10px;
+			}
+
+			.select_item {
+				width: 90%;
+				margin: 5px auto;
+				padding: 10px;
+				border: 1px solid #E4E4E4;
+				border-radius: 5px;
+				font-size: 13px;
+				color: #666666;
+			}
+
+			.select_item.active {
+				color: #70D3BE;
+				border-color: #70D3BE;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>收入累计</h1>
+			<div class="select_btn mui-pull-right">筛选</div>
+		</header>
+
+		<div class="head-info">
+			<span>总收入金额 (元)</span>
+			<h1>0.00</h1>
+		</div>
+		<div class="my_tab mui-row">
+			<div class="my_tab_item mui-col-xs-6 active">
+				打赏
+			</div>
+			<div class="my_tab_item mui-col-xs-6">
+				充值
+			</div>
+		</div>
+
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="list-box active">
+					<!--<li>
+				<b>10元</b><h1>张绕信 打赏给你</h1>
+				<i>充值</i><p>2018-05-30 15:05</p>
+			</li>
+			<li>
+				<b>10元</b><h1>张绕信 打赏给你</h1>
+				<i>充值</i><p>2018-05-30 15:05</p>
+			</li>-->
+				</ul>
+				<ul class="list-box">
+				</ul>
+			</div>
+		</div>
+		<!--弹窗-->
+		<div class="mui-row select_box">
+			<div class="mui-col-xs-4">
+				<div class="select_item active">
+					全部
+				</div>
+			</div>
+			<div class="mui-col-xs-4">
+				<div class="select_item">
+					最近一周
+				</div>
+			</div>
+			<div class="mui-col-xs-4">
+				<div class="select_item">
+					最近一个月
+				</div>
+			</div>
+			<div class="mui-col-xs-4">
+				<div class="select_item">
+					最近半年
+				</div>
+			</div>
+			<div class="mui-col-xs-4">
+				<div class="select_item">
+					最近一年
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			/***
+			 * 一些变化的参数 start
+			 * */
+			var currentTab = 0; //当前选项
+			var currentPageList = [0, 1]; //当前页数列表
+			var firstLoad = [false, true]; //当前是否首次加载
+			var logNums = 10; //每页记录总数
+			var orderType = [22, 2]; //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+			var orderTypeText = ['打赏他人', '收到打赏', '充值转入', '提现转出']; //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+			var payType = [0, 1, 2]; //支付类型:0余额,1微信,2支付宝
+			var payTypeText = ['余额', '微信', '支付宝']; //支付类型:0余额,1微信,2支付宝
+			var allDate = []; //生成时间范围
+			var currentIndex = 0; //当前筛选
+			/***
+			 * 一些变化的参数 end
+			 *  * */
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			//tab事件
+			mui('body').on('tap', '.my_tab_item', function(e) {
+				var index = $(this).index();
+				//tab切换
+				$('.my_tab_item').removeClass('active');
+				$(this).addClass('active');
+				//内容切换
+				$('.list-box').removeClass('active');
+				$('.list-box').eq(index).addClass('active');
+				//当前选项
+				currentTab = index;
+				if (firstLoad[currentTab]) {
+					pullDownRefresh(0);
+					firstLoad[currentTab] = false;
+				}
+			})
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						color: '#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+						height: '50px', //可选,默认50px.下拉刷新控件的高度,
+						range: '100px', //可选 默认100px,控件可下拉拖拽的范围
+						offset: '225px', //可选 默认0px,下拉刷新控件的起始位置
+						auto: false, //可选,默认false.首次加载自动上拉刷新一次
+						callback: function(e) {
+							pullDownRefresh();
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: true, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '~ 没有更多数据了 ~', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: function(e) {
+							pullUpRefresh();
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+
+			//下拉
+			function pullDownRefresh() {
+				$('.list-box').eq(currentTab).html(''); //重置节点数据
+				currentPageList[currentTab] = 1; //重置页码
+				mui('#refreshContainer').pullRefresh().refresh(true); //重置上拉加载
+				getAllData(); //获取数据
+			}
+			//上拉
+			function pullUpRefresh() {
+				currentPageList[currentTab]++; //页码增加
+				getAllData(); //获取数据
+			}
+
+			function getAllData() {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					start: (currentPageList[currentTab] - 1) * logNums, //开始条数
+					num: logNums, //每页总条数
+					order_type: orderType[currentTab], //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+					stime: allDate[currentIndex].stime,
+					etime: allDate[currentIndex].etime
+				}
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					if (map.err == 0) {
+						var data = map.data;
+						switch (currentTab) {
+							case 0:
+								data.forEach(function(item, index) {
+									var domStr = '<li logid=' +
+										item.log_id + '><b>' +
+										item.order_amount + '元</b><h1>收到打赏</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								break;
+							case 1:
+								data.forEach(function(item, index) {
+									var domStr = '<li logid=' +
+										item.log_id + '><b>' +
+										item.order_amount + '元</b><h1>' +
+										payTypeText[item.pay_type] + '充值</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								break;
+						}
+						//结束上拉加载
+						mui('#refreshContainer').pullRefresh().endPullupToRefresh(data.length < logNums);
+					} else if (map.err == 1) {
+						//结束上拉加载
+						mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+					}
+					//结束下拉刷新
+					mui('#refreshContainer').pullRefresh().endPulldown();
+				}).fail(function(e) {
+					console.log(JSON.stringify(e));
+					//结束下拉刷新
+					mui('#refreshContainer').pullRefresh().endPulldown();
+					//结束上拉加载
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+					if (currentPageList[currentTab] > 0) {
+						currentPageList[currentTab]--;
+					}
+					mui.toast('网络异常...');
+				});
+			}
+
+			function getAllIncome(orderType) {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					order_type: orderType,
+					is_count: 'yes',
+					stime: allDate[currentIndex].stime,
+					etime: allDate[currentIndex].etime
+				}
+				console.log(JSON.stringify(data));
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					//console.log(JSON.stringify(map));
+					var value = $('.head-info h1').text();
+					if (map.err == 0) {
+						var data = map.data;
+						
+						$('.head-info h1').text(data + Number(value));
+					}else{
+						$('.head-info h1').text('0.00');
+					}
+					//结束下拉刷新
+				}).fail(function(e) {
+					mui.toast('网络异常...');
+				});
+			}
+			//查看明细
+			mui('body').on('tap', '.list-box li', function(e) {
+				var logid = $(this).attr('logid');
+				mui.openWindow({
+					url: 'record_detail.html',
+					id: 'record_detail.html',
+					extras: {
+						logid: logid
+					}
+				});
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+
+				var todayTime = new Date().getTime();
+				//全部
+				allDate.push({
+					stime: '',
+					etime: ''
+				});
+				//最近一周
+				var today = new Date();
+				var stime = new Date(todayTime - 3600 * 1000 * 24 * 7).getTime() / 1000;
+				var etime = todayTime / 1000;
+				allDate.push({
+					stime: parseInt(stime),
+					etime: parseInt(etime)
+				});
+				//最近一个月
+				var today = new Date();
+				var stime = new Date(todayTime - 3600 * 1000 * 24 * 30).getTime() / 1000;
+				var etime = todayTime / 1000;
+				allDate.push({
+					stime: parseInt(stime),
+					etime: parseInt(etime)
+				});
+				//最近半年
+				var today = new Date();
+				var stime = new Date(todayTime - 3600 * 1000 * 24 * 30 * 6).getTime() / 1000;
+				var etime = todayTime / 1000;
+				allDate.push({
+					stime: parseInt(stime),
+					etime: parseInt(etime)
+				});
+				//最近一年
+				var today = new Date();
+				var stime = new Date(todayTime - 3600 * 1000 * 24 * 30 * 12).getTime() / 1000;
+				var etime = todayTime / 1000;
+				allDate.push({
+					stime: parseInt(stime),
+					etime: parseInt(etime)
+				});
+
+				getAllIncome(22);
+				getAllIncome(2);
+				//筛选选项
+				var mask = mui.createMask(function() {
+					$('.select_box').hide();
+					$('.select_btn').html('筛选');
+				});
+				mui('body').on('tap', '.select_btn', function(e) {
+					var text = $('.select_btn').html();
+					if (text == '筛选') {
+						mask.show();
+						$('.select_box').show();
+						$('.select_btn').html('收起');
+					} else {
+						mask.close();
+						$('.select_box').hide();
+						$('.select_btn').html('筛选');
+					}
+				})
+				//筛选
+				mui('body').on('tap', '.select_item', function(e) {
+					$('.select_item').removeClass('active');
+					$(this).addClass('active');
+					currentIndex = $(this).index('.select_box .select_item');
+					$('.head-info h1').text('');
+					getAllIncome(22);
+					getAllIncome(2);
+					pullDownRefresh();
+					mask.close();
+					$('.select_box').hide();
+					$('.select_btn').html('筛选');
+					firstLoad[0] = true;
+					firstLoad[1] = true;
+				})
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

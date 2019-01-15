@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.tapbox {
+				border-bottom: 1px #eee solid;
+				padding: 0 20px;
+				color: #999;
+			}
+
+			.mui-segmented-control {
+				font-size: 14px;
+			}
+
+			.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+				background-color: #f7b940;
+			}
+
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #f7b940;
+			}
+
+			.list-box {
+				padding-left: 25px;
+			}
+
+			.list-box li {
+				padding: 15px;
+				padding-right: 25px;
+				padding-left: 0;
+				border-bottom: 1px #eee solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				overflow: hidden;
+			}
+
+			.list-box li:active {
+				opacity: 0.7;
+			}
+
+			.list-box h1 {
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+				margin-bottom: 3px;
+			}
+
+			.list-box b {
+				float: right;
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+			}
+
+			.list-box p {
+				font-size: 12px;
+				color: #9fabb2;
+			}
+
+			.list-box i {
+				clear: both;
+				float: right;
+				font-size: 12px;
+				color: #9fabb2;
+			}
+
+			.isempty {
+				display: none;
+				text-align: center;
+				color: #e1e4e6;
+				font-size: 32px;
+				margin-top: 50px;
+			}
+
+			.isempty span {
+				display: block;
+				color: #9fabb2;
+				font-size: 12px;
+				margin-top: 5px;
+			}
+
+			.isend {
+				text-align: center;
+				color: #9fabb2;
+				font-size: 12px;
+				line-height: 50px;
+				margin-bottom: 50px;
+			}
+
+			.refresh-tip {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>交易记录</h1>
+		</header>
+		<div id="headpush" class="headpush"></div>
+
+		<div id="slider" class="mui-slider">
+
+			<div class="tapbox" id="tapbox">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item mui-active" href="#item1mobile">打赏</a>
+					<a class="mui-control-item" href="#item2mobile">转入</a>
+					<a class="mui-control-item" href="#item3mobile">转出</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+			</div>
+
+			<div class="mui-slider-group">
+
+				<div id="item1mobile" class="mui-slider-item mui-control-content box-content mui-active">
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="refresh-tip"> &nbsp; </div>
+							<div class="refreshpush"></div>
+							<ul class="list-box">
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+							</ul>
+							<div class="isend">~ 没有更多了 ~</div>
+							<div class="isempty"><i class="fa fa-map-signs"></i><span>还没有记录</span></div>
+						</div>
+					</div>
+				</div>
+
+				<div id="item2mobile" class="mui-slider-item mui-control-content box-content">
+					<div id="scroll2" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="refresh-tip"> &nbsp; </div>
+							<div class="refreshpush"></div>
+							<ul class="list-box">
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+							</ul>
+							<div class="isend">~ 没有更多了 ~</div>
+							<div class="isempty"><i class="fa fa-map-signs"></i><span>还没有记录</span></div>
+						</div>
+					</div>
+				</div>
+
+				<div id="item3mobile" class="mui-slider-item mui-control-content box-content">
+					<div id="scroll3" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="refresh-tip"> &nbsp; </div>
+							<div class="refreshpush"></div>
+							<ul class="list-box">
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+								<li>
+									<b>10元</b>
+									<h1>张绕信 打赏给你</h1>
+									<i>充值</i>
+									<p>2018-05-30 15:05</p>
+								</li>
+							</ul>
+							<div class="isend">~ 没有更多了 ~</div>
+							<div class="isempty"><i class="fa fa-map-signs"></i><span>还没有记录</span></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			var l = document.getElementsByClassName('box-content');
+			var a = window.innerHeight - document.getElementById('tapbox').clientHeight - document.getElementById('headpush').clientHeight;
+			var h = a + 'px';
+			for (var i = 0; i < l.length; i++) {
+				l[i].style.height = h;
+			}
+			var d = a + 1 + 'px';
+
+			$('#slider').css('height', a + 'px');
+
+			$('.mui-scroll-wrapper .mui-scroll').css('min-height', d);
+			mui('#slider').slider({
+				nterval: 0
+			});
+			mui('.mui-scroll-wrapper').scroll({
+				indicators: false,
+				deceleration: 0.003
+			});
+
+			// 扩展API加载完毕，现在可以正常调用扩展API 
+			function plusReady() {
+				//	//自定义下拉刷新
+				//	mui('body').on('swipedown', '#item1mobile', function(e){
+				//		console.log(JSON.stringify(e.detail))
+				//	})
+				//打赏21、22
+				//转入2
+				//转出1
+				getAllData();
+				//获取数据
+				function getAllData() {
+					var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+					var data = {
+						is_ajax: 1,
+						start: 0, //开始条数
+						num: 10, //每页总条数
+						order_type: 22, //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+						//			pay_type: '',//支付类型:0余额,1微信,2支付宝
+					}
+					$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+						console.log(JSON.stringify(map));
+						if (map.err == 0) {
+
+						} else if (map.err == 1) {
+							mui.toast(map.msg);
+						}
+					});
+				}
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

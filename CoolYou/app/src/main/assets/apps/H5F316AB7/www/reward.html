@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
+
+			body {
+				background-color: #fff;
+				text-align: center;
+			}
+
+			body.rwresult {
+				background-color: #f4f4f4;
+			}
+
+			.rw-numbox {
+				padding: 15px;
+				overflow: hidden;
+				padding-top: 0;
+			}
+
+			.rw-numbox li {
+				float: left;
+				width: 30.3%;
+				margin: 10px 1.5% 0;
+				color: #6bc9b4;
+				font-weight: bold;
+				border-radius: 4px;
+				border: 1px solid #6bc9b4;
+				line-height: 56px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.rw-numbox li:active {
+				background-color: #6bc9b4;
+				color: #fff;
+			}
+
+			#headimg {
+				background-color: #eee;
+				border-radius: 66px;
+				margin-top: 40px;
+				height: 66px;
+				width: 66px;
+			}
+
+			#headname {
+				font-weight: bold;
+				margin-top: 3px;
+			}
+
+			.othernum {
+				font-size: 14px;
+				margin-top: 10px;
+				border-bottom: 1px #007AFF solid;
+			}
+
+			#rwstatus {
+				font-size: 12px;
+				color: #999;
+				bottom: 0;
+				width: 100%;
+				line-height: 50px;
+			}
+
+			.setnum {
+				margin-top: 40px;
+			}
+
+			.confirm {
+				display: none;
+			}
+
+			.confirm button {
+				width: 80%;
+				margin: 0 10%;
+				line-height: 40px;
+				margin-top: 40px;
+				margin-bottom: 15px;
+			}
+
+			.setuse {
+				color: #999;
+				font-size: 14px;
+				text-align: left;
+				margin-left: 10%;
+			}
+
+			.setuse i {
+				margin-right: 5px;
+				font-size: 20px;
+				vertical-align: middle;
+			}
+
+			.setuse i.wait {
+				color: #ccc;
+			}
+
+			.setuse .onset,
+			.setuse.active .wait {
+				display: none;
+			}
+
+			.setuse.active .onset {
+				display: inline-block;
+				color: #6bc9b4;
+			}
+
+			#confirmtext {
+				width: 80%;
+				font-size: 14px;
+				background-color: #fafafa;
+				border: none;
+				height: 80px;
+				margin-bottom: 5px;
+			}
+
+			.confirm h1 {
+				font-size: 24px;
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
+
+			.confirm h1 span {
+				font-size: 30px;
+			}
+
+			.setnumbox {
+				display: none;
+				position: fixed;
+				z-index: 1001;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #fff;
+				padding: 10px;
+				padding-top: 20px;
+				width: 90%;
+				box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+				border-radius: 8px;
+			}
+
+			.setnumbox p {
+				clear: both;
+				padding-top: 20px;
+			}
+
+			.setnumbox .rw-numbox li {
+				line-height: 50px;
+			}
+
+			.setnumbox input {
+				background-color: #f4f4f4;
+				padding: 8px 12px;
+				border-radius: 5px;
+				float: left;
+				width: 72%;
+				margin: 1.5%;
+				font-size: 18px;
+				margin-top: 20px;
+				border: 1px #eee solid;
+			}
+
+			.setnumbox button {
+				width: 22%;
+				margin: 1.5%;
+				margin-top: 20px;
+				line-height: 40px;
+				border-radius: 5px;
+				font-size: 16px;
+			}
+
+			.coverbox {
+				z-index: 100;
+			}
+
+			#payway {
+				display: none;
+				position: fixed;
+				z-index: 101;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #fff;
+				box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+				border-radius: 10px;
+				width: 280px;
+			}
+
+			#payway h1 {
+				border-bottom: 1px #ddd solid;
+				line-height: 50px;
+				font-size: 16px;
+				font-weight: bold;
+			}
+
+			#payway ul li {
+				text-align: left;
+				margin-left: 15px;
+				padding: 15px 0;
+				padding-right: 15px;
+				border-bottom: 1px #eee solid;
+				font-size: 15px;
+				color: #666;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			#payway ul li:active {
+				opacity: 0.7;
+			}
+
+			#payway ul li:last-child {
+				border: none;
+			}
+
+			#payway ul li i.left {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				margin-right: 8px;
+			}
+
+			#payway ul li .right {
+				float: right;
+				line-height: 20px;
+				font-size: 20px;
+				font-weight: normal;
+				color: #ddd;
+			}
+
+			#payway ul li .fa-check-circle {
+				display: none;
+			}
+
+			#payway ul li.active .fa-check-circle {
+				display: block;
+			}
+
+			#payway ul li.active .fa-circle-o {
+				display: none;
+			}
+
+			#payway ul li span {
+				display: inline-block;
+				line-height: 20px;
+			}
+
+			#payway #chargewallet {
+				margin: 15px;
+				background-color: #ffbe4e;
+				color: #fff;
+				line-height: 42px;
+				border-radius: 3px;
+				font-size: 15px;
+			}
+
+			.rwresult,
+			.rwresult .success,
+			.rwresult .fail {
+				display: none;
+			}
+
+			.rwresultbox img {
+				width: 80px;
+				height: 80px;
+				margin-top: 40px;
+				margin-bottom: 10px;
+			}
+
+			.rwresultbox h1 {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 15px;
+			}
+
+			.rwresultbox button {
+				width: 70%;
+				line-height: 40px;
+				font-size: 16px;
+				margin-top: 20px;
+				border-radius: 10px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="rewardbox">赞赏</span><span class="rwresult">打赏结果</span></h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="rewardbox">
+			<img id="headimg" src="img/my-head.png" />
+			<h1 id="headname">给 <span>-</span> 赞赏</h1>
+
+			<div class="setnum">
+				<p>赞赏金额</p>
+				<ul class="rw-numbox">
+					<li money="1.00">1元</li>
+					<li money="5.00">5元</li>
+					<li money="10.00">10元</li>
+					<li money="20.00">20元</li>
+					<li money="50.00">50元</li>
+					<li money="100.00">100元</li>
+				</ul>
+				<a id="morenum" class="othernum">其他金额</a>
+			</div>
+
+			<div class="setnumbox">
+
+				<ul class="rw-numbox">
+					<li money="200.00">200元</li>
+					<li money="500.00">500元</li>
+					<li money="1000.00">1000元</li>
+					<p>更多金额</p>
+					<input id="keynum" type="number" placeholder="输入金额" />
+					<button id="keynumcheck">确认</button>
+				</ul>
+
+			</div>
+			<div class="coverbox"></div>
+
+			<div class="confirm">
+				<h1>￥<span id="finalnum"> - </span></h1>
+				<textarea id="confirmtext" placeholder="赞赏留言"></textarea>
+				<li class="setuse active" isdefault='1'><i class="fa fa-circle-o wait"></i><i class="fa fa-check-circle onset"></i>向对方展示我的昵称</li>
+				<button id="subreward">赞赏</button>
+				<a id="resetnum" class="othernum">重设金额</a>
+			</div>
+
+			<div id="rwstatus"><span>已收到<b> - </b>次赞赏</span></div>
+
+			<div id="payway">
+				<h1>请选择支付方式</h1>
+				<ul>
+					<li><i class="left" style="background-image: url(img/wallet/weixinpay.png);"></i><span>微信支付</span><i class="right fa fa-circle-o"></i><i
+						 class="right fa fa-check-circle"></i></li>
+					<li><i class="left" style="background-image: url(img/wallet/alipay.png);"></i><span>支付宝支付</span><i class="right fa fa-circle-o"></i><i
+						 class="right fa fa-check-circle"></i></li>
+					<li><i class="left" style="background-image: url(img/reward/wallet.png);"></i><span>零钱支付</span><i class="right fa fa-circle-o"></i><i
+						 class="right fa fa-check-circle"></i></li>
+				</ul>
+				<div id="chargewallet">零钱余额不足，立即充值</div>
+			</div>
+
+		</div>
+
+		<div class="rwresult rwresultbox">
+			<div class="success">
+				<img src="img/reward/shang_success.png" />
+				<h1 class="success">打赏成功</h1>
+				<p>感谢，您的支持是作者前进的动力</p>
+				<button>确定</button>
+			</div>
+
+			<div class="fail">
+				<img src="img/reward/shang_fail.png" />
+				<h1>打赏失败</h1>
+				<p>访问服务器获取失败</p>
+				<button>返回</button>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+
+			$('#headimg').attr('src', gdata.hsrc);
+			$('#headname span').text(gdata.uname);
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			mui('body').on('tap', '.rw-numbox li', function(e) {
+				$('input,textarea').blur();
+				$('#finalnum').text($(this).attr('money'));
+				$('.coverbox,.setnumbox').fadeOut();
+				$('#keynum').val('');
+				$('.setnum').hide();
+				$('.confirm').show();
+			});
+
+			mui('body').on('tap', '#resetnum', function(e) {
+				$('input,textarea').blur();
+				$('.confirm').hide();
+				$('.setnum').show();
+			});
+
+			mui('body').on('tap', '.setuse', function(e) {
+				if ($(this).attr('isdefault') == '0') {
+					$(this).attr('isdefault', '1').addClass('active');
+				} else {
+					$(this).attr('isdefault', '0').removeClass('active');
+				}
+			});
+
+			mui('body').on('tap', '#morenum', function(e) {
+				$('.coverbox,.setnumbox').fadeIn();
+			});
+
+			mui('body').on('tap', '.coverbox', function(e) {
+				$('input,textarea').blur();
+				$('.coverbox,.setnumbox,#payway').fadeOut();
+				$('#keynum').val('');
+			});
+
+			mui('body').on('tap', '#keynumcheck', function(e) {
+				var keynum = $('#keynum').val();
+				if (keynum == '') {
+					mui.toast('金额不能为空');
+					$('#keynum').focus();
+					return;
+				}
+				if (keynum < 1) {
+					mui.toast('金额太小');
+					$('#keynum').focus();
+					return;
+				}
+				$('input,textarea').blur();
+				$('#finalnum').text($('#keynum').val());
+				$('.coverbox,.setnumbox').fadeOut();
+				$('#keynum').val('');
+				$('.setnum').hide();
+				$('.confirm').show();
+			});
+
+			mui('body').on('tap', '#subreward', function(e) {
+				mui.toast('功能完善中...');
+				return;
+				$('#payway,.coverbox').fadeIn();
+			});
+
+			mui('body').on('tap', '#payway ul li', function(e) {
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');
+			});
+		</script>
+	</body>
+</html>

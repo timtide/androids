@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/travels.css" />
+		<style>
+			.travels-list .creattime,
+			.travels-list .startcity {
+				font-size: 13px;
+				margin-right: 12px;
+			}
+
+			.travels-list .creattime,
+			.travels-list .startcity i {
+				margin-right: 3px;
+			}
+
+			.travels-list .creattime,
+			.iconlist {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				height: 20px;
+			}
+
+			.travels-list h1 {
+				min-height: 48px;
+				margin-bottom: 16px;
+			}
+
+			.travels-list .bottom {
+				margin-top: 8px;
+				font-size: 12px;
+				overflow: hidden;
+			}
+
+			.travels-list .bottom .left {
+				display: none;
+				max-width: 95px;
+				float: left;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				height: 20px;
+				color: #70d2be;
+			}
+
+			.travels-list .bottom .left i {
+				width: 20px;
+				height: 20px;
+				display: block;
+				border-radius: 50px;
+				overflow: hidden;
+				float: left;
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				vertical-align: middle;
+				margin-right: 5px;
+			}
+
+			.travels-list .bottom .right {
+				float: left;
+				color: #999;
+			}
+
+			.travels-list .coverimg {
+				border-radius: 0;
+				border: 2px #dedde1 solid;
+				box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+				background-color: #bebebd;
+			}
+
+			.travels-list .travelsinfo {
+				padding-bottom: 19px;
+				margin-bottom: 0;
+			}
+
+			.coverimg img {
+				width: 70px;
+				margin-left: 38px;
+				margin-top: -137px;
+				position: absolute;
+			}
+
+			.coverimg .boxshadow {
+				background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+				background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+				height: 100%;
+				width: 10px;
+				margin-left: -2px;
+			}
+		</style>
+		<title></title>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1> - </h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="mui-scroll-wrapper" id="scrollbox">
+			<div class="mui-scroll">
+				<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+				<div class="headpush"></div>
+				<ul class="travels-list">
+					<!--<li>
+				<div class="travelsinfo">
+					<div class="coverimg" style="background-image: url(img/banner/index-banner-1.jpg);">
+						<div class="boxshadow"></div>
+						<img src="img/bookslist-icon4.png">
+					</div>
+					<h1>落在水里 长在树上-之尼泊尔胡乱记</h1>
+					<span class="creattime"><i class="fa fa-map-marker" style="margin-right: 5px;"></i>青海湖 , 茶卡盐湖 , 塔尔寺</span><br />
+					<div class="iconlist">
+						<span class="startcity"><i class="fa fa-eye"></i>12</span>
+						<span class="startcity"><i class="fa fa-heart-o"></i>12</span>
+						<span class="startcity"><i class="fa fa-money"></i>1222</span>
+						<span class="startcity"><i class="fa fa-comment-o"></i>12</span>
+					</div>
+					<div class="bottom">
+						<span class="left"><i  style="background-image: url(img/find/test_01.png);"></i>走进神幸祭 解密惊悚惨白的鬼娃娃妆</span>
+						<span class="right">2018-04-24</span>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="travelsinfo">
+					<div class="coverimg" style="background-image: url(img/banner/index-banner-1.jpg);">
+						<div class="boxshadow"></div>
+						<img src="img/bookslist-icon4.png">
+					</div>
+					<h1>落在水里 长在树上-之尼泊尔胡乱记</h1>
+					<span class="creattime"><i class="fa fa-map-marker" style="margin-right: 5px;"></i>青海湖 , 茶卡盐湖 , 塔尔寺</span><br />
+					<div class="iconlist">
+						<span class="startcity"><i class="fa fa-eye"></i>12</span>
+						<span class="startcity"><i class="fa fa-heart-o"></i>12</span>
+						<span class="startcity"><i class="fa fa-money"></i>1222</span>
+						<span class="startcity"><i class="fa fa-comment-o"></i>12</span>
+					</div>
+					<div class="bottom">
+						<span class="left"><i  style="background-image: url(img/find/test_01.png);"></i>走进神幸祭 解密惊悚惨白的鬼娃娃妆</span>
+						<span class="right">2018-04-24</span>
+					</div>
+				</div>
+			</li>-->
+				</ul>
+				<div class="isend" style="display: none;">已经到底了~</div>
+				<div class="isempty"><i class="fa fa-map-o"></i><span>列表是空的</span></div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+			$('.defaulthead h1').text(gdata.title || '-');
+
+			function strarrgetfirst(strarr) {
+				var startcity = strarr;
+				if (startcity != null && startcity != 'null' && startcity != '' && startcity && startcity != undefined && startcity !=
+					'undefined') {
+					var s = ',' + startcity;
+					s = s.substring(1, s.length);
+					s = s.split(",");
+
+					if (s[s.length - 1] != s[0]) {
+						startcity = s[0] + '/' + s[s.length - 1];
+					} else {
+						startcity = s[0];
+					}
+				} else {
+					startcity = '';
+				};
+				return startcity;
+			}
+
+			var gdata = GetRequest();
+			$('#uname').text(gdata.uname);
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getlist();
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			$(function() {
+				//滑动初始化
+				var bodyheight = $(window).height();
+				$('.mui-scroll-wrapper').css({
+					'height': bodyheight
+				});
+				$('.mui-scroll-wrapper .mui-scroll').css({
+					'min-height': bodyheight + 1
+				});
+				mui('.mui-scroll-wrapper').scroll({
+					indicators: false,
+					deceleration: 0.003
+				});
+
+				scrollendlistener();
+				scrolllistener();
+			})
+
+			var loading = 0;
+			var loadfirst = 0;
+			var nextpage = 1;
+
+			function scrolllistener() {
+				document.getElementById('scrollbox').addEventListener('scroll', function(e) {
+					if (e.detail.y > 70) {
+						loadfirst = 1;
+					}
+					var maxY = e.detail.maxScrollY + 300;
+					if (e.detail.y <= maxY) {
+						if (loading == 0) {
+							getlist();
+						};
+					};
+				});
+			}
+
+			function scrollendlistener() {
+				document.getElementById('scrollbox').addEventListener('scrollend', function(e) {
+					if (loadfirst == 1 && e.detail.y == 0) {
+						loading = 0
+						nextpage = 1;
+						getlist();
+						loadfirst = 0;
+					}
+				});
+			}
+
+			var listdata = {};
+
+			function getlist() {
+				if (loading == 1) {
+					return
+				}
+				loading = 1;
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/books/list/' + gdata.cid + '?is_ajax=1&page=' + nextpage, function(
+					result) {
+
+					if (result.list) {
+
+						if (nextpage == 1) {
+							$('.travels-list li').remove();
+						}
+
+						if (result.list.data == '') {
+
+							loading = 0;
+							$('.isempty').show();
+
+						} else if (result.list.data) {
+
+							$.each(result.list.data, function(i, v) {
+
+								var startcover = strarrgetfirst(v.cover_id);
+
+								var startcity = v.city;
+								if (startcity == '') {
+									startcity = ' - ';
+								}
+
+								var desc = v.description;
+								if (desc == '') {
+									desc = ' &nbsp; ';
+								}
+
+								var title = v.title;
+								if (title == '') {
+									title = ' &nbsp; ';
+								}
+
+								var li = '<li><div class="travelsinfo" tid="' + v.id + '"><div class="coverimg" coverid="' + startcover +
+									'"><div class="boxshadow"></div><img src="img/books/bookslist-icon4.png"></div><h1>' + title +
+									'</h1><span class="creattime"><i class="fa fa-map-marker" style="margin-right: 5px;"></i>' + startcity +
+									'</span><br /><div class="iconlist"><span class="startcity"><i class="fa fa-eye"></i>' + v.view +
+									'</span><span class="startcity"><i class="fa fa-heart-o"></i>' + v.great +
+									'</span><span class="startcity" style="display:none"><i class="fa fa-money"></i>' + v.consume +
+									'</span><span class="startcity"><i class="fa fa-comment-o"></i>' + v.companions +
+									'</span></div><div class="bottom"><span class="right">' + sbackstr(v.update_time) +
+									' </span></div></div></li>';
+
+								$('.travels-list ').append(li);
+
+								//console.log(JSON.stringify(v));
+
+								var readimg=$('.travelsinfo[tid="' + v.id + '"] .coverimg');
+								var wsrc=localStorage.getItem('ajaxlinkhead') + v.cover_image;
+								var imgname = wsrc.substr(wsrc.lastIndexOf('/') + 1);
+								readimg.addClass('img_cache_bg');
+								readimg.attr('imgname', imgname);
+								img_cache(wsrc, '_bg', imgname);
+								
+								
+								//
+								//					$.ajax({url:localStorage.getItem('ajaxlinkhead')+'/index/img',type: "post",data: {is_ajax:1,id:startcover},dataType: "json",
+								//						success:function(map){
+								//							var datapicurl = localStorage.getItem('ajaxlinkhead')+map.pic_url;
+								//							if(coverString('.jpeg', datapicurl) || coverString('.jpg', datapicurl) || coverString('.png', datapicurl)) {
+								//								$('.coverimg[coverid="'+startcover+'"]').attr('style','background-image:url('+datapicurl+');');
+								//							}
+								//						}
+								//					});
+
+							});
+
+							if (Number(result.list.last_page) == nextpage) {
+								$('.isend').show();
+							} else {
+								$('.isend').hide();
+							}
+
+							if (Number(result.list.last_page) > nextpage) {
+								nextpage++;
+								loading = 0;
+							}
+
+						}
+
+						closecssWaiting();
+					} else {
+						setTimeout(function() {
+							if ($('.travels-list li').length == 0) {
+								$('.isempty').show();
+							}
+							loading = 0;
+						}, 1000);
+						closecssWaiting();
+						plus.nativeUI.toast('获取失败');
+					};
+				}, 'json').fail(function() {
+					setTimeout(function() {
+						if ($('.travels-list li').length == 0) {
+							$('.isempty').show();
+						}
+						loading = 0;
+					}, 1000);
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			function isContains(str, substr) {
+				return str.indexOf(substr) >= 0;
+			};
+
+			function sbackstr(num) {
+				var timestamp = Number(num);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				var backstr = newDate.format('yyyy-MM-dd');
+				return backstr;
+			}
+
+			//忽略大小写判断是否包含子字符串
+			function coverString(subStr, str) {
+				var reg = eval("/" + subStr + "/ig");
+				return reg.test(str);
+			}
+
+			mui('body').on('tap', '.isempty', function(e) {
+				getlist();
+			});
+
+			mui('body').on('tap', '.travelsinfo', function(e) {
+				var tid = $(this).attr('tid');
+				var bookdetail = plus.webview.getWebviewById('bookdetail.html');
+
+				if (bookdetail) {
+					bookdetail.close('none');
+				}
+
+				bookdetail = plus.webview.create('bookdetail.html?tid=' + tid, 'bookdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+				showcssWaiting();
+				bookdetail.addEventListener('close', function() {
+					setbcolor('dark');
+				})
+			});
+		</script>
+	</body>
+</html>

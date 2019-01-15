@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<style>
+			.errorbox {
+				text-align: center;
+			}
+
+			.errorbox .fa {
+				font-size: 38px;
+				color: #aaa;
+				margin-top: 120px;
+				margin-bottom: 50px;
+				background-color: #fff;
+				width: 80px;
+				height: 80px;
+				line-height: 80px;
+				border-radius: 40px;
+			}
+
+			.errorbox p {
+				font-size: 14px;
+				color: #333;
+			}
+
+			.errorbox span {
+				font-size: 14px;
+				color: #999;
+			}
+		</style>
+		<title></title>
+	</head>
+	<body>
+
+		<div class="errorbox">
+			<i class="fa fa-unlink"></i>
+			<p>“ 页面好像出现了问题 ... ”</p>
+			<span>请检查网络或运行环境</span>
+		</div>
+
+		<br />
+		<button class="defaultblock" id="back">返回</button>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			document.getElementById('back').onclick = function() {
+				if (plus.webview.getWebviewById('webpage.html')) {
+					plus.webview.getWebviewById('webpage.html').evalJS('backorclose();');
+				} else {
+					plus.webview.currentWebview().close('fade-out', 200);
+				}
+			}
+
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			function plusReady() {
+
+			}
+		</script>
+	</body>
+</html>

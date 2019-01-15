@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/travels.css" />
+		<title></title>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span id="uname"></span>的路书</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="mui-scroll-wrapper" id="scrollbox">
+			<div class="mui-scroll">
+				<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+				<div class="headpush"></div>
+				<ul class="travels-list">
+					<!--<li>
+				<div class="travelsinfo">
+					<div class="coverimg" style="background-image: url(img/banner/index-banner-1.jpg);"></div>
+					<span class="views"><i class="fa fa-eye"></i><b>1856</b></span>
+					<h1>落在水里 长在树上-之尼泊尔胡乱记</h1>
+					<span class="creattime">2018-04-24 20:14</span>
+					<span class="startcity">温州/上海</span><span class="traveldays">12天行程</span>
+				</div>
+				<span class="edit"><i class="fa fa-edit"></i></span>
+				<span class="del"><i class="fa fa-trash"></i></span>
+				<div class="bottomline"></div>
+			</li>
+			<li>
+				<div class="travelsinfo">
+					<div class="coverimg" style="background-image: url(img/banner/index-banner-1.jpg);"></div>
+					<span class="views"><i class="fa fa-eye"></i><b>1856</b></span>
+					<h1>落在水里 长在树上-</h1>
+					<span class="creattime">2018-04-24 20:14</span>
+					<span class="startcity">2</span><span class="traveldays">12天行程</span>
+				</div>
+				<span class="edit"><i class="fa fa-edit"></i></span>
+				<span class="del"><i class="fa fa-trash"></i></span>
+				<div class="bottomline"></div>
+			</li>
+			<li>
+				<div class="travelsinfo">
+					<div class="coverimg" style="background-image: url(img/banner/index-banner-1.jpg);"></div>
+					<span class="views"><i class="fa fa-eye"></i><b>1856</b></span>
+
+					<h1>落在水里 长在树上-之尼泊尔胡乱记</h1>
+					<span class="creattime">2018-04-24 20:14</span>
+					<span class="startcity">温州/上海</span><span class="traveldays">12天行程</span>
+				</div>
+				<span class="edit"><i class="fa fa-edit"></i></span>
+				<span class="del"><i class="fa fa-trash"></i></span>
+				<div class="bottomline"></div>
+			</li>-->
+				</ul>
+				<div class="isend" style="display: none;">已经到底了~</div>
+				<div class="isempty"><i class="fa fa-book"></i><span>还有没有路书</span></div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+			$('#uname').text(gdata.name);
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getlist();
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			$(function() {
+				//滑动初始化
+				var bodyheight = $(window).height();
+				$('.mui-scroll-wrapper').css({
+					'height': bodyheight
+				});
+				$('.mui-scroll-wrapper .mui-scroll').css({
+					'min-height': bodyheight + 1
+				});
+				mui('.mui-scroll-wrapper').scroll({
+					indicators: false,
+					deceleration: 0.003
+				});
+
+				scrollendlistener();
+				scrolllistener();
+			})
+
+			var loading = 0;
+			var loadfirst = 0;
+			var nextpage = 1;
+
+			function scrolllistener() {
+				document.getElementById('scrollbox').addEventListener('scroll', function(e) {
+					if (e.detail.y > 70) {
+						loadfirst = 1;
+					}
+					var maxY = e.detail.maxScrollY + 300;
+					if (e.detail.y <= maxY) {
+						if (loading == 0) {
+							getlist();
+						};
+					};
+				});
+			}
+
+			function scrollendlistener() {
+				document.getElementById('scrollbox').addEventListener('scrollend', function(e) {
+					if (loadfirst == 1 && e.detail.y == 0) {
+						loading = 0
+						nextpage = 1;
+						getlist();
+						loadfirst = 0;
+					}
+				});
+			}
+
+			var listdata = {};
+
+			function getlist() {
+				if (loading == 1) {
+					return
+				}
+				loading = 1;
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/books/list/all.html?is_ajax=1&uid=' + gdata.uid + '&page=' +
+					nextpage,
+					function(result) {
+
+						if (result.list) {
+
+							if (nextpage == 1) {
+								$('.travels-list li').remove();
+							}
+
+							if (result.list.data == '') {
+
+								loading = 0;
+								$('.isempty').show();
+
+							} else if (result.list.data) {
+
+								$.each(result.list.data, function(i, v) {
+
+									listdata[v.id] = v;
+
+									var startcity = '';
+									if (v.city != '' && v.city && v.city != undefined && v.city != 'undefined') {
+										var s = ',' + v.city;
+										s = s.substring(1, s.length);
+										s = s.split(",");
+
+										if (s[s.length - 1] != s[0]) {
+											startcity = s[0] + '/' + s[s.length - 1];
+										} else {
+											startcity = s[0];
+										}
+									};
+
+									var li = '<li><div class="travelsinfo" tid="' + v.id + '"><div class="coverimg" coverid="' + v.cover_id +
+										'"></div><span class="views"><i class="fa fa-eye"></i><b>' + v.view + '</b></span><h1>' + v.title +
+										'</h1><span class="creattime">' + sbackstr(v.create_time) + '</span><span class="startcity">' + startcity +
+										'</span><span class="traveldays">' + v.playDays + '天行程</span></div><div class="bottomline"></div></li>';
+
+									$('.travels-list').append(li);
+
+									var vcover_id = v.cover_id;
+
+									$.ajax({
+										url: localStorage.getItem('ajaxlinkhead') + '/index/img',
+										type: "post",
+										data: {
+											is_ajax: 1,
+											id: vcover_id
+										},
+										dataType: "json",
+										success: function(map) {
+											var datapicurl = localStorage.getItem('ajaxlinkhead') + map.pic_url;
+											if (coverString('.jpeg', datapicurl) || coverString('.jpg', datapicurl) || coverString('.png',
+													datapicurl)) {
+												$('div.coverimg[coverid="' + vcover_id + '"]').attr('style', 'background-image:url(' + datapicurl +
+													');');
+											}
+										}
+									});
+
+								});
+
+								if (Number(result.list.last_page) == nextpage) {
+									$('.isend').show();
+								} else {
+									$('.isend').hide();
+								}
+
+								if (Number(result.list.last_page) > nextpage) {
+									nextpage++;
+									loading = 0;
+								}
+
+							}
+
+							closecssWaiting();
+						} else {
+							setTimeout(function() {
+								if ($('.travels-list li').length == 0) {
+									$('.isempty').show();
+								}
+								loading = 0;
+							}, 1000);
+							closecssWaiting();
+							plus.nativeUI.toast('获取失败');
+						};
+					}, 'json').fail(function() {
+					setTimeout(function() {
+						if ($('.travels-list li').length == 0) {
+							$('.isempty').show();
+						}
+						loading = 0;
+					}, 1000);
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			function isContains(str, substr) {
+				return str.indexOf(substr) >= 0;
+			};
+
+			function sbackstr(num) {
+				var timestamp = Number(num);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				var backstr = newDate.format('yyyy-MM-dd hh:mm');
+				return backstr;
+			}
+
+			//忽略大小写判断是否包含子字符串
+			function coverString(subStr, str) {
+				var reg = eval("/" + subStr + "/ig");
+				return reg.test(str);
+			}
+
+			mui('body').on('tap', '.isempty', function(e) {
+				getlist();
+			});
+
+			//删除按钮点击事件
+			mui("body").on("tap", ".del", function(e) {
+				var thisTid = $(this).attr('lid');
+				var this_li = $(this).parents('li');
+				plus.nativeUI.confirm("您确定要删除吗？", function(e) {
+					if (e.index == 0) {
+						mui.get(localStorage.getItem('ajaxlinkhead') + '/user/books/del', {
+							id: thisTid
+						}, function(data) {
+							mui.toast(data.msg);
+							if (data.code == 1) {
+								this_li.remove();
+							}
+						});
+					}
+				});
+			});
+
+			//mui('body').on('tap','.edit',function(e){
+			//	var thisData=JSON.stringify(listdata[$(this).attr('lid')]);
+			//	mui.openWindow({url:'addtravels.html?act=edit',id:'addtravels.html'});
+			//	var thisPage=plus.webview.getWebviewById('addtravels.html');
+			//	thisPage.addEventListener('loaded',function(){
+			//		thisPage.evalJS('getdata('+thisData+');');
+			//	})
+			//});
+
+			mui('body').on('tap', '.travelsinfo', function(e) {
+				var tid = $(this).attr('tid');
+				var bookdetail = plus.webview.getWebviewById('bookdetail.html');
+
+				if (bookdetail) {
+					bookdetail.close('none');
+				}
+
+				bookdetail = plus.webview.create('bookdetail.html?tid=' + tid, 'bookdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+				showcssWaiting();
+
+				bookdetail.addEventListener('show', function() {
+					setbcolor('dark');
+				})
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/login.css">
+		<title></title>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed" style="position: absolute;">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="type-login">用户登录</span><span class="type-reg">注 册</span><span class="type-findpw">找回密码</span></h1>
+			<i id="headact" class="type-login">注册</i>
+		</header>
+		<div class="headpush"></div>
+
+		<input id='saveuuid' value='' type="hidden" />
+
+		<div class="type-login" style="padding-bottom: 30px;">
+			<img src='img/index/logoair.png' id="logoimg">
+
+			<ul class="loginform">
+				<li><span><i class="icon icon-1"></i></span><input id="account" value="" type="text" placeholder="请输入手机号" /><i
+					 class="fa fa-close"></i></li>
+				<li><span><i class="icon icon-2"></i></span><input id="password" value="" type="password" placeholder="请输入登录密码" /><i
+					 class="fa fa-close"></i></li>
+			</ul>
+			<button id='login' class="defaultblock">登录</button>
+			<div class="btmjump"><span id="findpw" class="left">忘记密码?</span></div>
+
+		</div>
+
+		<div class="type-reg">
+			<ul class="loginform" step="reg-1">
+				<li><input type="tel" id="userphone-reg" maxlength="20" placeholder="联系手机号码" /><button class="checkphone sendcode">发送验证码</button></li>
+				<li><input type="tel" id="usercode-reg" placeholder="输入短信验证码" /><i class="fa fa-close"></i></li>
+				<button class="defaultblock first-step">继续</button>
+			</ul>
+
+			<ul class="loginform" step="reg-2" style="display: none;">
+				<li><input type="password" id="reg-pw" maxlength="20" placeholder="密码为六位以英文数字结合" /><i class="fa fa-close"></i></li>
+				<li><input type="password" id="againpw-reg" maxlength="20" placeholder="再次输入密码" /><i class="fa fa-close"></i></li>
+				<button class="defaultblock second-step">继续</button>
+			</ul>
+
+			<ul class="loginform" step="reg-3" style="display: none;">
+				<li><span>用户名</span><input id="useracount" type="text" maxlength="20" placeholder="以英文字母开头的4-16位字符" /><i class="fa fa-close"></i></li>
+				<li>
+					<span>性 别</span>
+					<div class="mui-input-row mui-radio mui-left"><label sexval='1'>男</label><input name="radio1" type="radio" checked></div>
+					<div class="mui-input-row mui-radio mui-left"><label sexval='2'>女</label><input name="radio1" type="radio"></div>
+				</li>
+				<button class="defaultblock third-step">提交</button>
+			</ul>
+		</div>
+
+		<div class="type-findpw">
+			<ul class="loginform">
+				<li><input type="tel" id="userphone-findpw" placeholder="联系方式" /><button class="checkphone sendcode">发送验证码</button></li>
+				<li><input type="text" placeholder="输入短信验证码" id="usercode-findpw" /><i class="fa fa-close"></i></li>
+				<li><input type="password" id="findpw_pw" placeholder="六位以上包含字母或数字" /><i class="fa fa-close"></i></li>
+				<li><input type="password" id="againpw-findpw" placeholder="再次输入密码" /><i class="fa fa-close"></i></li>
+				<button class="defaultblock" id="subsign-findpw">确认</button>
+			</ul>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+			var gudata = GetRequest();
+			var iswait = 0;
+			var nowshowtype = '';
+			setshowtype(gudata.act);
+
+			function setshowtype(typestr) {
+				nowshowtype = typestr;
+				switch (typestr) {
+					case 'login':
+						$('.type-reg,.type-findpw').hide();
+						$('.type-login').show();
+						break;
+					case 'reg':
+						$('.type-reg input').val('');
+						$('.type-findpw,.type-login,.type-reg .loginform').hide();
+						$('.type-reg,.type-reg .loginform[step="reg-1"]').show();
+						break;
+					case 'findpw':
+						$('.type-reg,.type-login').hide();
+						$('.type-findpw').show();
+						break;
+				}
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			var asking = 0;
+
+			function plusReady() {
+				plus.webview.currentWebview().setStyle({
+					softinputMode: "adjustResize"
+				});
+
+				if (plus.storage.getItem('user_account')) {
+					var oldaccount = plus.storage.getItem('user_account');
+					if (oldaccount != null && oldaccount && oldaccount != undefined && oldaccount != 'null') {
+						$('#account').val(oldaccount);
+						$('#account').addClass('active');
+						$('#account').siblings('.fa-close').show();
+					}
+				}
+
+				mui.back = function() {
+					$('input').blur();
+					if (nowshowtype == 'login') {
+						plus.webview.currentWebview().close('fade-out', 200);
+					} else {
+						setshowtype('login');
+					}
+				}
+
+				$('#saveuuid').attr('value', plus.device.uuid);
+			};
+
+			mui('body').on('tap', '#login', function(e) {
+
+				var u_account = $('#account').val();
+				if (u_account == '') {
+					mui.toast('账号不能为空');
+					return;
+				}
+
+				var u_password = $('#password').val();
+				if (u_password == '') {
+					mui.toast('密码不能为空');
+					return;
+				}
+
+				$('input').blur();
+				showcssWaiting();
+				loginAsk(u_account, u_password);
+
+			});
+
+			function loginAsk(gaccount, gpassword) {
+
+				if (asking == 1) {
+					return
+				};
+
+				var sessid = plus.storage.getItem("sessid");
+				if (sessid) {
+					plus.navigator.setCookie(ajaxlinkhead, sessid);
+				}
+
+				showcssWaiting();
+				$('input').blur();
+				asking = 1;
+				$.post(ajaxlinkhead + "/login.html", {
+					'username': gaccount,
+					'password': gpassword,
+					'is_ajax': 1
+				}, function(result) {
+					//console.log(JSON.stringify(result));
+					if (result.error == false) {
+						//清空本地用户资料
+
+						//要移除的数据
+						var removeItemnamearr = ['user_birthday', 'user_signature', 'user_headimg', 'user_weight', 'user_login',
+							'user_password', 'user_mobile', 'user_pos_city', 'user_uid', 'user_nickname', 'user_name', 'user_sex',
+							'user_email', 'user_height', 'user_pos_province', 'user_qq', 'chatready', 'user_image'
+						];
+
+						$.each(removeItemnamearr, function(i, v) {
+							plus.storage.removeItem(v);
+						});
+
+						//保存信息到本地
+						plus.storage.setItem('user_account', gaccount);
+						plus.storage.setItem("user_login", '1');
+						plus.storage.setItem("user_password", gpassword);
+						plus.storage.setItem("user_uid", String(result.data.uid));
+						plus.storage.setItem("user_name", result.data.username);
+
+						mui.toast('登录成功');
+
+						plus.storage.setItem("sessid", plus.navigator.getCookie(localStorage.getItem('ajaxlinkhead')));
+
+						setTimeout(function() {
+							plus.webview.getLaunchWebview().evalJS('loadmsglistdone=0;checklogin();resetstatus();');
+							plus.webview.getWebviewById('login.html').close('fade-out', 200)
+						}, 1500);
+
+					} else {
+						mui.toast(result.msg);
+						closecssWaiting();
+						asking = 0;
+					}
+
+				}, 'json').fail(function() {
+					closecssWaiting();
+					mui.toast('登录失败，发生错误');
+					asking = 0;
+				})
+
+			}
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				if (nowshowtype == 'login') {
+					plus.webview.currentWebview().close('fade-out', 200);
+				} else {
+					setshowtype('login');
+				}
+			})
+
+			mui('body').on('tap', '#headact', function(e) {
+				$('input').blur();
+				setshowtype('reg');
+			});
+
+			mui('body').on('tap', '#findpw', function(e) {
+				$('input').blur();
+				setshowtype('findpw');
+			});
+
+			$('#password,#account').keyup(function() {
+				closebtndisplay($(this))
+			})
+
+			function closebtndisplay(domobj) {
+				var thisval = domobj.val();
+				if (thisval.length > 0) {
+					domobj.addClass('active');
+					domobj.siblings('.fa-close').show();
+				} else {
+					domobj.removeClass('active');
+					domobj.siblings('.fa-close').hide();
+				}
+			}
+
+			mui('body').on('tap', '.fa-close', function(e) {
+				$(this).siblings('input').attr('value', '');
+				$(this).siblings('input').val('');
+				$(this).siblings('input').removeClass('active');
+				$(this).hide();
+			})
+
+			var send = 0;
+
+			mui('body').on('tap', '.sendcode', function(e) {
+
+				$('input').blur();
+
+				var phoneval = $('#userphone-reg').val();
+				if (phoneval == '') {
+					mui.toast('请输入手机号');
+					return;
+				}
+				if (phoneval.length != 11) {
+					mui.toast('手机号长度不对');
+					return;
+				}
+
+				if (send != 0) {
+					return
+				};
+				send = 1;
+
+				showcssWaiting();
+				$.post(ajaxlinkhead + '/api/dysms/sendsms', {
+					is_ajax: "1",
+					mobile: phoneval
+				}, function(result) {
+
+					var msg = result.msg;
+
+					if (msg) {
+						mui.toast(msg);
+					}
+
+					closecssWaiting();
+					if (result.code == 2) {
+
+						var readnum = 60;
+						$('.sendcode').text(readnum + " 秒重发");
+						$('.sendcode').addClass('sending');
+						var timeread = setInterval(function() {
+							if (readnum > 1) {
+								readnum = readnum - 1;
+								$('.sendcode').text(readnum + " 秒重发");
+							} else {
+								$('.sendcode').text("发送验证码");
+								window.clearInterval(timeread)
+								send = 0;
+								$('.sendcode').removeClass('sending');
+							}
+						}, 1000);
+						mui.toast('验证码已发送');
+					} else {
+						send = 0;
+					}
+
+				}, 'json').fail(function() {
+
+					closecssWaiting();
+					mui.toast('提交失败，发生错误');
+					$('.sendcode').text("发送验证码");
+					send = 0;
+					$('.sendcode').removeClass('sending');
+
+				});
+
+			})
+
+			var subsigning = 0;
+
+			//注册第一步
+			mui('body').on('tap', '.first-step', function(e) {
+
+				$('input').blur();
+				if (subsigning == 1) {
+					mui.toast('资料提交中，请勿重复操作');
+					return;
+				};
+
+				var userphone = $("#userphone-reg").val();
+				var usercode = $("#usercode-reg").val();
+				usercode = Number(usercode);
+
+				if (userphone != "") {} else {
+					mui.toast('手机号不能为空');
+					return;
+				}
+				if (usercode.length < 4) {
+					mui.toast('验证码长度不对');
+					return;
+				}
+				if (usercode != "") {} else {
+					mui.toast("验证码不能为空");
+					return;
+				}
+
+				showcssWaiting();
+				subsigning = 1;
+
+				$.post(ajaxlinkhead + '/register.html', {
+					is_ajax: 1,
+					act: "first",
+					mobile: String(userphone),
+					verify_code: String(usercode)
+				}, function(data) {
+
+					var jsonData = data;
+
+					if (jsonData.code == "error") {
+						mui.toast(jsonData.msg);
+					}
+
+					if (jsonData.code == "ok") {
+						$('.type-reg .loginform').hide();
+						$('.type-reg .loginform[step="reg-2"]').show();
+					}
+
+					closecssWaiting();
+					subsigning = 0;
+				}, 'json').fail(function() {
+					subsigning = 0;
+					closecssWaiting();
+					mui.toast('提交失败，发生错误');
+				})
+
+			});
+
+
+			//注册第二步
+			mui('body').on('tap', '.second-step', function(e) {
+
+				$('input').blur();
+				if (subsigning == 1) {
+					mui.toast('资料提交中，请勿重复操作');
+					return;
+				};
+
+				var regpw = $("#reg-pw").val();
+				var againpw = $("#againpw-reg").val();
+
+				if (regpw != "") {} else {
+					mui.toast('密码不能为空');
+					return;
+				}
+				if (regpw.length < 6) {
+					mui.toast('密码长度不对');
+					return;
+				}
+
+				if (againpw != "") {} else {
+					mui.toast('确认密码不能为空');
+					return;
+				}
+				if (againpw.length < 6) {
+					mui.toast('确认密码长度不对');
+					return;
+				}
+				if (againpw != regpw) {
+					mui.toast('两次密码不相同');
+					return;
+				}
+
+				subsigning = 1;
+				showcssWaiting();
+				$.post(ajaxlinkhead + '/register.html', {
+					is_ajax: "1",
+					act: "second",
+					password: String(regpw)
+				}, function(data) {
+
+					var jsonData = data;
+
+					if (jsonData.code == "error") {
+						mui.toast(jsonData.msg);
+					}
+
+					if (jsonData.code == "ok") {
+						$('.type-reg .loginform').hide();
+						$('.type-reg .loginform[step="reg-3"]').show();
+					}
+
+					closecssWaiting();
+					subsigning = 0;
+				}, 'json').fail(function() {
+					subsigning = 0;
+					closecssWaiting();
+					mui.toast('提交失败，发生错误');
+				})
+
+			});
+
+			var setsex = '1';
+			mui('body').on('tap', '.mui-radio', function(e) {
+				setsex = $(this).find('label').attr('sexval');
+			});
+
+			//注册第三步
+			mui('body').on('tap', '.third-step', function(e) {
+
+				$('input').blur();
+				if (subsigning == 1) {
+					mui.toast('资料提交中，请勿重复操作');
+					return;
+				};
+
+				var useracount = $("#useracount").val();
+
+				if (useracount != "") {} else {
+					mui.toast('用户名不能为空');
+					return;
+				}
+				if (useracount.length < 4 || useracount.length > 16) {
+					mui.toast('用户名长度不对');
+					return;
+				}
+
+				var usercode = $("#usercode-reg").val();
+				usercode = Number(usercode);
+
+				subsigning = 1;
+				showcssWaiting();
+				var subjson = {
+					'is_ajax': 1,
+					'act': "third",
+					'username': String(useracount),
+					'sex': String(setsex)
+				}
+
+				$.post(ajaxlinkhead + '/register.html', subjson, function(data) {
+
+					var jsonData = data;
+					closecssWaiting();
+					if (jsonData.code == "error") {
+						mui.toast(jsonData.msg);
+					}
+
+					if (jsonData.code == "ok") {
+						loginAsk(useracount, $("#reg-pw").val())
+					}
+
+					subsigning = 0;
+				}, 'json').fail(function() {
+					subsigning = 0;
+					closecssWaiting();
+					mui.toast('注册失败，发生错误');
+				})
+
+			});
+		</script>
+	</body>
+</html>

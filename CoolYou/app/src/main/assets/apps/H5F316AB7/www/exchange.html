@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style type="text/css">
+			body {
+				background-color: #F7F8FA;
+			}
+
+			.exchange_icon {
+				padding: 28px 0;
+				text-align: center;
+			}
+
+			.exchange_icon img {
+				width: 14%;
+				vertical-align: middle;
+				margin: 0 2px;
+			}
+
+			.rechange_box {
+				margin: 0 12px 15px;
+				background-color: #fff;
+				box-shadow: 0 0 12px #eee;
+			}
+
+			.rechange_cell {
+				font-size: 14px;
+				padding: 16px 18px;
+			}
+
+			.cell_title {
+				font-size: 14px;
+				color: #8C8C8C;
+			}
+
+			.cell_text {
+				text-align: right;
+			}
+
+			.rechange_title {
+				font-size: 14px;
+				color: #8C8C8C;
+				padding: 20px;
+				border-top: 1px solid #F0F0F0;
+			}
+
+			.rechange_input {
+				padding: 3px 20px;
+			}
+
+			.input_title {
+				font-size: 30px;
+				padding-top: 20px;
+			}
+
+			#amount {
+				border: none;
+				font-size: 24px;
+				padding: 30px 15px;
+				font-weight: bold;
+				color: #ff9800;
+				background-color: #fafafa;
+			}
+
+			.rechange_text {
+				font-size: 10px;
+				color: #8C8C8C;
+				padding: 10px 20px;
+				border-top: 1px solid #F0F0F0;
+			}
+
+			.rechange_btn {
+				margin: 18px 15px;
+				padding: 14px;
+				border-radius: 10px;
+				background-color: #70D3BE;
+				text-align: center;
+				color: #fff;
+				font-size: 18px;
+			}
+
+			.rechange_type {
+				display: none;
+				position: fixed;
+				z-index: 10000;
+				top: 50%;
+				left: 50%;
+				overflow: hidden;
+				width: 85%;
+				transform: translate(-50%, -50%);
+				color: #000;
+				border-radius: 5px;
+				background: #fff;
+				box-shadow: 0 0 12px #ccc;
+			}
+
+			.type_title {
+				padding: 19px;
+				font-size: 18px;
+				font-weight: bold;
+				text-align: center;
+				position: relative;
+			}
+
+			.close_btn {
+				position: absolute;
+				top: 7px;
+				right: 10px;
+				color: #CCCCCC;
+				font-size: 30px;
+				font-weight: lighter;
+			}
+
+			.rechange_box .mui-table-view:before,
+			.rechange_box .mui-table-view:after,
+			.type_list .mui-table-view:after {
+				height: 0;
+			}
+
+			.type_list .mui-table-view:before {
+				border-color: #C7C7C9;
+			}
+
+			.type_list .mui-table-view-cell:after {
+				border-color: #DDDDDD;
+			}
+
+			.type_list .mui-table-view-cell {
+				padding: 32px 20px;
+			}
+
+			.mui-table-view-cell.mui-radio input[type=radio] {
+				top: 35px;
+			}
+
+			.mui-radio input[type=radio]:checked:before {
+				color: #70D3BE;
+				content: '\e442';
+			}
+
+			.mui-radio input[type=radio]:before {
+				font-size: 23px;
+				color: #CFCFCF;
+				content: '\e411';
+			}
+
+			.type_list img {
+				width: 29px;
+				margin-right: 10px;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>提现</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="exchange_icon">
+			<img src="img/wallet/wa_logo.png" />
+			<img src="img/wallet/process.png" style="width: 9%;" />
+			<img src="img/wallet/weixinaccount.png" id="useracount" />
+		</div>
+
+		<div class="rechange_box">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell rechange_cell">
+					<a class="mui-navigate-right mui-row">
+						<div class="mui-col-xs-4 cell_title">
+							提现至
+						</div>
+						<div class="mui-col-xs-7 cell_text">
+							微信账户
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div class="rechange_title">
+				提现金额
+			</div>
+			<div class="rechange_input mui-row">
+				<div class="mui-col-xs-1 input_title">
+					¥
+				</div>
+				<div class="mui-col-xs-11">
+					<input type="number" id="amount" placeholder="" />
+				</div>
+			</div>
+			<div class="rechange_text">
+				可用余额<span>205</span>元
+			</div>
+		</div>
+		<div class="rechange_btn">
+			下一步
+		</div>
+
+		<!--弹窗-->
+		<div class="rechange_type">
+			<div class="type_title">
+				<span class="close_btn">×</span>
+				请选择提现账户
+			</div>
+			<div class="type_list">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-radio mui-right">
+						<img src="img/wallet/weixinaccount.png">
+						微信账户<input name="radio" type="radio" checked="checked">
+					</li>
+					<li class="mui-table-view-cell mui-radio mui-right">
+						<img src="img/wallet/alipay.png">
+						支付宝账户<input name="radio" type="radio">
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			});
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+
+				//账户选择
+				var mask = mui.createMask(function() {
+					$('.rechange_type').hide();
+				});
+				mui('body').on('tap', '.rechange_cell', function(e) {
+					$('input').blur();
+					mask.show();
+					$('.rechange_type').show();
+				});
+				//关闭
+				mui('body').on('tap', '.close_btn', function(e) {
+					mask.close();
+					$('.rechange_type').hide();
+				});
+				//支付方式选择
+				mui('body').on('tap', '.type_list li', function(e) {
+					var index = $(this).index();
+					if (index == 0) {
+						$('.cell_text').text('微信账户');
+						$('#useracount').attr('src', 'img/wallet/weixinaccount.png');
+					} else if (index == 1) {
+						$('.cell_text').text('支付宝账户');
+						$('#useracount').attr('src', 'img/wallet/alipay.png');
+					}
+					mask.close();
+					$('.rechange_type').hide();
+				});
+				//下一步
+				mui('body').on('tap', '.rechange_btn', function(e) {
+					var moneyNum = $('.rechange_input input').val();
+					if (moneyNum == '') {
+						mui.toast('请输入金额');
+						return;
+					}
+					//余额
+					var balance = Number($('.rechange_text span').text());
+					if (moneyNum > balance) {
+						mui.toast('账户余额不足');
+						return;
+					}
+					var exchange_result = 0;
+					if (exchange_result == 0) {
+						//成功页面
+						mui.openWindow({
+							url: 'rechange_result.html',
+							id: 'rechange_result.html',
+							extras: {
+								exchange_result: exchange_result
+							}
+						})
+					} else if (exchange_result == 1) {
+						//失败页面
+					}
+					mui.later(function() {
+						plus.webview.currentWebview().close('none');
+					}, 1000);
+				});
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				width: 100%;
+				background-color: #fff;
+			}
+
+			.defaulthead {
+				border-bottom: 0px;
+				box-shadow: 0 1px 6px #eee;
+			}
+
+			.mui-content {
+				background-color: #fff;
+				margin-top: 120px;
+			}
+
+			.my_tab {
+				text-align: center;
+				padding: 0 10px;
+				color: #999;
+				background-color: #fff;
+				border-top: 1px solid #eee;
+			}
+
+			.my_tab_item {
+				padding: 12px 0;
+				font-size: 14px;
+			}
+
+			.my_tab_item.active {
+				color: #f7b940;
+				position: relative;
+			}
+
+			.my_tab_item.active:after {
+				content: ' ';
+				height: 2px;
+				background-color: #f7b940;
+				position: absolute;
+				bottom: 0;
+				width: 90%;
+				left: 5%;
+			}
+
+			.list-box {
+				padding-left: 25px;
+				display: none;
+				opacity: 0;
+				transition: all 0s linear;
+				margin-bottom: 10px;
+			}
+
+			.list-box.active {
+				display: block;
+				opacity: 1;
+			}
+
+			.list-box li {
+				padding: 15px;
+				padding-right: 25px;
+				padding-left: 0;
+				border-bottom: 1px #eee solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				overflow: hidden;
+			}
+
+			.list-box li:active {
+				opacity: 0.7;
+			}
+
+			.list-box h1 {
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+				margin-bottom: 3px;
+			}
+
+			.list-box b {
+				float: right;
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 20px;
+			}
+
+			.list-box p {
+				font-size: 12px;
+				color: #9fabb2;
+			}
+
+			.list-box i {
+				clear: both;
+				float: right;
+				font-size: 12px;
+				color: #9fabb2;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>交易记录</h1>
+			<div class="mui-clearfix"></div>
+			<div class="my_tab mui-row">
+				<div class="my_tab_item mui-col-xs-3 active">
+					打赏他人
+				</div>
+				<div class="my_tab_item mui-col-xs-3">
+					收到打赏
+				</div>
+				<div class="my_tab_item mui-col-xs-3">
+					转入
+				</div>
+				<div class="my_tab_item mui-col-xs-3">
+					转出
+				</div>
+			</div>
+		</header>
+
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="list-box active">
+					<!--<li>
+			<b>10元</b><h1>张绕信 打赏给你</h1>
+			<i>充值</i><p>2018-05-30 15:05</p>
+		</li>
+		<li>
+			<b>10元</b><h1>张绕信 打赏给你</h1>
+			<i>充值</i><p>2018-05-30 15:05</p>
+		</li>-->
+				</ul>
+				<ul class="list-box">
+				</ul>
+				<ul class="list-box">
+				</ul>
+				<ul class="list-box">
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			/***
+			 * 一些变化的参数 start
+			 * */
+			var currentTab = 0; //当前选项
+			var currentPageList = [0, 1, 1, 1]; //当前页数列表
+			var firstLoad = [false, true, true, true]; //当前是否首次加载
+			var logNums = 10; //每页记录总数
+			var orderType = [21, 22, 2, 1]; //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+			var orderTypeText = ['打赏他人', '收到打赏', '充值转入', '提现转出']; //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+			var payType = [0, 1, 2]; //支付类型:0余额,1微信,2支付宝
+			var payTypeText = ['余额', '微信', '支付宝']; //支付类型:0余额,1微信,2支付宝
+			/***
+			 * 一些变化的参数 end
+			 * */
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+			//tab事件
+			mui('body').on('tap', '.my_tab_item', function(e) {
+				var index = $(this).index();
+				//tab切换
+				$('.my_tab_item').removeClass('active');
+				$(this).addClass('active');
+				//内容切换
+				$('.list-box').removeClass('active');
+				$('.list-box').eq(index).addClass('active');
+				//当前选项
+				currentTab = index;
+				if (firstLoad[currentTab]) {
+					pullDownRefresh();
+					firstLoad[currentTab] = false;
+				}
+			})
+
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					down: {
+						style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						color: '#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+						height: '50px', //可选,默认50px.下拉刷新控件的高度,
+						range: '100px', //可选 默认100px,控件可下拉拖拽的范围
+						offset: '120px', //可选 默认0px,下拉刷新控件的起始位置
+						auto: false, //可选,默认false.首次加载自动上拉刷新一次
+						callback: function(e) {
+							pullDownRefresh();
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: true, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '~ 没有更多数据了 ~', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: function(e) {
+							pullUpRefresh();
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			//下拉
+			function pullDownRefresh() {
+				$('.list-box').eq(currentTab).html(''); //重置节点数据
+				currentPageList[currentTab] = 1; //重置页码
+				mui('#refreshContainer').pullRefresh().refresh(true); //重置上拉加载
+				getAllData(); //获取数据
+			}
+			//上拉
+			function pullUpRefresh() {
+				currentPageList[currentTab]++; //页码增加
+				getAllData(); //获取数据
+			}
+
+			function getAllData() {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					start: (currentPageList[currentTab] - 1) * logNums, //开始条数
+					num: logNums, //每页总条数
+					order_type: orderType[currentTab], //订单类型:21打赏他人,22他人打赏我,1提现,2充值
+				}
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					//console.log(JSON.stringify(map));
+					if (map.err == 0) {
+						var data = map.data;
+						switch (currentTab) {
+							case 0:
+								data.forEach(function(item, index) {
+									if (item.pay_time == 0) {
+										return;
+									}
+									var domStr = '<li logid=' +
+										item.log_id + '"><b>' +
+										item.order_amount + '元</b><h1>打赏他人</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								break;
+							case 1:
+								data.forEach(function(item, index) {
+									var domStr = '<li logid=' +
+										item.log_id + '><b>' +
+										item.order_amount + '元</b><h1>收到打赏</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								console.log($('.list-box').eq(currentTab).html())
+								break;
+							case 2:
+								data.forEach(function(item, index) {
+									var domStr = '<li logid=' +
+										item.log_id + '><b>' +
+										item.order_amount + '元</b><h1>' +
+										payTypeText[item.pay_type] + '充值</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								break;
+							case 3:
+								data.forEach(function(item, index) {
+									var domStr = '<li logid=' +
+										item.log_id + '><b>' +
+										item.order_amount + '元</b><h1>提现到' +
+										payTypeText[item.pay_type] + '</h1><i>' +
+										orderTypeText[currentTab] + '</i><p>' +
+										getDateFormat(item.pay_time) + '</p></li>';
+									$('.list-box').eq(currentTab).append(domStr);
+								});
+								break;
+						}
+						//结束上拉加载
+						mui('#refreshContainer').pullRefresh().endPullupToRefresh(data.length < logNums);
+					} else if (map.err == 1) {
+						//结束上拉加载
+						mui('#refreshContainer').pullRefresh().endPullupToRefresh(true);
+					}
+					//结束下拉刷新
+					mui('#refreshContainer').pullRefresh().endPulldown();
+				}).fail(function() {
+					//结束下拉刷新
+					mui('#refreshContainer').pullRefresh().endPulldown();
+					//结束上拉加载
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(false);
+					if (currentPageList[currentTab] > 0) {
+						currentPageList[currentTab]--;
+					}
+					mui.toast('网络异常...');
+				});
+			}
+			//查看明细
+			mui('body').on('tap', '.list-box li', function(e) {
+				var logid = $(this).attr('logid');
+				mui.openWindow({
+					url: 'record_detail.html',
+					id: 'record_detail.html',
+					extras: {
+						logid: logid
+					}
+				});
+			})
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {}
+
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

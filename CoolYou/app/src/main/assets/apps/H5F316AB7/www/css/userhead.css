@@ -1,0 +1,67 @@
+#imgBox {
+	height: 300px !important;
+	width: 300px !important;
+	margin: 30px auto;
+	margin-bottom: 15px;
+	background: url('../img/bg.png');
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.ctrbox {
+	width: 100%;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	position: relative;
+	overflow: hidden;
+	background-color: #f7f7f7;
+}
+
+.ctrbox button {
+	width: 28.3%;
+	float: left;
+	margin: 0 2.5%;
+	padding: 8px 0;
+	background-color: #8a97b3;
+	color: #fff;
+	border-radius: 5px;
+	white-space: normal;
+}
+
+.ctrbox button:active {
+	background-color: #45557a;
+}
+
+button.cantuse {
+	opacity: 0.5;
+	color: #fff;
+}
+
+.ctrbox i {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.defaultblock {
+	position: absolute;
+	bottom: 30px;
+}
+
+.pickphoto {
+	height: 300px;
+	position: absolute;
+	background-color: #efeff4;
+	width: 300px;
+	margin-top: 30px;
+	left: 50%;
+	margin-left: -150px;
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+	text-align: center;
+	font-size: 16px;
+	line-height: 300px;
+	color: #fff;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border-radius: 5px;
+}

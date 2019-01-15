@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.wallet-info-box {
+				padding: 20px;
+				background-color: #f4f7fd;
+
+			}
+
+			.wallet-info {
+				background-color: #f5ba40;
+				border-radius: 10px;
+				overflow: hidden;
+				color: #fff;
+			}
+
+			.wallet-info .w-info {
+				padding: 15px;
+				padding-left: 25px;
+				overflow: hidden;
+				height: 80px;
+			}
+
+			.wallet-info .w-info h1 {
+				font-size: 20px;
+				margin-left: 2px;
+				font-weight: bold;
+			}
+
+			.wallet-info .w-info .w-head {
+				font-size: 12px;
+			}
+
+			.wallet-info .w-info h1 b {
+				font-size: 30px;
+				margin-left: 6px;
+			}
+
+			.wallet-info .w-info .ctnbtn {
+				float: right;
+				margin-top: 14px;
+				position: relative;
+				z-index: 10;
+			}
+
+			.wallet-info .w-info .ctnbtn span {
+				display: inline-block;
+				padding: 3px 16px;
+				padding-left: 12px;
+				padding-top: 4px;
+				border: 1px rgba(255, 255, 255, 0.5) solid;
+				margin-left: 12px;
+				border-radius: 15px;
+				font-size: 12px;
+				font-weight: bold;
+			}
+
+			.wallet-info .w-info .ctnbtn img {
+				width: 18px;
+				height: 18px;
+				vertical-align: sub;
+				margin-right: 5px;
+			}
+
+			.wallet-info ul {
+				background-color: #e4ae3f;
+				overflow: hidden;
+				clear: both;
+			}
+
+			.wallet-info ul li {
+				width: 33.3%;
+				float: left;
+				text-align: center;
+				font-size: 12px;
+				padding-top: 10px;
+				padding-bottom: 8px;
+			}
+
+			.wallet-info ul li b {
+				display: block;
+				font-size: 15px;
+				line-height: 18px;
+			}
+
+			.wallet-info .bottomsprite {
+				width: 100%;
+				height: 80px;
+				background-color: #000;
+				opacity: 0.03;
+				position: relative;
+				transform: rotate(140deg);
+				margin-top: -40px;
+			}
+
+
+			.pagelink {
+				padding-left: 15px;
+				margin-top: 5px;
+			}
+
+			.pagelink li {
+				border-bottom: 1px #eee solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				padding: 15px 10px;
+				line-height: 30px;
+				font-size: 15px;
+				color: #333;
+			}
+
+			.pagelink li:active {
+				opacity: 0.7;
+			}
+
+			.pagelink li img {
+				width: 24px;
+				height: 24px;
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+
+			.pagelink li i {
+				color: #ccc;
+				float: right;
+				font-size: 24px;
+				line-height: 30px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>我的钱包</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="wallet-info-box">
+			<div class="wallet-info">
+				<div class="w-info">
+					<div class="ctnbtn"><span id="rechange"><img src="img/wallet/icon-01.png" />充值</span><span id="exchange"><img src="img/wallet/icon-02.png" />提现</span></div>
+					<span class="w-head">我的余额 :</span>
+					<h1>¥<b class="yue">0</b></h1>
+
+					<div class="bottomsprite"></div>
+				</div>
+				<ul>
+					<li><b class="income">0</b>本月收入</li>
+					<li><b class="recharge">0</b>本月充值</li>
+					<li><b class="withdraw">0</b>本月提现</li>
+				</ul>
+			</div>
+		</div>
+
+		<ul class="pagelink">
+			<li id="myincome"><img src="img/wallet/icon-03.png" />我的收入<i class="fa fa-angle-right"></i></li>
+			<li id="transactionlog"><img src="img/wallet/icon-04.png" />交易记录<i class="fa fa-angle-right"></i></li>
+		</ul>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API 
+			function plusReady() {
+				//设置余额
+				var money = plus.storage.getItem('money');
+				money = money.indexOf('.') ? money : money + '.00'
+				$('.yue').html(money);
+
+				//获取本月份时间戳
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth();
+				//本月第一天
+				var firstDate = new Date(year, month, 1);
+				//本月最后一天
+				var lastDate = new Date(year, month + 1, 1);
+
+				//查询本月收入
+				getAllIncome(firstDate, lastDate, 22);
+				getAllIncome(firstDate, lastDate, 2);
+				//查询本月充值
+				getAllRecharge(firstDate, lastDate, 2);
+				//查询本月提现
+				getAllWithdraw(firstDate, lastDate, 1);
+			}
+			//查询本月收入
+			function getAllIncome(firstDate, lastDate, orderType) {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					order_type: orderType,
+					is_count: 'yes',
+					stime: firstDate.getTime() / 1000,
+					etime: lastDate.getTime() / 1000
+				}
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					//console.log(JSON.stringify(map));
+					var value = $('.income').text();
+					if (map.err == 0) {
+						var data = map.data;
+						$('.income').text(data + Number(value));
+					}
+					//结束下拉刷新
+				}).fail(function(e) {
+					mui.toast('网络异常...');
+				});
+			}
+			//查询本月充值
+			function getAllRecharge(firstDate, lastDate, orderType) {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					order_type: orderType,
+					is_count: 'yes',
+					stime: firstDate.getTime() / 1000,
+					etime: lastDate.getTime() / 1000
+				}
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					//console.log(JSON.stringify(map));
+					var value = $('.recharge').text();
+					if (map.err == 0) {
+						var data = map.data;
+						$('.recharge').text(data + Number(value));
+					}
+					//结束下拉刷新
+				}).fail(function(e) {
+					mui.toast('网络异常...');
+				});
+			}
+			//查询本月提现
+			function getAllWithdraw(firstDate, lastDate, orderType) {
+				var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+				var data = {
+					is_ajax: 1,
+					order_type: orderType,
+					is_count: 'yes',
+					stime: firstDate.getTime() / 1000,
+					etime: lastDate.getTime() / 1000
+				}
+				$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+					//console.log(JSON.stringify(map));
+					var value = $('.withdraw').text();
+					if (map.err == 0) {
+						var data = map.data;
+						$('.withdraw').text(data + Number(value));
+					}
+					//结束下拉刷新
+				}).fail(function(e) {
+					mui.toast('网络异常...');
+				});
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			mui('body').on('tap', '#myincome', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'myincome.html',
+					id: 'myincome.html'
+				})
+			});
+			mui('body').on('tap', '#transactionlog', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'transaction_record.html',
+					id: 'transaction_record.html'
+				})
+			});
+
+			mui('body').on('tap', '#exchange', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'exchange.html',
+					id: 'exchange.html'
+				})
+			});
+			mui('body').on('tap', '#rechange', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'rechange.html',
+					id: 'rechange.html'
+				})
+			});
+		</script>
+	</body>
+</html>

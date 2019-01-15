@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/travels.css" />
+		<title></title>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="step-1">游记编辑</span><span class="step-2">编辑内容</span><span class="step-3">完善信息</span></h1>
+			<i class="step-1 stepbtn">下一步</i><i class="step-2 stepbtn">下一步</i><i class="step-3 stepbtn">完成</i>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="step-1">
+			<div id="t-title">
+				<textarea id="titleinfo" placeholder="请输入游记标题"></textarea>
+				<span><i id="keycheck">可输入</i> <b id="cankey">48</b> 字</span>
+			</div>
+			<h3>封面图</h3>
+			<div id="showcover" coverid=''></div>
+			<img id="bigcover" src="img/banner/index-banner-1.jpg" />
+			<div id="addcover"><i class="fa fa-camera"></i><span>选择封面图</span></div>
+		</div>
+
+		<div class="coverbox"></div>
+
+		<div class="step-2">
+			<div class="editctn"><span><i></i> 游记内容</span>
+				<!--<span ><i></i> 插入图片</span>-->
+			</div>
+			<div class="editbody">
+				<p>还没有添加内容...</p>
+				<textarea placeholder="还没有添加内容"></textarea>
+				<b id="editcontent">编辑</b>
+				<b id="showcontent">确认查看</b>
+			</div>
+			<div class="bottomtip">若需编辑详细精美的游记内容等，请在官网进行编辑</div>
+		</div>
+
+		<div class="step-3">
+			<ul class="editform">
+				<li><span class="left">游记描述</span><input type="text" class="left" id="m_description" placeholder="请输入简单的游记描述" /></li>
+				<li id="m_region" rid=''><span class="left">旅游城市</span>
+					<span class="right">添加（可多选）<i class="fa fa-plus" style="color: #ccc;"></i></span>
+					<div class="timesbox"></div>
+				</li>
+				<li id="m_timebtn"><span class="left">出发日期</span><i class="right fa fa-angle-right"></i><span class="right" id="m_time"
+					 timeval=''></span></li>
+
+				<li><span class="left">出行天数</span><input type="tel" class="left" id="m_days" placeholder="游玩天数,例如5" /></li>
+				<li><span class="left">人均消费/RMB</span><input type="tel" class="left" id="m_consume" placeholder="请输入金额" /></li>
+			</ul>
+		</div>
+
+		<div class="region-pickbox">
+			<h1>所在地区<i class="fa fa-close"></i></h1>
+			<div class="ctrblock">
+				<span class="active" id="pos_province" pid="">请选择省份</span><span id="pos_city" cid="">选择市</span><span id="pos_dist"
+				 did="">选择区/县</span>
+			</div>
+			<ul class="regionlist active" id="provincelist"></ul>
+			<ul class="regionlist" id="citylist">
+				<p>请先选择省份</p>
+			</ul>
+			<ul class="regionlist" id="distlist">
+				<p>请先选择城市</p>
+			</ul>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+			var nowstep = 1;
+			var savedata;
+
+			function getdata(gstr) {
+				savedata = gstr;
+				$('#titleinfo').val(gstr.title);
+				$('#showcover').attr('coverid', gstr.cover_id);
+				$.ajax({
+					url: localStorage.getItem('ajaxlinkhead') + '/index/img',
+					type: "post",
+					data: {
+						is_ajax: 1,
+						id: gstr.cover_id
+					},
+					dataType: "json",
+					success: function(map) {
+						var datapicurl = localStorage.getItem('ajaxlinkhead') + map.pic_url;
+						if (coverString('.jpeg', datapicurl) || coverString('.jpg', datapicurl) || coverString('.png', datapicurl)) {
+							$('#showcover').css('background-image', 'url(' + datapicurl + ')');
+							$('#bigcover').attr('src', datapicurl);
+							$('#showcover').show();
+						}
+					}
+				});
+				$('#m_description').val(gstr.description);
+				$('#m_days').val(gstr.playDays);
+				$('#m_time').attr('timeval', gstr.playDate).text(sbackstr(gstr.playDate));
+
+				if (gstr.city != '' && gstr.city && gstr.city != undefined && gstr.city != 'undefined') {
+					var s = ',' + gstr.city;
+					s = s.substring(1, s.length);
+					s = s.split(",");
+					$.each(s, function(i, v) {
+						$('.timesbox').append('<b>' + v + '<i class="fa fa-times-circle"></i></b>');
+					});
+				};
+
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/travels/edit/id/' + gstr.id, {
+					is_ajax: 1
+				}, function(data) {
+					$('#m_consume').val(data.info.consume);
+					$('.editbody p').html(data.info.content);
+					var bodycontent = data.info.content
+					bodycontent = bodycontent.replace(/<br\s*\/?>/gi, "\r\n");
+
+					$('.editbody textarea').val(bodycontent);
+				}, 'json').fail(function() {
+					mui.toast('获取数据失败，请重新打开');
+				});
+
+			}
+
+			//忽略大小写判断是否包含子字符串
+			function coverString(subStr, str) {
+				var reg = eval("/" + subStr + "/ig");
+				return reg.test(str);
+			}
+
+			function sbackstr(num) {
+				var timestamp = Number(num);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				var backstr = newDate.format('yyyy-MM-dd');
+				return backstr;
+			}
+
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input,textarea').blur();
+				switch (nowstep) {
+					case 1:
+						plus.webview.currentWebview().close('slide-out-right', 200);
+						break;
+					case 2:
+						$('.step-2').hide();
+						$('.step-1').show();
+						nowstep = 1;
+						break;
+					case 3:
+						$('.step-3').hide();
+						$('.step-2').show();
+						nowstep = 2;
+						break;
+				}
+			})
+
+			mui('body').on('tap', '.stepbtn', function(e) {
+				$('input,textarea').blur();
+				switch (nowstep) {
+					case 1:
+						var thistext = $('#titleinfo').val();
+						thistext = 48 - thistext.length;
+						if ($('#titleinfo').val() == '') {
+							mui.toast('请填写标题');
+						} else if (thistext < 0) {
+							mui.toast('标题长度已超出');
+						} else if ($('#showcover').attr('coverid') == '') {
+							mui.toast('请上传封面');
+						} else {
+							$('.step-1').hide();
+							$('.step-2').show();
+							nowstep = 2;
+						}
+						break;
+					case 2:
+						var bodycontent = $('.editbody textarea').val();
+						if (bodycontent == '') {
+							mui.toast('内容不能为空');
+						} else {
+							$('.step-2').hide();
+							$('.step-3').show();
+							nowstep = 3;
+						}
+						break;
+					case 3:
+
+						if ($('#m_description').val() == '') {
+							mui.toast('请填写简单的游记描述');
+							return
+						}
+
+						if ($('.timesbox b').length == 0) {
+							mui.toast('请添加旅游城市');
+							return
+						}
+
+						var m_time = $('#m_time').text();
+						if (m_time == '' || !m_time) {
+							mui.toast('请选择正确的出发日期');
+							return
+						}
+
+						var newDate = new Date();
+						var newDatetime = parseInt(newDate.getTime() / 1000);
+						var m_timeval = $('#m_time').attr('timeval');
+						if (m_timeval >= newDatetime) {
+							mui.toast('请选择正确的出发日期');
+							return
+						}
+
+						var m_days = Number($('#m_days').val());
+						if (m_days <= 0 || m_days == '' || !m_days) {
+							mui.toast('请填写正确的出行天数');
+							return
+						}
+
+						var m_consume = Number($('#m_consume').val());
+						if (m_consume <= 0 || m_consume == '' || !m_consume) {
+							mui.toast('请填写正确的人均消费');
+							return
+						}
+
+						var citystr = '';
+						$('.timesbox b').each(function(i) {
+							if (i == 0) {
+								citystr = $(this).text();
+							} else {
+								citystr = citystr + ',' + $(this).text();
+							}
+						})
+
+						var subjson = {
+							"is_ajax": 1,
+							"category_id": 14,
+							'status': 1,
+							"title": $('#titleinfo').val(),
+							"description": $('#m_description').val(),
+							"city": citystr,
+							"playDate": m_timeval,
+							"playDays": m_days,
+							"consume": m_consume,
+							"cover_id": $('#showcover').attr('coverid'),
+							"content": $('.editbody p').html()
+						}
+
+						showcssWaiting();
+
+						var url = localStorage.getItem('ajaxlinkhead') + '/user/travels/add';
+						if (gdata.act == 'edit') {
+							url = localStorage.getItem('ajaxlinkhead') + '/user/travels/edit/id/' + savedata.id;
+						}
+
+						$.post(url, subjson, function(result) {
+
+							mui.toast(result.msg);
+							if (result.code == '1') {
+								//添加成功
+								plus.webview.getWebviewById('mytravels.html').evalJS('loading=0;nextpage=1;getlist();');
+								setTimeout(function() {
+									plus.webview.currentWebview().close('slide-out-right', 200);
+								}, 1000)
+							} else {
+								closecssWaiting();
+							}
+
+						}, 'json').fail(function() {
+							closecssWaiting();
+							plus.nativeUI.toast('提交失败，发生错误');
+						});
+
+						break;
+				}
+			});
+
+			//日期选择
+			mui('body').on('tap', '#m_timebtn', function(e) {
+				plus.nativeUI.pickDate(function(e) {
+					var newDate = new Date();
+					newDate.setTime(parseInt(e.date.getTime() / 1000) * 1000);
+					$('#m_time').attr('timeval', parseInt(e.date.getTime() / 1000)).text(newDate.format('yyyy-MM-dd'));
+				}, function(e) {});
+			})
+
+			mui('body').on('tap', '#editcontent', function(e) {
+				$('.editbody p,#editcontent').hide();
+				$('.editbody textarea,#showcontent').show();
+			});
+
+			mui('body').on('tap', '#showcontent', function(e) {
+				var bodycontent = $('.editbody textarea').val();
+				if (bodycontent == '') {
+					mui.toast('内容不能为空');
+				} else {
+					bodycontent = bodycontent.replace(new RegExp('\n', 'gm'), '<br/>');
+					$('.editbody p').html(bodycontent);
+					$('.editbody textarea,#showcontent').hide();
+					$('.editbody p,#editcontent').show();
+				}
+			});
+
+			$('#titleinfo').blur(function() {
+				lengthcheck();
+			});
+
+			$('#titleinfo').keyup(function() {
+				lengthcheck();
+			});
+
+			function lengthcheck() {
+				var thistext = $('#titleinfo').val();
+				thistext = 48 - thistext.length;
+				if (thistext >= 0) {
+					$('#cankey').text(thistext);
+					$('#keycheck').text('可输入');
+				} else {
+					$('#cankey').text(-thistext);
+					$('#keycheck').text('已超出');
+				}
+			}
+
+			mui('body').on('tap', '#addcover', function() {
+				$('input,textarea').blur();
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: [{
+							title: "拍照"
+						},
+						{
+							title: "从相册中选择"
+						}
+					]
+				}, function(e) { //1 是拍照  2 从相册中选择
+					switch (e.index) {
+						case 1:
+							appendByCamera();
+							break;
+						case 2:
+							appendByGallery();
+							break;
+					}
+				});
+			});
+
+			// 拍照添加文件
+			function appendByCamera() {
+				plus.camera.getCamera().captureImage(function(e) {
+					plus.io.resolveLocalFileSystemURL(e, function(entry) {
+						var path = entry.toLocalURL();
+
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(path, 1000);
+							} else {
+								//上传图片
+								uploadImg(path);
+							}
+						});
+
+						//上传图片
+						//uploadImg(path);
+					}, function(e) {
+						mui.toast("读取拍照文件错误：" + e.message);
+					});
+				});
+			}
+
+			// 从相册添加文件
+			function appendByGallery() {
+				plus.gallery.pick(function(path) {
+					plus.io.resolveLocalFileSystemURL(path, function(entry) {
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(path, 1000);
+							} else {
+								//上传图片
+								uploadImg(path);
+							}
+						});
+					}, function(e) {
+						mui.toast("读取拍照文件错误：" + e.message);
+					});
+				});
+			}
+
+			// 压缩图片
+			function compressImage(csrc, widthnum) {
+				showcssWaiting();
+
+				var randomx = Math.floor(Math.random() * 10000000000);
+				var coption = {
+					'src': csrc,
+					'dst': "_doc/cm" + randomx + ".jpg",
+					'quality': 100,
+					'overwrite': true,
+					'width': widthnum + 'px',
+					'overwrite': true,
+					'format': 'jpg'
+				}
+
+				plus.zip.compressImage(coption, function(i) {
+					//upload(i.target);
+					var newpath = i.target;
+					plus.io.resolveLocalFileSystemURL(newpath, function(entry) {
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(newpath, widthnum - 100);
+							} else {
+								//上传图片
+								uploadImg(newpath);
+							}
+						});
+					}, function(e) {
+						plus.nativeUI.toast("Resolve file URL failed: " + e.message);
+					});
+				}, function(e) {
+					closecssWaiting();
+					plus.nativeUI.toast("压缩图片失败");
+				});
+			}
+
+			mui('body').on('tap', '#showcover', function(e) {
+				$('#bigcover,.coverbox').fadeIn();
+			});
+
+			mui('body').on('tap', '#bigcover,.coverbox', function(e) {
+				$('#bigcover,.coverbox').fadeOut();
+			});
+
+			//上传图片
+			function uploadImg(path) {
+				showcssWaiting();
+				var uploadUrl = localStorage.getItem('ajaxlinkhead') + '/user/upload/upload';
+				var task = plus.uploader.createUpload(
+					uploadUrl, {
+						method: "POST"
+					},
+					function(t, status) { //上传完成
+						if (status == 200) {
+							mui.toast("上传成功");
+							var map = JSON.parse(t.responseText);
+							$('#showcover').attr('coverid', map.info.id);
+							$('#showcover').css('background-image', 'url(' + path + ')');
+							$('#bigcover').attr('src', path);
+							$('#showcover').show();
+							closecssWaiting();
+						} else {
+							mui.toast("上传失败：图片格式不正确、/大小不得大于两兆");
+							closecssWaiting();
+						}
+					}
+				);
+				//添加其他参数
+				task.addData('flash', '1');
+				task.addData('fileType', 'service');
+				task.addData('filename', 'images');
+				task.addFile(path, {
+					key: "file"
+				});
+				task.start();
+			}
+
+			mui('body').on('tap', '#m_region', function(e) {
+				$('input').blur();
+				$('.coverbox').fadeIn('fast');
+				$('.region-pickbox').slideDown('fast');
+				getprovince();
+			});
+
+			mui('body').on('tap', '.coverbox,.fa-close', function(e) {
+				$('.coverbox,.region-pickbox').fadeOut('fast');
+				setTimeout(function() {
+					$('#pos_province').attr('pid', '').addClass('active').text('请选择省份');
+					$('#pos_city').attr('cid', '').removeClass('active').text('选择市');
+					$('#pos_dist').attr('did', '').removeClass('active').text('选择区/县');
+					$('#provincelist').show();
+					$('#citylist').empty().append('<p>请先选择省份</p>').hide();
+					$('#distlist').empty().append('<p>请先选择城市</p>').hide();
+				}, 300)
+			});
+
+
+			//选择省份
+			var getregioning = 0;
+
+			function getprovince() {
+
+				if (getregioning == 1) {
+					return;
+				};
+				getregioning = 1;
+				showcssWaiting();
+
+				var pos_province_data = plus.storage.getItem("pos_province_data");
+				if (pos_province_data) {
+					pos_province_data = JSON.parse(pos_province_data);
+					pickpv(pos_province_data);
+					closecssWaiting();
+				} else {
+
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'ct',
+						name: '中国'
+					}, function(result) {
+
+						if (result.data != '') {
+							pickpv(result.data);
+							pos_province_data = result.data;
+							pos_province_data = JSON.stringify(pos_province_data);
+							plus.storage.setItem("pos_province_data", pos_province_data);
+
+						} else {
+							mui.toast('没有找到省份');
+						};
+
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getregioning = 0;
+					})
+
+				}
+
+			}
+
+			function pickpv(src) {
+				var pid = $('#pos_province').attr('pid');
+				src.forEach(function(i, e) {
+					if (pid == i.provinceId) {
+						$('#provincelist').append("<li pid='" + i.provinceId + "'>" + i.provinceName + "</li>");
+						$('#pos_province').text(i.provinceName);
+					} else {
+						$('#provincelist').append("<li pid='" + i.provinceId + "'>" + i.provinceName + "</li>");
+					}
+				});
+				if (pid == '') {
+					$('#provincelist').show();
+				}
+			}
+
+			mui('body').on('tap', '#provincelist li', function(e) {
+				var pid = $('#pos_province').attr('pid');
+				var newpid = $(this).attr('pid');
+				$('#pos_province').attr('pid', newpid).text($(this).text());
+				$('#pos_province').removeClass('active');
+				$('#pos_city').addClass('active');
+				if (pid != newpid) {
+					$('#pos_city').attr('cid', '').text('选择市');
+					$('#pos_dist').attr('did', '').text('选择区/县');
+					getcity();
+				}
+				$('#provincelist').hide();
+				$('#citylist').show();
+			});
+
+			mui('body').on('tap', '.ctrblock span', function(e) {
+				$(this).addClass('active').siblings('span').removeClass('active');
+				$('.regionlist').hide();
+				$('.regionlist').eq($(this).index()).show();
+			});
+
+			//选择城市
+			var getciting = 0;
+
+			function getcity() {
+				var pid = $('#pos_province').attr('pid');
+				if (pid == '') {
+					mui.toast('请先选择省份');
+					return;
+				}
+
+				if (getciting == 1) {
+					return
+				}
+				getciting = 1;
+
+				showcssWaiting();
+				$('#citylist').empty();
+
+				var pos_city_data = plus.storage.getItem("pos_city_data");
+				if (!pos_city_data) {
+					pos_city_data = {}
+				} else {
+					pos_city_data = JSON.parse(pos_city_data)
+				};
+
+				if (pos_city_data[pid]) {
+					pickcity(pos_city_data[pid], $('#pos_city').attr('cid'));
+					getciting = 0;
+					closecssWaiting();
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'pov',
+						name: pid
+					}, function(result) {
+						if (result.data != '') {
+							pickcity(result.data, $('#pos_city').attr('cid'));
+							pos_city_data[pid] = result.data;
+							pos_city_data = JSON.stringify(pos_city_data);
+							plus.storage.setItem("pos_city_data", pos_city_data);
+						} else {
+							mui.toast('没有找到城市');
+						};
+						getciting = 0;
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getciting = 0;
+					})
+				}
+			}
+
+			function pickcity(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#citylist').append("<li cid='" + i.cityCode + "'>" + i.cityName + "</li>");
+						$('#pos_city').text(i.cityName);
+					} else {
+						$('#citylist').append("<li cid='" + i.cityCode + "'>" + i.cityName + "</li>");
+					};
+				});
+				$('#citylist').show();
+			}
+
+			mui('body').on('tap', '#citylist li', function(e) {
+				var cid = $('#pos_city').attr('cid');
+				var newcid = $(this).attr('cid');
+				$('#pos_city').attr('cid', $(this).attr('cid')).text($(this).text());
+				$('#pos_city').removeClass('active')
+				$('#pos_dist').addClass('active');
+				if (cid != newcid) {
+					$('#pos_dist').attr('did', '').text('选择区/县');
+					getdist();
+				}
+				$('#citylist').hide();
+				$('#distlist').show();
+			});
+
+			//选择区/县
+			var getdisting = 0;
+
+			function getdist() {
+				var cid = $('#pos_city').attr('cid');
+				if (cid == '') {
+					mui.toast('请先选择城市');
+					return;
+				}
+
+				if (getdisting == 1) {
+					return
+				}
+				getdisting = 1;
+
+				showcssWaiting();
+				$('#distlist').empty();
+
+				var pos_dist_data = plus.storage.getItem("pos_dist_data");
+				if (!pos_dist_data) {
+					pos_dist_data = {}
+				} else {
+					pos_dist_data = JSON.parse(pos_dist_data)
+				};
+
+				if (pos_dist_data[cid]) {
+					pickdist(pos_dist_data[cid], $('#pos_dist').attr('did'));
+					getdisting = 0;
+					closecssWaiting();
+				} else {
+					$.post(localStorage.getItem('ajaxlinkhead') + '/index/region/index.html', {
+						is_ajax: 1,
+						type: 'city',
+						name: cid
+					}, function(result) {
+						if (result.data != '') {
+							pickdist(result.data, $('#pos_dist').attr('did'));
+							pos_dist_data[cid] = result.data;
+							pos_dist_data = JSON.stringify(pos_dist_data);
+							plus.storage.setItem("pos_dist_data", pos_dist_data);
+						} else {
+							mui.toast('没有找到区/县');
+						};
+						getdisting = 0;
+						closecssWaiting();
+					}, 'json').fail(function() {
+						closecssWaiting();
+						mui.toast('获取失败，发生错误');
+						getdisting = 0;
+					})
+				}
+			}
+
+			function pickdist(src, str) {
+				src.forEach(function(i, e) {
+					if (str == i.cityCode) {
+						$('#distlist').append("<li did='" + i.cityCode + "' rid='" + i.region_id + "' >" + i.cityName + "</li>");
+						$('#pos_dist').text(i.cityName);
+					} else {
+						$('#distlist').append("<li did='" + i.cityCode + "' rid='" + i.region_id + "' >" + i.cityName + "</li>");
+					};
+				});
+				$('#distlist').show();
+			}
+
+			mui('body').on('tap', '#distlist li', function(e) {
+				$('.coverbox,.region-pickbox').fadeOut('fast');
+				$('.timesbox').append('<b rid="' + $(this).attr('rid') + '">' + $(this).text() +
+					'<i class="fa fa-times-circle"></i></b>')
+				setTimeout(function() {
+					$('#pos_province').attr('pid', '').addClass('active').text('请选择省份');
+					$('#pos_city').attr('cid', '').removeClass('active').text('选择市');
+					$('#pos_dist').attr('did', '').removeClass('active').text('选择区/县');
+					$('#provincelist').show();
+					$('#citylist').empty().append('<p>请先选择省份</p>').hide();
+					$('#distlist').empty().append('<p>请先选择城市</p>').hide();
+				}, 300)
+			});
+		</script>
+	</body>
+</html>

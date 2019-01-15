@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style type="text/css">
+			body {
+				background-color: #F7F7F7;
+			}
+
+			.result_box {
+				padding-top: 105px;
+				text-align: center;
+			}
+
+			.result_box img {
+				width: 35%;
+			}
+
+			.result_text {
+				font-size: 16px;
+			}
+
+			.result_btn {
+				width: 65%;
+				margin: 45px auto;
+				text-align: center;
+				padding: 10px;
+				border-radius: 50px;
+				background-color: #E2E2E2;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left mui-action-back"></i>
+			<h1>充值结果</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="result_box">
+			<img src="img/wallet/tips_success.png" />
+			<div class="result_text">
+				充值成功!
+			</div>
+		</div>
+		<div class="result_btn">
+			返回首页
+		</div>
+
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				//获取参数
+				var currentPage = plus.webview.currentWebview();
+				var result = currentPage.result;
+				console.log(currentPage.result)
+				console.log(currentPage.exchange_result)
+				var resultText = '';
+				var imgSrc = '';
+				if (result != undefined || result != 'undefined') {
+					if (result == 0) {
+						resultText = '充值失败!';
+						imgSrc = 'img/wallet/tips_fail.png';
+					} else if (result == 1) {
+						resultText = '充值成功!';
+						imgSrc = 'img/wallet/tips_success.png';
+					}
+				} else {
+					exchange_result = currentPage.exchange_result;
+					if (exchange_result == 0) {
+						resultText = '提现失败!';
+						imgSrc = 'img/wallet/tips_fail.png';
+					} else if (exchange_result == 1) {
+						resultText = '提现成功!';
+						imgSrc = 'img/wallet/tips_success.png';
+					}
+				}
+				$('.result_box img').attr('src', imgSrc);
+				$('.result_text').text(resultText);
+
+				//返回首页
+				mui('body').on('tap', '.result_btn', function(e) {
+					mui.back();
+					plus.webview.getWebviewById('wallet.html').show();
+				});
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

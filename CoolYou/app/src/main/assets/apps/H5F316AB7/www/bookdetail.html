@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/travels.css">
+		<link rel="stylesheet" href="css/bookdetail.css">
+		<title></title>
+		<script>
+			var windowW=(window.screen.width-52)*102*48/1000000;
+			function clip(ImgD){
+				if(ImgD.width>0&&ImgD.height>0){
+					if(ImgD.width/ImgD.height>=windowW){
+						ImgD.style.height='100%';
+						ImgD.style.width='auto';
+					}else{
+						ImgD.style.width='100%';
+						ImgD.style.height='auto';
+					}
+				}
+			}
+		</script>
+	</head>
+	<body class="detailbody">
+
+		<header id="defaulthead" class="defaulthead headfixed airhead">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span style="display: none;"> &nbsp; </span>&nbsp;</h1>
+			<i id="headact" class="fa fa-share-square-o" style="color: #fff; font-size: 20px;"></i>
+		</header>
+
+		<div class="contentbox">
+			<!--<div class="backimg"></div>-->
+			<div class="mui-scroll-wrapper" id="scrollbox">
+				<div class="mui-scroll expertbox">
+
+					<div class="coverimg"></div>
+					<div class="headinfo">
+						<h1> &nbsp; </h1>
+						<ul class="numinfo">
+							<li class="do_favorite"><i style="color: #74d3c0;" class="fa fa-star-o" id="isfavorite"></i><span>收藏</span></li>
+							<li><i style="color: #ffa800;" class="fa fa-eye"></i><span id="view">0</span></li>
+							<li class="do_like"><i style="color: #f88d9c;" class="fa fa-heart-o" id="islike"></i><span id="numlike">0</span></li>
+							<li><i style="color: #1493e3;" class="fa fa-commenting-o"></i><span class="numcomment">0</span></li>
+						</ul>
+					</div>
+
+					<div class="detaildesc">
+						<div class="d-head">
+							<img class="headimgs" src="img/my-head.png" />
+							<h1><b class="headname"> - </b><span id="tatravels">共有<span id="numType"> - </span>条路书</span></h1>
+							<p id="d-head-bottom"><span id="d-city"> - </span><span id="create_time"> - </span></p>
+						</div>
+						<div class="d-content">
+							<div class="triangle"></div>
+							<ul>
+								<li><i class="fa fa-map-marker"></i>出行城市<span id="city"> - </span></li>
+								<!--			<li><i class="fa fa-calendar"></i>出发时间<span id="playDate"> - </span></li>-->
+								<li><i class="fa fa-clock-o"></i>出行天数<span id="playDays"> - </span></li>
+								<!--	<li><i class="fa fa-dollar"></i>人均消费<span id="consume"> - </span></li>-->
+							</ul>
+						</div>
+					</div>
+
+					<div class="cons">
+
+						<h1 class="title introtitle" style="display: none;"><b>行程介绍</b><span>Intro</span></h1>
+						<p class="intro"> &nbsp; </p>
+
+						<h1 class="title featuretitle" style="display: none;"><b>行程特色</b><span>Feature</span></h1>
+						<ul class="feature">
+							<!--<li><img src="img/nochatimg.jpg" onload="clip(this);"  data-preview-src="" data-preview-group="1"//></li>
+			<li><img src="img/books-icon1.png" onload="clip(this);"  data-preview-src="" data-preview-group="1"//></li>
+			<li><img src="img/custslistbg.jpg" onload="clip(this);"  data-preview-src="" data-preview-group="1"//></li>
+			<li><img src="img/banner/index-banner-0.jpg" onload="clip(this);"  data-preview-src="" data-preview-group="1"//></li>-->
+						</ul>
+
+						<h1 class="title" style="padding-top: 40px;"><b>行程概览</b><span>Preview</span></h1>
+						<ul class="preview">
+							<li class="icon1" showtype="traffic">
+								<h1>交通<b>/<span class="num">1</span></b></h1><span class="first"></span>
+							</li>
+							<li class="icon2" showtype="hotel">
+								<h1>住宿<b>/<span class="num">1</span></b></h1><span class="first"></span>
+							</li>
+							<li class="icon3" showtype="restaurant">
+								<h1>餐饮<b>/<span class="num">1</span></b></h1><span class="first"></span>
+							</li>
+						</ul>
+
+						<div class="daylinebox">
+							<ul class="daylinelist">
+
+								<!--<li>
+					<h1 class="dl-title"><b>D1</b><span>2018.06.14‘周四</span></h1>
+					<b class="addr">南京<i class="fa fa-long-arrow-right"></i>丽江</b>
+					<div class="addrlist"><span>南京禄口机场</span><i class="fa fa-caret-right"></i><span>南京禄口机场</span><i class="fa fa-caret-right"></i><span>南京禄口机场</span><i class="fa fa-caret-right"></i><span>南京禄口机场</span><i class="fa fa-caret-right"></i><span>南京禄口机场</span><i class="fa fa-caret-right"></i><span>南京禄口机场</span></div>
+				</li>-->
+
+							</ul>
+						</div>
+
+						<h1 class="title tipstitle" style="display: none;"><b>行前事项</b><span>Tips</span></h1>
+						<ul class="tips">
+							<!--<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li>
+			<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li>
+			<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li>
+			<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li>
+			<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li>
+			<li><div class="cover" style="background-image: url(img/banner/line-banner-1.jpg);"></div><p>大理换洱海胜读玩又发</p></li> -->
+							<div class="tips-more">查看更多</div>
+						</ul>
+					</div>
+
+					<div class="dayplan">
+						<div class="innerbox">
+							<h1 class="dp-title">每日安排</h1>
+							<ul>
+								<!--<div class="descinfo">
+					<b>Day1</b>
+					<span>2018.06.14，周四</span>
+					<span>南京<i class="fa fa-long-arrow-right"></i>丽江</span>
+					<p>定制师备注：晚上乘坐机启程彩云之南——毕业之旅。大研古城 —— 最为热闹便利</p>
+				</div>
+				<li>
+					<div class="detail">
+						<h2><i class="fa fa-map-signs left"></i><i class="fa fa-angle-right right"></i><span class="zh">南京禄口机场</span><span class="en">fa-long-arrow-right</span></h2>
+						<div class="img" style="background-image: url();"></div>
+						<b>简介：</b>
+						<p>这次的同行人雅雅，也是我朋友圈的红人儿，自带她们南城特有的搞笑属性，总之就是特别逗！看下去的话，基本你就可以免费捡乐儿啦~
+		我们这次分工明确且配合无间，行前攻略和订车订票，还有做行程计划这些都是我负责的，但是和钱沾边儿的就都交给雅雅了，我对钱真的是很苦手...然后呢，我们还决定在当地租摩托车，当然骑摩托这帅气的活儿也是交给雅雅，最后，雅雅下了个翻译软件，接下了当地翻译交流的活儿~总之同行雅就是这次的money担当摩托担当和交流担当啦哈哈哈~简直大能个儿一个！这次的同行人雅雅，也是我朋友圈的红人儿，自带她们南城特有的搞笑属性，总之就是特别逗！看下去的话，基本你就可以免费捡乐儿啦~
+		我们这次分工明确且配合无间，行前攻略和订车订票，还有做行程计划这些都是我负责的，但是和钱沾边儿的就都交给雅雅了，我对钱真的是很苦手...然后呢，我们还决定在当地租摩托车，当然骑摩托这帅气的活儿也是交给雅雅，最后，雅雅下了个翻译软件，接下了当地翻译交流的活儿~总之同行雅就是这次的money担当摩托担当和交流担当啦哈哈哈~简直大能个儿一个这次的同行人雅雅，也是我朋友圈的红人儿，自带她们南城特有的搞笑属性，总之就是特别逗！看下去的话，基本你就可以免费捡乐儿啦~
+		我们这次分工明确且配合无间，行前攻略和订车订票，还有做行程计划这些都是我负责的，但是和钱沾边儿的就都交给雅雅了，我对钱真的是很苦手...然后呢，我们还决定在当地租摩托车，当然骑摩托这帅气的活儿也是交给雅雅，最后，雅雅下了个翻译软件，接下了当地翻译交流的活儿~总之同行雅就是这次的money担当摩托担当和交流担当啦哈哈哈~简直大能个儿一个这次的同行人雅雅，也是我朋友圈的红人儿，自带她们南城特有的搞笑属性，总之就是特别逗！看下去的话，基本你就可以免费捡乐儿啦~
+		我们这次分工明确且配合无间，行前攻略和订车订票，还有做行程计划这些都是我负责的，但是和钱沾边儿的就都交给雅雅了，我对钱真的是很苦手...然后呢，我们还决定在当地租摩托车，当然骑摩托这帅气的活儿也是交给雅雅，最后，雅雅下了个翻译软件，接下了当地翻译交流的活儿~总之同行雅就是这次的money担当摩托担当和交流担当啦哈哈哈~简直大能个儿一个</p>
+						<div class="descmore"><span>...</span><span class="b">查看更多</span></div>
+						<div class="bottom">预计到达：17:30</div>
+					</div>
+				</li>
+				<div class="linkmid"><i></i><b>相距1892公里</b><span>推荐:  飞机</span></div>
+				<li>
+					<div class="detail">
+						<h2><i class="fa fa-map-signs left"></i><i class="fa fa-angle-right right"></i>南京禄口机场</h2>
+						<div class="img" style="background-image: url('img/banner/line-banner-1.jpg');"></div>
+						<b>简介：</b>
+						<p>这次的同行人雅雅，也是我朋友圈的红人儿，自带她们南城特有的搞笑属性，总之就是特别逗！看下去的话，基本你就可以免费捡乐儿啦~
+		我们这次分工明确且配合无间，行前攻略和订车订票，还有做行程计划这些都是我负责的，但是和钱沾边儿的就都交给雅雅了，我对钱真的是很苦手...然后呢，我们还决定在当地租摩托车，当然骑摩托这帅气的活儿也是交给雅雅，最后，雅雅下了个翻译软件，接下了当地翻译交流的活儿~总之同行雅就是这次的money担当摩托担当和交流担当啦哈哈哈~简直大能个儿一个！</p>
+						<div class="bottom">预计到达：17:30</div>
+					</div>
+				</li>-->
+							</ul>
+						</div>
+						<div class="isend">- END -</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!--	<div class="travelcontent"> &nbsp; </div>-->
+
+			<ul class="menu-bottom">
+				<li class="companion">
+					<i class="mb-icon-2"></i>
+					<span>约伴</span>
+				</li>
+				<li class="showcomment">
+					<b class="numcomment"></b>
+					<i class="mb-icon-0"></i>
+					<span>留言</span>
+				</li>
+				<li class="showreward">
+					<b>0</b>
+					<i class="mb-icon-1"></i>
+					<span>赞赏</span>
+				</li>
+			</ul>
+			<div class="chevron"><i class="fa fa-chevron-up"></i><span>TOP</span></div>
+		</div>
+
+		<div class="comment_list">
+			<h1 class="c-l-title">留言 <span class="numcomment"> - </span><b class="c-l-cancel">返回</b><b class="c-l-addnew">+ 评论</b></h1>
+			<ul>
+				<!--<li>
+			<div class="d-head">
+				<img src="img/find/test_02.png" />
+				<h1>我在永宁江边</h1><b>删除</b>
+				<p class="d-head-bottom">2018-05-05 13:21</p>
+			</div>
+			<p class="c-l-content">哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+			<div class="c-l-back">
+				<h2>引用@言午话的回复</h2>
+				<p>哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+			</div>
+		</li>
+		<li>
+			<div class="d-head">
+				<img src="img/find/test_02.png" />
+				<h1>我在永宁江边</h1>
+				<p class="d-head-bottom">2018-05-05 13:21</p>
+			</div>
+			<p class="c-l-content">哈哈，但我忘了这棵树是真的假的了，现在看美的有点不太真实!</p>
+		</li>-->
+				<div class="isempty"><i class="fa fa-comments-o"></i><span>没有回复</span></div>
+			</ul>
+
+			<div class="comment_box"><input id="keyingval" type="text" placeholder="评论" /><button id="subeval">回复</button></div>
+		</div>
+
+		<div class="previewbox traffic">
+			<h1 class="now-recommend" style="display: none;">当前推荐</h1>
+			<h1 class="all-recommend">交通 /<span>0</span></h1><i class="closepreview fa fa-close"></i>
+			<ul>
+				<!--<li>
+			<div class="top"><span class="type">飞机</span><span class="line"><b>北京</b><i class="fa fa-long-arrow-right"></i><b>loma</b></span></div>
+			<div class="bottom">
+				<div class="dateinfo"><span>2017-08-08</span><span class="linename">中国明航 ACAS</span></div>
+				<div>
+					<div class="start">
+						<span class="posname">北京</span>
+						<span class="posname">北京首都国际北京首都国际</span>
+						<b class="time">13:30</b>
+					</div>
+					<i class="mid fa fa-plane"></i>
+					<div class="end">
+						<span class="posname">北京</span>
+						<span class="posname">罗马非无米奇罗马非无米奇</span>
+						<b class="time">17:50<span class="plus">+1</span></b>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="waitpoint">经停</div>
+				<div>
+					<div class="start"><span class="posname">北京</span><span class="posname">北京首都国际北京首都国际</span><b class="time">13:30</b></div>
+					<i class="mid fa fa-plane"></i>
+					<div class="end"><span class="posname">北京</span><span class="posname">罗马非无米奇罗马非无米奇</span><b class="time">17:50<span class="plus">+1</span></b></div>
+				</div>
+			</div>
+		</li>-->
+			</ul>
+		</div>
+
+		<div class="previewbox hotel">
+			<h1>住宿 /<span>0</span></h1><i class="closepreview fa fa-close"></i>
+			<ul>
+				<!--<li>
+			<span class="cover" style="background-image:url(img/banner/index-banner-0.jpg) ;"></span>
+			<h2>LDC罗马的发亟待三角地噢精雕机手动挡</h2><h3>LDC罗马的发亟待三角地噢精雕机手动挡</h3><span class="date">2017-08-08<b>-</b>2017-08-20</span>
+		</li>-->
+			</ul>
+		</div>
+
+		<div class="previewbox restaurant">
+			<h1>美食 /<span>0</span></h1><i class="closepreview fa fa-close"></i>
+			<ul>
+				<!--<li>
+			<span class="cover" style="background-image:url(img/banner/index-banner-0.jpg) ;"></span>
+			<h2>LDC罗马的发亟待三角地噢精雕机手动挡</h2><h3>LDC罗马的发亟待三角地噢精雕机手动挡</h3>
+			<span class="date"><b>D2</b>2017-08-20，周一</span>
+		</li>-->
+			</ul>
+		</div>
+
+		<div class="wordbar-detail">
+
+			<h1><i class="close-wordbar-detail fa fa-close"></i><span>词条详情</span></h1>
+			<div class="inbox">
+				<div class="wordbar-img"></div>
+				<div class="wordbar-title"></div>
+				<div class="wordbar-content"></div>
+				<ul class="w-moreinfo">
+					<li class="w-enname">
+						<h2>外文名</h2>
+						<p>-</p>
+					</li>
+					<li class="w-addr">
+						<h2>详细地址</h2>
+						<p position=''>-</p>
+					</li>
+					<li class="w-way">
+						<h2>前往方式</h2>
+						<p>-</p>
+					</li>
+					<li class="w-time">
+						<h2>营业时间<h2></h2>
+							<p>-</p>
+					</li>
+					<li class="w-phone">
+						<h2>联系电话</h2><a>-</a>
+					</li>
+					<li class="w-food">
+						<h2>特色菜</h2>
+						<p>-</p>
+					</li>
+					<li class="w-item">
+						<h2>设施</h2>
+						<p>-</p>
+					</li>
+					<li class="w-rule">
+						<h2>相关守则</h2>
+						<p>-</p>
+					</li>
+					<li class="w-cons">
+						<h2>人均消费</h2>
+						<p>-</p>
+					</li>
+					<li class="w-stip">
+						<h2>小提示</h2>
+						<p>-</p>
+					</li>
+					<li class="w-netaddr">
+						<h2>网站</h2>
+						<p>-</p>
+					</li>
+					<li class="w-playtime">
+						<h2>游玩时间</h2>
+						<p>-</p>
+					</li>
+				</ul>
+				<div class="wordbar-edithistory">
+					<div class="author">
+						<div class="authorhead"></div>
+						<p>该词条由 <b id="eh-author-name">-</b>创建于 <b id="eh-author-time">-</b></p>
+						<p class="moreinfo">词条已编辑了<span id="eh-count-edittime">-</span>次，<span id="eh-count-editernum">-</span>人参与了编辑</p>
+					</div>
+					<p class="title-2">最近编辑</p>
+					<ul class="editer">
+						<!--<li><div class="authorhead"></div><span>-</span></li>-->
+					</ul>
+				</div>
+				<div class="wordbar-pushbottom"></div>
+			</div>
+		</div>
+		
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/bookdetail.js"></script>
+
+	</body>
+</html>

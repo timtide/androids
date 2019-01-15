@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/mui.imageviewer.css" />
+		<link rel="stylesheet" href="css/im-chat.css" />
+	</head>
+	<body contextmenu="return false;">
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="mui-icon mui-icon-arrowleft" style="color: #999; font-size: 26px;"> <span>返回</span></i>
+			<h1><span class="mui-icon mui-icon-spinner-cycle rotation"></span></h1>
+			<i id="headact" class="mui-icon mui-icon-gear" style="color: #777; font-size: 26px;"></i>
+		</header>
+
+		<div class="coglist">
+			<ul>
+				<li id="clearlist">清除历史</li>
+				<li >联系人</li>
+		<!-- 		<li id="more">...</li> -->
+			</ul>
+		</div>
+
+<!-- 		<div style="height: 32px"></div> -->
+		<pre id='h'></pre>
+
+		<div class="mui-content">
+			<div id="scroll1" class="mui-scroll-wrapper">
+				<div id='msg-list' class="mui-scroll">
+					<!-- <div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+								<span class="volume"></span> &nbsp; <span class="play-state"><span class="mui-icon mui-icon-spinner-cycle rotation"></span></span>&nbsp;
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+					<div class="msg-item msg-item-self" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+								<span class="volume"></span> &nbsp; <span class="play-state">36"</span>&nbsp;
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+								as
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+								a
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item msg-item-self" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content">
+							<div class="msg-content-inner">
+								asd
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item msg-item-self" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content content-img">
+							<div class="msg-content-inner">
+								<img class="msg-content-image" onerror="nofind()" src="img/check111.jpg" />
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt="" />
+						<div class="msg-content content-img">
+							<div class="msg-content-inner">
+								<img class="msg-content-image" onerror="nofind()" src="img/check111.jpg" />
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div>
+
+					<div class="msg-item" >
+						<img class="msg-user" src="img/books-icon0.png" alt=""/>
+						<div class="msg-content content-img">
+							<div class="msg-content-inner">
+								<img class="msg-content-image" onerror="nofind()" src="img/check222.jpg" />
+							</div>
+							<div class="msg-content-arrow"></div>
+						</div>
+						<div class="mui-item-clear"></div>
+					</div> -->
+
+				</div>
+			</div>
+		</div>
+
+		<div><i class="fa fa-mess"></i></div>
+
+		<footer class="facing">
+			
+			<label for="" class="footer-right">
+				<i class="msg-keyboard fa fa-keyboard-o"></i>
+				<i id='msg-type' class="fa fa-rss"></i>
+			</label>
+			
+			<div id="centercover"></div>
+			<div class="footer-center">
+				<textarea id='msg-text' class='input-text'></textarea>
+				<button id='msg-sound' type="button" class='input-sound' style="display: none;">按住说话</button>
+			</div>
+			
+			<div class="footer-left btnMsgface">
+				<i class="msg-keyboard fa fa-keyboard-o"></i>
+				<i id='msg-face' class="fa fa-smile-o"></i>
+			</div>
+			<div class="footer-left btnMsgsend">
+				<i id='msg-sendbtn'>发送</i>
+			</div>
+			<div class="footer-left btnMsgImage">
+				<i id='msg-image' class="fa fa-plus"></i>
+			</div>
+
+		</footer>
+		
+		<div class="mui-slider" id="face-box">
+			<div class="mui-slider-group">
+				<div class="mui-slider-item">
+					<i class="face_del"></i>
+				</div>
+			</div>
+			<div class="mui-slider-indicator"><div class='mui-indicator mui-active'></div></div>
+			<div class="btnMsgsend">发送</div>
+		</div>
+
+		<div id='sound-alert' class="rprogress">
+			<div class="rschedule"></div>
+			<div class="r-sigh">!</div>
+			<div class="rsalert" id="audio_tips">手指上滑，取消发送</div>
+		</div>
+
+		<div class="other">
+			<ul>
+				<li id="other-ph"><img src="img/chat/g-ph.png" /><span>照片</span></li>
+				<li id="other-cam"><img src="img/chat/g-cam.png" /><span>相机</span></li>
+			</ul>
+			<div class="bottom"><i class="fa fa-times"></i></div>
+		</div>
+
+		<div class="coverbox"></div>
+
+		<div class="mitem-more">
+			<ul>
+				<li class="del">删除</li>
+				<li class="copy">拷贝</li>
+				<!--<li class="forward">转发</li><li class="more">更多</li>-->
+			</ul>
+		</div>
+		
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.imageViewer.js"></script>
+		<script src="js/arttmpl.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/facebook.js"></script>
+		<script src="js/im-chat.js"></script>
+		
+	</body>
+</html>

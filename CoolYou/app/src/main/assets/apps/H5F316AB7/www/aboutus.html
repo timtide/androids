@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body,
+			* {
+				font-family: 'PingFang SC', 'STHeitiSC-Light', Helvetica, sans-serif, Arial;
+			}
+
+			.about_content {
+				float: left;
+				width: 100%;
+				position: relative;
+
+			}
+
+			.about_img {
+				display: block;
+				width: 100%;
+			}
+
+			.about_main {
+				position: absolute;
+				left: 12%;
+				right: 12%;
+				z-index: 100;
+				top: 18%;
+				bottom: 18%;
+				color: #fff;
+				padding: 45px 15px 25px 40px;
+				/*margin:18% 12% 18% 12%; */
+			}
+
+			.about_main h2 {
+				font-size: 26px;
+				font-weight: 300;
+				line-height: 52px;
+			}
+
+			.about_content1 .about_main {
+				background: rgba(83, 180, 167, 0.9);
+			}
+
+			.double {
+				display: block;
+				width: 20px;
+				height: 17px;
+				position: absolute;
+				z-index: 101;
+				background-repeat: no-repeat;
+				background-size: 20px auto;
+			}
+
+			.double_t {
+				left: 15px;
+				top: 25px;
+				background-image: url(img/about/double1.png);
+			}
+
+			.double_b {
+				right: 15px;
+				bottom: 65px;
+				background-image: url(img/about/double2.png);
+			}
+
+			.a1_logo {
+				width: 90px;
+				display: block;
+				position: absolute;
+				z-index: 101;
+				bottom: 20px;
+				right: 15px;
+			}
+
+			.about_content2 .about_main {
+				text-align: center;
+				padding: 50px 20px;
+			}
+
+			.about_content2 .about_main h2 {
+				line-height: 56px;
+			}
+
+			.about_content3 .about_main {
+				padding: 0;
+				left: 6%;
+				right: 6%;
+				bottom: 50px;
+				top: auto;
+			}
+
+			.about_content3 .about_main h2 {
+				font-weight: 500;
+				font-size: 24px;
+				line-height: 35px;
+			}
+
+			.about_content3 .about_main p {
+				color: #fff;
+				font-size: 17px;
+				font-weight: 300;
+				margin-top: 24px;
+				line-height: 28px;
+			}
+
+			.about_content3.about_content5 .about_main {
+				right: 6%;
+				top: 50px;
+				bottom: auto;
+			}
+
+			.about_content6 .about_main {
+				background-color: rgba(83, 180, 167, 0.8);
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 60px 25px;
+			}
+
+			.about_content6 .about_main h2 {
+				text-align: center;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+				padding-bottom: 30px;
+				font-size: 25px;
+				line-height: 25px;
+				width: 90%;
+				margin: 0 auto;
+				font-weight: bold;
+				font-family: '微软雅黑';
+			}
+
+			.helf_flow {
+				margin-top: 50px;
+			}
+
+			.helf_flow li {
+				display: flex;
+				align-items: center;
+				/*justify-content: center;*/
+				line-height: 26px;
+				padding-bottom: 50px;
+				position: relative;
+			}
+
+			.flow_num {
+				width: 64px;
+				height: 64px;
+				line-height: 64px;
+				text-align: center;
+				border: 1px solid #fff;
+				border-radius: 100px;
+				display: inline-block;
+			}
+
+			.flow_num img {
+				display: block;
+				margin: 15px auto;
+				width: 30px;
+				height: 30px;
+			}
+
+			.flow_txt {
+				max-width: 75%;
+				padding-left: 22px;
+			}
+
+			.helf_flow li .arrow {
+				position: absolute;
+				left: 28px;
+				bottom: 25px;
+				width: 0;
+				height: 0;
+				border-width: 5px 5px 0;
+				border-style: solid;
+				border-color: #fff transparent transparent;
+				/*灰 透明 透明 */
+				opacity: 0.4
+			}
+
+			.about_content7 {
+				padding: 45px 25px;
+				width: 100%;
+				float: left;
+				background-color: rgba(255, 255, 255, 0.9);
+			}
+
+			.wa_award {
+				width: 100%;
+				float: left;
+				color: #333;
+				display: flex;
+				align-items: center;
+			}
+
+			.award_icon {
+				float: left;
+				width: 20%;
+			}
+
+			.award_icon:before {
+				content: '';
+				background-image: url(img/about/award_1.png);
+				background-repeat: no-repeat;
+				background-size: 40px;
+				width: 40px;
+				height: 40px;
+				display: block;
+				margin: 0;
+			}
+
+			.award_icon2:before {
+				background-image: url(img/about/award_2.png);
+			}
+
+			.award_icon3:before {
+				background-image: url(img/about/award_3.png);
+			}
+
+			.award_icon4:before {
+				background-image: url(img/about/award_4.png);
+			}
+
+			.award_text {
+				float: right;
+				width: 78%;
+				border-bottom: 1px solid #e5e5e5;
+				padding-bottom: 30px;
+				padding-top: 30px;
+			}
+
+			.wa_award:last-child .award_text {
+				border-bottom: 0;
+			}
+
+			.award_text h2 {
+				font-size: 18px;
+				font-weight: bold;
+				line-height: 20px;
+				margin-bottom: 10px;
+			}
+
+			.award_text span {
+				display: block;
+				color: #7B8B90;
+				font-size: 15px;
+				height: 26px;
+				line-height: 26px;
+				overflow: hidden;
+			}
+
+			.customer_box {
+				padding: 60px 0 0 0;
+			}
+
+			.customer_img {
+				display: block;
+				background-color: rgba(255, 255, 255, 0.5);
+				margin-bottom: 22px;
+			}
+
+			.customer_img img {
+				display: block;
+				width: 100%;
+			}
+
+			.customer_box p {
+				color: #fff;
+				font-size: 17px;
+				font-weight: 300;
+				line-height: 30px;
+			}
+
+			.about_content8 .about_main {
+				background-color: rgba(22, 24, 24, 0.5);
+			}
+
+			.about_content6.about_content8 .about_main h2 {
+				letter-spacing: 2px;
+				font-weight: 800;
+				font-size: 26px;
+			}
+
+			.fisrtbg {
+				position: relative;
+				width: 100%;
+				height: 700px;
+				background-attachment: fixed;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-image: url('img/about/about_bg_6.jpg');
+				background-size: cover;
+				overflow: auto;
+			}
+
+			.defaulthead.headfixed {
+				z-index: 1000;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>关于哇旅行</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="fisrtbg">
+			<div class="about_content about_content1">
+				<div class="">
+					<img src="img/about/about_bg_1.jpg" class="about_img" />
+					<div class="about_main">
+						<i class="double double_t"></i><i class="double double_b"></i>
+						<h2>跟团,不自由<br />
+							自由行,太麻烦 <br />
+							哇旅行，<br />
+							旅行定制路书 <br />
+							定义旅行新方式
+						</h2>
+						<img src="img/about/logo.png" class="a1_logo">
+					</div>
+				</div>
+			</div>
+
+			<div class="about_content about_content2">
+				<img src="img/about/about_bg_2.jpg" class="about_img" />
+				<div class="about_main">
+					<h2>你只要决定出发<br />
+						选择旅行目的地<br />
+						剩下的一切，<br />
+						旅行定制路书<br />
+						全部帮你解决
+					</h2>
+				</div>
+			</div>
+
+			<div class="about_content about_content3">
+				<img src="img/about/about_bg_3.jpg" class="about_img" />
+				<div class="about_main">
+					<h2>跟着哇旅行<br />
+						吃最具当地特色的美食
+					</h2>
+					<p>路书会为您推荐当地经典的餐厅，也能为您找到美味的秘密小馆; 再也不用乱走乱撞，为“吃什么”而发愁。</p>
+				</div>
+			</div>
+
+			<div class="about_content about_content3">
+				<img src="img/about/about_bg_4.jpg" class="about_img" />
+				<div class="about_main">
+					<h2>跟着哇旅行<br />
+						住最有特色的酒店民宿
+					</h2>
+					<p>路书将会为您推荐最舒适的酒店，也会为您找到价格合适的客栈民宿; 再也不用拖着沉重的行李箱到处寻找酒店民宿了。</p>
+				</div>
+			</div>
+
+			<div class="about_content about_content3 about_content5">
+				<img src="img/about/about_bg_5.jpg" class="about_img" />
+				<div class="about_main">
+					<h2>跟着哇旅行<br />
+						看最美的风景/拍最美的照片
+					</h2>
+					<p>路书将会指引着您去最好的风景地，轻轻的告诉你那个角落最适合拍你的美照，让你的美图在朋友圈飞起来。</p>
+				</div>
+			</div>
+
+
+			<div class="about_content about_content6">
+				<img src="img/about/about_bg_6.jpg" class="about_img" style="visibility: hidden;" />
+				<div class="about_main">
+					<h2>如何查看/收藏路书 ？</h2>
+					<ul class="helf_flow">
+						<li><i class="arrow"></i>
+							<span class="flow_num"><img src="img/about/one.png"></span>
+							<span class="flow_txt">进入APP后, 点击最下方导航栏的“路书”</span>
+						</li>
+						<li><i class="arrow"></i>
+							<span class="flow_num"><img src="img/about/two.png"></span>
+							<span class="flow_txt">选择或搜索你想要去的国家或城市</span>
+						</li>
+						<li><i class="arrow"></i>
+							<span class="flow_num"><img src="img/about/three.png"></span>
+							<span class="flow_txt">即可查看到你想要去的地方城市路书列表</span>
+						</li>
+						<li><i class="arrow"></i>
+							<span class="flow_num"><img src="img/about/four.png"></span>
+							<span class="flow_txt">选择一篇自己喜欢的路书点击进入，即可看到路书了</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="about_content about_content7">
+				<div class="wa_award">
+					<i class="award_icon award_icon1"></i>
+					<div class="award_text">
+						<h2>年度最佳定制自由行创新平台 </h2>
+						<span>Travel Weekly China 旅讯</span>
+						<span>2017年6月7日</span>
+					</div>
+				</div>
+				<div class="wa_award">
+					<i class="award_icon award_icon2"></i>
+					<div class="award_text">
+						<h2>最具成长性旅游创新企业 </h2>
+						<span>中国旅游上市公司高峰论坛</span>
+						<span>2017年7月13日</span>
+					</div>
+				</div>
+				<div class="wa_award">
+					<i class="award_icon award_icon3"></i>
+					<div class="award_text">
+						<h2>领先定制游科技平台大奖 </h2>
+						<span>旅行社资讯</span>
+						<span>2017年12月12日</span>
+					</div>
+				</div>
+				<div class="wa_award">
+					<i class="award_icon award_icon4"></i>
+					<div class="award_text">
+						<h2>最佳定制游服务平台 </h2>
+						<span>国家旅业奖</span>
+						<span>2018年1月29日</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="about_content about_content6 about_content8">
+				<img src="img/about/about_bg_6.jpg" class="about_img" style="visibility: hidden;" />
+				<div class="about_main">
+					<h2>合作客户</h2>
+					<div class="customer_box">
+						<span class="customer_img"><img src="img/about/customer_1.png"></span>
+						<p>36氪获悉，「 哇旅行」全球目的地旅行路书平台获得百万级战略投资，本轮融资将用于高端路书的标准化及市场拓展。</p>
+					</div>
+					<div class="customer_box">
+						<span class="customer_img"><img src="img/about/customer_2.png"></span>
+						<p>TravelWeekly旅讯 | 「 哇旅行」携手路书，助力高端旅游市场资源整合。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close();
+			})
+			
+			$('.fisrtbg').css('height', window.innerHeight + 'px');
+			
+		</script>
+	</body>
+</html>

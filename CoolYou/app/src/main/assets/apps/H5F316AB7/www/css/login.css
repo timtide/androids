@@ -1,0 +1,272 @@
+body {
+	background-color: #fff;
+}
+
+.type-login,
+.type-reg,
+.type-findpw {
+	display: none;
+}
+
+#logoimg {
+	width: 70px;
+	height: 70px;
+	background-color: #dff1ed;
+	border-radius: 70px;
+	overflow: hidden;
+	padding: 3px;
+	display: block;
+	position: relative;
+	margin-top: 40px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	margin-bottom: 50px;
+}
+
+.loginform {
+	padding: 15px 25px;
+}
+
+.loginform li {
+	line-height: 36px;
+	margin-top: 26px;
+	border-bottom: 1px #efefef solid;
+	overflow: hidden;
+	padding-bottom: 5px;
+}
+
+.loginform li span {
+	width: 44px;
+	display: block;
+	float: left;
+	box-sizing: border-box;
+	font-size: 14px;
+	color: #333;
+	margin-right: 15px;
+}
+
+.loginform li span i.icon {
+	width: 100%;
+	height: 36px;
+	display: block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 50%;
+}
+
+.loginform li span i.icon.icon-1 {
+	background-image: url(../img/icon_01.png);
+}
+
+.loginform li span i.icon.icon-2 {
+	background-image: url(../img/icon_02.png);
+}
+
+.loginform li .fa-close {
+	display: none;
+	font-size: 14px;
+	color: #fff;
+	background-color: #ddd;
+	padding: 2px 4px 3px;
+	border-radius: 50px;
+	right: 8%;
+	position: absolute;
+	margin-top: 10px;
+}
+
+.btmjump {
+	padding: 15px 25px;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.btmjump {
+	color: #999;
+	font-size: 14px;
+}
+
+.btmjump .left {
+	text-decoration: underline;
+}
+
+.mainicon {
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 90px;
+	border-radius: 50px;
+	line-height: 100px;
+	height: 90px;
+	font-size: 60px;
+	text-align: center;
+	color: #fff;
+	position: relative;
+	display: block;
+	left: 50%;
+	margin-left: -45px;
+	margin-top: 24px;
+	text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.025);
+}
+
+input[type=password],
+input[type=text] {
+	width: auto;
+	margin: 0;
+	border: none;
+	text-align: left;
+	padding: 0;
+	font-size: 14px;
+	display: block;
+	float: left;
+	width: 60%;
+	font-size: 14px;
+	letter-spacing: 1px;
+	line-height: 20px;
+	height: 36px;
+	background: none;
+	color: #333;
+}
+
+input::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 14px;
+}
+
+input:-ms-input-placeholder {
+	color: #ccc;
+	font-size: 14px;
+}
+
+input::-moz-placeholder {
+	color: #ccc;
+	font-size: 14px;
+}
+
+input:-moz-placeholder {
+	color: #ccc;
+	font-size: 14px;
+}
+
+input[type=text].active {
+	font-size: 16px;
+}
+
+input[type=password].active {
+	font-size: 24px;
+	letter-spacing: 3px;
+}
+
+.mainiconbox {
+	width: 100%;
+}
+
+.loginform input {
+	width: 65%;
+	margin: 0;
+	border: none;
+	font-size: 14px;
+	padding-right: 0;
+	padding-left: 0;
+	height: 36px;
+	background: none;
+	color: #333;
+}
+
+.defaultblock {
+	margin-top: 16px;
+	float: right;
+	margin-right: 6%;
+	width: 26%;
+	letter-spacing: 2px;
+	font-weight: bold;
+}
+
+.loginform li input::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+.loginform li input:-ms-input-placeholder {
+	color: #ccc;
+}
+
+.loginform li input::-moz-placeholder {
+	color: #ccc;
+}
+
+.loginform li input:-moz-placeholder {
+	color: #ccc;
+}
+
+.loginform li input[type=password] {
+	letter-spacing: 4px;
+}
+
+.loginform li input[type=password]::-webkit-input-placeholder {
+	letter-spacing: 0;
+}
+
+.loginform li input[type=password]:-ms-input-placeholder {
+	letter-spacing: 0;
+}
+
+.loginform li input[type=password]::-moz-placeholder {
+	letter-spacing: 0;
+}
+
+.loginform li input[type=password]:-moz-placeholder {
+	letter-spacing: 0;
+}
+
+.loginform li .checkphone {
+	line-height: 30px;
+	height: 32px;
+	position: absolute;
+	width: 90px;
+	background-color: #fff;
+	color: #ffbf4f;
+	right: 25px;
+	margin-top: 1px;
+	border: 1px #ffbf4f solid;
+	border-radius: 8px;
+}
+
+.loginform li button.checkphone.sending {
+	background-color: #c1c1c1;
+	color: #fff;
+	border: 1px #c1c1c1 solid;
+}
+
+.type-reg .defaultblock,
+.type-findpw .defaultblock {
+	width: 30%;
+	margin-right: 0;
+}
+
+.mui-checkbox,
+.mui-radio {
+	float: left;
+	width: 100px;
+	clear: none;
+	font-size: 14px;
+}
+
+.mui-checkbox.mui-left label,
+.mui-radio.mui-left label {
+	padding-left: 50px;
+}
+
+.mui-checkbox input[type=checkbox],
+.mui-radio input[type=radio] {
+	top: 8px;
+	width: 20px;
+	height: 20px;
+}
+
+.mui-checkbox input[type=checkbox]:before,
+.mui-radio input[type=radio]:before {
+	font-size: 20px;
+}
+
+.mui-checkbox input[type=checkbox]:checked:before,
+.mui-radio input[type=radio]:checked:before {
+	color: #ffbe4e;
+}

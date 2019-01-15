@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/viewindex.css" />
+		<style>
+			.test-cust{
+				overflow: hidden;
+				margin: -1%;
+				margin-bottom: 30px;
+			}
+
+			.test-cust .custli{
+				float: left;
+				width: 50%;
+				margin-bottom: 5px;
+			}
+
+			.test-cust .custli .image{
+				float: left;
+				width: 94%;
+				padding-bottom: 94%;
+				margin: 3%;
+				height: 0;
+				background-color: #eee;
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				border-radius: 5px;
+				box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.test-cust .custli .image:active{
+				box-shadow: 0 5px 5px rgba(0,0,0,0.15);
+			}
+
+			.test-cust .custli h1,.test-cust .custli p{
+				display: block;
+				width: 90%;
+				margin-left: 5%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.test-cust .custli h1{
+				font-size: 15px;
+				color: #333;
+				margin-bottom: 5px;
+				padding-top: 5px;
+				clear: both
+			}
+
+			.test-cust .custli p{
+				color: #aaa;
+				font-size: 12px;
+				line-height: 18px;
+			}
+
+			.test-cust .custli ul span{
+				float: left;
+				font-size: 12px;
+				padding-left: 5%;
+				color: #aaa;
+				line-height: 18px;
+			}
+
+			.test-cust .custli ul li{
+				line-height: 18px;
+				float: left;
+				margin-right: 4px;
+				font-size: 12px;
+				color: #ffb539;
+			}
+
+			.indexbox .customer .c-title h1{
+				font-size: 26px;
+			}
+
+			.test-line{
+				margin-bottom: 25px;
+				padding: 0 15px;
+				position: relative;
+				height: 236px;
+			}
+
+			.test-line li{
+				width: 120px;
+				height: 216px;
+				float: left;
+				background-color: #eee;
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				margin-right: 8px;
+				margin-left: 8px;
+				border-radius: 16px;
+				box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+				transition: all 0.3s;
+			}
+
+			.test-line li span{
+				position: absolute;
+				background-color: #fff;
+				color: #aaa;
+				font-size: 12px;
+				border-radius: 50px;
+				padding:0 6px;
+				padding-top: 1px;
+				line-height: 16px;
+				margin-left: 12px;
+				margin-top: 190px;
+			}
+
+			.test-line li:active{
+				opacity: 0.8;
+			}
+
+		</style>
+		<script>
+			//裁切图片
+			function clip(ImgD){
+				if(ImgD.width>0&&ImgD.height>0){
+					if(ImgD.width/ImgD.height>=1){
+						ImgD.style.height='100%';
+						ImgD.style.width='auto';
+					}else{
+						ImgD.style.width='100%';
+						ImgD.style.height='auto';
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+
+		<!--更新说明-->
+		<div class="version-desc">
+			<i class="fa fa-close close"></i>
+			<h1>版本介绍</h1>
+			<span>当前版本 <span class="version-num">-</span> | <span class="version-new">最新版本 -</span><span class="version-isnew" style="display: none;">已是最新版本</span></span>
+			<p>-</p>
+			<div class="new">新的版本</div>
+			<div class="setting">关闭热更新</div>
+		</div> 
+
+		<!--遮罩层-->
+		<div class="coverbox"></div>
+
+		<!--首页 start-->
+		<div class="mui-content indexbox viewcontent">
+			<header class="mui-bar indexheader">
+				<div id="logooutbox">
+					<div id="logobox" style="float:left;">
+						<img id="logoair" src="img/index/logoair.png">
+						<img id="navtitle" src="img/index/navtitle.png" />
+					</div>
+				</div>
+				<div class="navsearchbox"><i id="navsearch" class="fa fa-search"></i></div>
+			</header>
+			
+			<div class="mui-scroll-wrapper-index" id="indexwrapper" style="overflow: hidden; position: absolute; height: 100%; width: 100%; background-color: #fff;">
+				<div class="mui-scroll"  style="overflow: hidden;">
+
+					<!-- <div id="indexhbottom"></div> -->
+
+					<div class="indexheaderbottom" style="background-color: #fefefe; height:90px;"></div>
+					<div class="mui-slider indexslider-big">
+						<div class="mui-slider-group">
+
+							<div class="mui-slider-item ready">
+								<a>
+									<div class="bannerinfo bannerinfo-1 defaultbook" style="background-color: #eee;">
+										<div style="padding-bottom: 100%;"></div>
+										<div class="moreinfo-1">
+											<h1 style="color: #bbb; font-weight: normal;">路书准备中...</h1>
+											<ul>
+												<li>&nbsp; </li>
+												<li>&nbsp; </li>
+											</ul>
+										</div>
+									</div>
+								</a>
+							</div>
+							<!--<div class="mui-slider-item">
+						<a>
+							<div class="bannerinfo bannerinfo-1 defaultbook">
+								<div class="imgtext"><p>主题精选</p><h1>一年一守望 一生一贡嘎 朝拜蜀山之王，一年一守望 一生一贡嘎 朝拜蜀山之王，一年一守望 一生一贡嘎 朝拜蜀山之王</h1></div>
+								<div class="cover"></div>
+								<div class="moreinfo-1"><h1>贡嘎转山大环引穿越|全线徒步</h1><button>定制此行程</button><ul><li>&bull; 目的地 :  贡嘎</li><li>&bull; 天数 :  8天</li></ul></div>
+							</div>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a>
+							<div class="bannerinfo bannerinfo-1 defaultbook">
+								<div class="imgtext"><p>主题精选</p><h1>一年一守望 一生一贡嘎 朝拜蜀山之王</h1></div>
+								<img src="img/banner/index-banner-1.jpg" />
+								<div class="moreinfo-1"><h1>贡嘎转山大环引穿越|全线徒步</h1><button>定制此行程</button><ul><li>&bull; 目的地 :  贡嘎</li><li>&bull; 天数 :  8天</li></ul></div>
+							</div>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a>
+							<div class="bannerinfo bannerinfo-1 defaultbook">
+								<div class="imgtext"><p>主题精选</p><h1>一年一守望 一生一贡嘎 朝拜蜀山之王</h1></div>
+								<img src="img/banner/index-banner-1.jpg" />
+								<div class="moreinfo-1"><h1>贡嘎转山大环引穿越|全线徒步</h1><button>定制此行程</button><ul><li>&bull; 目的地 :  贡嘎</li><li>&bull; 天数 :  8天</li></ul></div>
+							</div>
+						</a>
+					</div>
+					-->
+							<div class="mui-slider-item" id="aboutusitem">
+								<a>
+									<div class="bannerinfo bannerinfo-1">
+										<div class="imgtext imgtextstyle_1" id="aboutus">
+											<!--<p>不想费劲 , 查线路 ?   不如试试 , 行程路书 !</p>
+							<h1>哇 ! 旅行<br/>你的专属“隐形导游”</h1>
+							<div class="bottombtn"><button>一起去了解哇旅行吧！</button></div>-->
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<p class="moreline" mtype="book">更多旅行路书推荐 <i class="fa fa-angle-right"></i></p>
+
+					<div class="customer" style="margin-top: 10px;">
+
+						<div class="c-title" id="morecusts">
+							<h1>路书定制师推荐</h1>
+							<p></p>
+						</div>
+
+						<div class="cust isempty" style="display: block; margin-bottom: 65px;"><i class="fa fa-window-restore" style="color: #ddd;"></i><span
+							 style="color: #ddd;">...</span></div>
+
+						<ul class="test-cust">
+							<!--<li class="custli">
+				<div class="image" style="background-image: url(img/expert-bg-3.jpg);"></div>
+				<h1>玛丽是的</h1>
+				<p>1121456爱神的箭，阿萨德较好的，阿萨德</p>
+				<ul>
+					<span>好评率：</span>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star" style="color: #eee;"></i></li>
+				</ul>
+			</li>-->
+						</ul>
+
+						<!--<div class="c-body">
+			<div class="c-body-leftimg" style="background-image: url(img/my-head-big.png);"></div>
+			<h2>-</h2>
+			<b class="occupation"><i class="fa fa-cut"></i>路书定制师</b>
+			<p><i class="fa fa-quote-left"></i><span>-</span></p>
+			<ul>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star"></i></li>
+				<li><i class="fa fa-star" style="color: #ddd;"></i></li>
+			</ul>
+			<span class="evaluate">好评率： <b> - </b>%</span>
+		</div>-->
+
+					</div>
+
+					<!--<div class="mui-scroll-wrapper c-bottom">
+		<div class="mui-scroll">
+			<ul class="c-more">
+				<li onclick="mui.openWindow({url:'postdetail.html?cid=116',id:'postdetail.html'})"><div style="background-image: url(img/my-head-big.png);"></div><h3>张维峰</h3><span>◆ <b>中级定制师</b></span></li>
+				<li><div style="background-image: url(img/customer/customer_02.jpg);"></div><h3>张维峰</h3><span>◆ <b>路书定制师</b></span></li>
+				<li><div style="background-image: url(img/my-head-big.png);"></div><h3>张维峰</h3><span>◆ <b>路书定制师</b></span></li>
+			</ul>
+		</div>
+	</div>-->
+
+					<p class="moreline" mtype="cust">点击查看更多定制师 <i class="fa fa-angle-right"></i></p>
+					<div class="customer">
+						<div class="c-title" id="moretravels">
+							<h1>体验师精选游记</h1>
+							<p>大家都爱去的那些城市</p>
+						</div>
+					</div>
+					<div class="travels isempty" style="display: block; margin-bottom: 60px;"><i class="fa fa-window-restore" style="color: #ddd;"></i><span
+						 style="color: #ddd;">...</span></div>
+
+					<!--<div class="mui-scroll-wrapper p-line">
+		<div class="mui-scroll">
+			<ul class="p-linelist">
+				<li class="p-linelist-li" style="background-image: url(img/customer/line_01.jpg);" onclick="openWeb('http://www.baidu.com')">
+					<p>指南听见湛蓝色的风吹过,抚过秋藏在肌肤里指南听见湛蓝色的风吹过,抚过秋藏在肌肤里指南听见湛蓝色的风吹过,抚过秋藏在肌肤里指南听见湛蓝色的风吹过,抚过秋藏在肌肤里</p><ul><li>&bull; 贝加尔湖</li><li>&bull; 9天</li></ul>
+				</li>
+				<li class="p-linelist-li" style="background-image: url(img/customer/line_01.jpg);" onclick="plus.runtime.openURL('itms-apps://itunes.apple.com/cn/app/%E9%85%B7%E6%B8%B8%E5%87%BA%E8%A1%8C/id1335555909?mt=8');">
+					<p>指南听见湛蓝色的风吹过,抚过秋藏在肌肤里</p><ul><li>&bull; 贝加尔湖</li><li>&bull; 9天</li></ul>
+				</li>
+			</ul>
+		</div>
+	</div>-->
+
+					<div class="mui-scroll-wrapper test-line" style="display: none;">
+						<div class="mui-scroll">
+							<ul>
+								<!--<li style="background-image: url(img/expert-bg-3.jpg);"><span>大阪</span></li>
+				<li style="background-image: url(img/expert-bg-2.jpg);"><span>大阪</span></li>
+				<li style="background-image: url(img/expert-bg-1.jpg);"><span>大阪</span></li>
+				<li style="background-image: url(img/travel/travellistbg.jpg);"><span>大阪</span></li>
+				<li style="background-image: url(img/custslistbg.jpg);"><span>大阪</span></li>
+				<li><span>大阪</span></li>-->
+							</ul>
+						</div>
+					</div>
+
+					<div class="customer" style="margin-top: 0; padding-top: 5px;">
+						<div class="c-title">
+							<h1>更多推荐</h1>
+							<p></p>
+						</div>
+					</div>
+
+					<!-- 广告轮播图 -->
+					<div class="mui-slider indexslider-small">
+						<div class="mui-slider-group mui-slider-loop">
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/index-bottom-banner-3.jpg);"></div>
+							</div>
+
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/sbanner-1.jpg);"></div>
+							</div>
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/sbanner-2.jpg);"></div>
+							</div>
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/index-bottom-banner-1.jpg);"></div>
+							</div>
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/index-bottom-banner-2.jpg);"></div>
+							</div>
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/index-bottom-banner-3.jpg);"></div>
+							</div>
+
+							<div class='mui-slider-item'>
+								<div class="simg" style="background-image: url(img/banner/sbanner-1.jpg);"></div>
+							</div>
+						</div>
+						<div class="mui-slider-indicator">
+							<div class='mui-indicator mui-active'></div>
+							<div class='mui-indicator'></div>
+							<div class='mui-indicator'></div>
+							<div class='mui-indicator'></div>
+							<div class='mui-indicator'></div>
+						</div>
+					</div>
+
+					<div class="bottomlogo"></div>
+
+				</div>
+
+			</div>
+		</div>
+		<!--首页 end-->
+
+		<!--路书目的地 start-->
+		<div class="mui-content custbox viewcontent" style="display: none;">
+
+			<h1 class="head" id="custhead">选择旅行目的地<i class="fa fa-search searchdest"></i></h1>
+			<div class="tapboxpush" id="tapboxpush"></div>
+
+			<div id="slider2" class="custslider mui-slider" style="min-height: 28px;">
+
+				<div class="tapbox" id="custbox_tapbox">
+					<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<!--<a class="mui-control-item mui-active" href="#item4mobile">推荐</a>
+				<a class="mui-control-item" href="#item5mobile">亚洲</a>
+				<a class="mui-control-item" href="#item6mobile">欧洲</a>
+				<a class="mui-control-item" href="#item7mobile">美洲</a>-->
+					</div>
+					<!--<div  class="mui-slider-progress-bar mui-col-xs-3"></div>-->
+				</div>
+
+				<div class="mui-slider-group">
+					<!--<div id="item4mobile" class="mui-slider-item mui-control-content mui-active custbox-content">
+				<div id="scroll4" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="refresh-tip"> &nbsp; </div>
+						<div class="refreshpush"></div>
+						<ul class="terminilist">
+							<h1>当季热门<span>/ 6</span></h1>
+							<li><div><h2>云南</h2><i>Yunnan</i></div><span class="cover" style="background-image:url(img/cut/temini_01.png);"></span></li>
+							<li><div><h2>西藏</h2><i>Xizhang</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>新疆</h2><i>Xinjiang</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>泰国</h2><i>Thailand</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>马尔代夫</h2><i>Maldives</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>斐济</h2><i>Fiji</i></div><img src="img/cut/temini_01.png"></li>
+						</ul>
+						<ul class="terminilist">
+							<h1>境外最热<span>/ 6</span></h1>
+							<li><div><h2>普吉岛</h2><i>Phuket</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>越南</h2><i>Vietnam</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>澳大利亚</h2><i>Xinjiang</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>巴厘岛</h2><i>Phuket</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>日本</h2><i>Japan</i></div><img src="img/cut/temini_01.png"></li>
+							<li><div><h2>芽庄</h2><i>Nha Trang</i></div><img src="img/cut/temini_01.png"></li>
+						</ul>
+						<button class="termini">请选择目的地</button>
+					</div>
+				</div>
+			</div>
+
+			<div id="item5mobile" class="mui-slider-item mui-control-content custbox-content box-content">
+				<div class="mui-content mui-row mui-fullscreen">
+					<div class="mui-col-xs-4 leftlist">
+						<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+							<a class="mui-control-item mui-active" href="#content1">韩国<span>/49</span></a>
+							<a class="mui-control-item" href="#content2">中国<span>/407</span></a>
+							<a class="mui-control-item" href="#content3">泰国<span>/8</span></a>
+						</div>
+					</div>
+					<div id="segmentedControlContents" class="mui-col-xs-8 rightlist">
+						<div id="content1" class="mui-control-content mui-active">
+							<ul class="destbox">
+								<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+								<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+								<li class="destli active" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+								<li class="destli" style="">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+							</ul>
+						</div>
+						<div id="content2" class="mui-control-content">
+							<ul class="destbox">
+								<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+							</ul>
+						</div>
+						<div id="content3" class="mui-control-content">
+							<ul class="destbox">
+								<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+								<li class="destli" style="background-image: url(img/banner/line-banner-1.jpg);">
+									<div class="inner"><h1>大理</h1><span>dali</span></div><i class="fa fa-check"></i>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="item5mobile" class="mui-slider-item mui-control-content custbox-content">
+				<div id="scroll5" class="mui-scroll-wrapper">
+					<div class="mui-scroll"><div class="refresh-tip"> &nbsp; </div><div class="refreshpush"></div><ul class="terminilist"></ul></div>
+				</div>
+			</div>
+
+			<div id="item6mobile" class="mui-slider-item mui-control-content custbox-content">
+				<div id="scroll6" class="mui-scroll-wrapper">
+					<div class="mui-scroll"><div class="refresh-tip"> &nbsp; </div><div class="refreshpush"></div><ul class="terminilist"></ul></div>
+				</div>
+			</div>
+
+			<div id="item7mobile" class="mui-slider-item mui-control-content custbox-content">
+				<div id="scroll7" class="mui-scroll-wrapper">
+					<div class="mui-scroll"><div class="refresh-tip"> &nbsp; </div><div class="refreshpush"></div><ul class="terminilist"></ul></div>
+				</div>
+			</div>-->
+
+				</div>
+			</div>
+			<div class="isempty" style="display: block;"><i class="fa fa-map-o"></i><span>点击重新获取</span></div>
+		</div>
+
+		<!--路书目的地 end-->
+
+		<!--发现 start-->
+
+		<div class="mui-content expertbox viewcontent" style="display: none;">
+
+			<h1 class="head" id="experthead"><span id="totravel" style="left: 20px;">游记</span>发现<span id="addpost" style="font-size: 24px;margin-top: 5px;">+</span></h1>
+			<div class="tapboxpush" id="expertpush"></div>
+
+			<div id="slider1" class="mui-slider expertslider">
+
+				<div class="tapbox">
+					<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<a class="mui-control-item mui-active" href="#item1mobile">热门</a>
+						<a class="mui-control-item" href="#item2mobile">附近</a>
+						<a class="mui-control-item" href="#item3mobile">关注</a>
+					</div>
+					<!--<div class="mui-slider-progress-bar mui-col-xs-4"></div>-->
+				</div>
+
+				<div class="mui-slider-group">
+
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active expertbox-content hotspot">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="refresh-tip"><i class="fa fa-refresh"></i> 松开刷新</div>
+								<div class="refreshpush"></div>
+								<div class="postloading"></div>
+								<ul class="expert-list">
+									<!--
+							<li>
+								<div class="expertinfo">
+									<img class="headimg" src="img/my-head.png"/><h1>快乐一生</h1><span>2018-05-17 12:30</span>
+									<div class="etcctr"><i class="fa fa-user-plus"></i><i class="fa fa-thumbs-o-up member_like">16</i></div>
+								</div>
+								<p class="content">6月9号成都出发西藏,已经有小伙伴报名参加了全程拼车自助游,AA同行,走走停停,边走边玩,挺进北纬30度,探索神秘西藏,全程安排17天左右往返行程,成都~稻城亚丁~西藏拉萨~纳木错~唐古拉山~可哥西里~青海湖~西宁,有兴趣的朋友可以联系我！</p>
+
+								<div class="footer">
+									<span class="right comment_num"><i class="fa fa-commenting-o"></i>评论</span>
+									<span class="left"><i class="fa fa-map-marker"></i>四川省甘孜藏族自治州稻城亚丁风景区...</span>
+									<span class="left"><div class="check-comment" style="">查看评价 <i class="fa fa-angle-down"></i></div><div class="close-comment">收起评论 <i class="fa fa-angle-up"></i></div></span>
+								</div>
+
+								<div class="comment_list">
+									<div class="thumbs"><i class="fa fa-thumbs-o-up"></i><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"></div>
+									<div class="c-info">
+										<img class="c-head" src="img/find/test_01.png"/>
+										<h1 class="c-author">哦多尅123123</h1>
+										<span class="c-time">2018-04-21 16:24:28</span>
+										<p class="c-content">6月9号成都出发西藏发西藏,已经有小伙伴报名参加了全程拼车自助游,AA同行,走走</p>
+									</div>
+									<div class="c-info">
+										<img class="c-head" src="img/find/test_01.png"/>
+										<h1 class="c-author">哦多尅123123</h1><span class="c-and">回复</span><h1 class="c-author">哦多尅</h1>
+										<div class="c-del">删除</div>
+										<span class="c-time">2018-04-21 16:24:28</span>
+										<p class="c-content">6月9号成都出发西</p>
+									</div>
+									<div class="c-info">
+										<img class="c-head" src="img/find/test_01.png"/>
+										<h1 class="c-author">我</h1><span class="c-and">回复</span><h1 class="c-author">哦多尅</h1>
+										<div class="c-del">删除</div>
+										<span class="c-time">2018-04-21 16:24:28</span>
+										<p class="c-content">6月9号成都出发</p>
+									</div>
+								</div>
+							</li>
+
+							<li>
+								<div class="expertinfo">
+									<img class="headimg" src="img/my-head.png"/><h1>快乐一生</h1><span>2018-05-17 12:30</span>
+									<div class="etcctr"><i class="fa fa-user-plus"></i><i class="fa fa-thumbs-o-up"> 16</i></div>
+								</div>
+								<p class="content">6月9号成都出发西藏,已经有小伙伴报名参加了全程拼车自助游,AA同行,走走停停,边走边玩,挺进北纬30度,探索神秘西藏,全程安排17天左右往返行程,成都~稻城亚丁~西藏拉萨~纳木错~唐古拉山~可哥西里~青海湖~西宁,有兴趣的朋友可以联系我！</p>
+								<dl class="photolist">
+									<dd><span class="msgimg"><img  src="img/noimg.jpg" data-preview-src="" data-preview-group="1"/></span></dd>
+									<dd><span class="msgimg"><img  onload="clip(this);" src="img/navtitle.png" data-preview-src="" data-preview-group="1"/></span></dd>
+									<dd><span class="msgimg"><img  onload="clip(this);" src="img/customer/customer_01.jpg" data-preview-src="" data-preview-group="1"/></span></dd>
+								</dl>
+								<div class="footer">
+									<span class="right comment_num"><i class="fa fa-commenting-o"></i>评论</span>
+									<span class="left"><i class="fa fa-map-marker"></i>四川省甘孜藏族自治州稻城亚丁风景区...</span>
+									<span class="left"><div class="check-comment" style="">查看评价 <i class="fa fa-angle-down"></i></div><div class="close-comment">收起评论 <i class="fa fa-angle-up"></i></div></span>
+								</div>
+
+								<div class="comment_list">
+									<div class="thumbs"><i class="fa fa-thumbs-o-up"></i><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"><img src="img/find/test_01.png"><img src="img/my-head.png"></div>
+								</div>
+							</li>-->
+
+								</ul>
+								<div class="listloading"></div>
+								<div class="isend">已经到底了~</div>
+								<div class="isempty"><b></b><span>没有获取到动态哦</span></div>
+							</div>
+						</div>
+					</div>
+
+					<div id="item2mobile" class="mui-slider-item mui-control-content expertbox-content nearby">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="refresh-tip"><i class="fa fa-refresh"></i> 松开刷新</div>
+								<div class="refreshpush"></div>
+								<div class="postloading"></div>
+								<ul class="expert-list"></ul>
+								<div class="listloading"></div>
+								<div class="isend">已经到底了~</div>
+								<div class="isempty"><b></b><span>没有获取到动态哦</span></div>
+							</div>
+						</div>
+					</div>
+
+					<div id="item3mobile" class="mui-slider-item mui-control-content expertbox-content follow">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="refresh-tip"><i class="fa fa-refresh"></i> 松开刷新</div>
+								<div class="refreshpush"></div>
+								<div class="postloading"></div>
+								<ul class="expert-list"></ul>
+								<div class="listloading"></div>
+								<div class="isend">已经到底了~</div>
+								<div class="isempty"><b></b><span>没有获取到动态哦</span></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<!--评论输入盒子-->
+		<div class="comment_box"><input id="keyingval" type="text" placeholder="评论" /><button id="subeval">回复</button></div>
+
+		<!--发现 end-->
+
+		<!--消息中心 start-->
+
+		<div class="mui-content findbox viewcontent" style="display: none;">
+			<h1 class="head" id="findhead">消息中心<span id="notready">- 未连接</span><span id="notlogin">- 未登录</span><span id="connecting">
+					连接中 <b class="rotation mui-icon mui-icon-spinner-cycle"></b></span><i><svg id="nearby" viewBox="0 0 1024 1024"
+					 xmlns="http://www.w3.org/2000/svg">
+						<path d="M810.666667 341.333333h-85.333334v128h-128v85.333334h128v128h85.333334v-128h128v-85.333334h-128zM170.666667 789.333333C170.666667 693.930667 229.290667 597.333333 341.333333 597.333333s170.666667 96.597333 170.666667 192v21.333334h85.333333v-21.333334c0-108.373333-51.712-198.442667-131.285333-244.437333C494.634667 514.688 512 473.6 512 426.666667c0-97.28-73.386667-170.666667-170.666667-170.666667s-170.666667 73.386667-170.666666 170.666667c0 46.933333 17.365333 88.021333 45.952 118.229333C137.045333 590.890667 85.333333 680.96 85.333333 789.333333v21.333334h85.333334v-21.333334zM256 426.666667c0-50.261333 35.072-85.333333 85.333333-85.333334s85.333333 35.072 85.333334 85.333334-35.072 85.333333-85.333334 85.333333-85.333333-35.072-85.333333-85.333333z"
+						 fill="#999"></path>
+					</svg></i></h1>
+			<div class="findheadpush"></div>
+			<div class="mui-scroll-wrapper-find" id="findbox">
+				<div class="mui-scroll">
+					<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+					<div class="postloading" style="z-index:100;background-color:#fff;"></div>
+					<ul class="findlist">
+
+						<!--<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red">删除</a></div>
+					<div class="mui-slider-handle"><img src='img/find/test_01.png' onerror="nofind()" /><h1>聊天机器人</h1><p>和它聊聊</p></div>
+				</li>-->
+
+
+						<!--<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red">删除</a></div>
+					<div class="mui-slider-handle"><i class="newmsg show">123123123123</i><img src='img/find/test_01.png' onerror="nofind()" /><h1>alicklia<span class="time">2018.8.29</span></h1><p>我不知道自己在追逐什么,也许只是想要奔跑</p></div>
+				</li>-->
+
+						<!--
+
+				<li><i class="newmsg"></i></li>
+				<li><img src='img/find/test_02.png' onerror="nofind()" /><h1>我是你大王</h1><p>遇见生命初色 如无声黑白电影的清欢...</p></li>
+				<li><img src='img/find/test_03.png' onerror="nofind()" /><h1>清河(万源) </h1><p>杜鹃花开的时候,我们穿越廖家岭</p></li>
+				<li><img src='img/find/test_04.png' onerror="nofind()" /><h1>一个童话梦</h1><p>现实里的我,童话里的他</p></li>
+				<li><img src='img/find/test_05.png' onerror="nofind()" /><h1>会飞的鱼</h1><p>英雄一个人美美的睡一觉,才会觉得踏实幸.</p></li>
+				<li><img src='img/find/test_06.png' onerror="nofind()" /><h1>百利甜酒</h1><p>等你以后再翻看的时候就会想起,当时我..</p></li>
+				<li><img src='img/my-head.png' onerror="nofind()" /><h1>333</h1><p>123123</p></li>
+
+				-->
+					</ul>
+					<div class="isend">没有更多了~</div>
+					<div class="isempty" style="display: block;"><i class="fa fa-comments-o"></i><span>还没有聊天信息</span></div>
+					<!--
+				<div class="isempty"><i class="fa fa-binoculars"></i><span>没有找到附近的会员</span></div>
+			-->
+				</div>
+			</div>
+		</div>
+
+		<!--消息中心 end-->
+
+		<!--我的 start-->
+
+		<div class="mui-content mybox viewcontent" style="display: none;">
+
+			<div class="mui-scroll-wrapper-my blurbox">
+				<div class="mui-scroll">
+
+					<div class="my-circle"></div>
+
+					<div class="headbox" id="userheadbox">
+						<img class="headimg" id="userhead" src='img/my-head.png' onerror="nofind()" />
+						<div class="editinfo" id="userdata">
+							<h1><a>登录或注册</a><a id="level"> - </a></h1>
+							<p><span>请先登录</span></p>
+						</div>
+					</div>
+
+					<ul class="mymsg">
+						<li id="posts">
+							<div><img src="img/my/my_04.png" /><span>我的动态</span>
+								<p><b>0</b>条</p>
+							</div>
+						</li>
+						<li id="mytravels">
+							<div><img src="img/my/my_05.png" /><span>我的游记</span>
+								<p><b>0</b>条</p>
+							</div>
+						</li>
+						<li id="mycompanion">
+							<div><img src="img/my/my_06.png" /><span>我的约伴</span>
+								<p><b>0</b>次</p>
+							</div>
+						</li>
+					</ul>
+
+					<ul class="defaultlist icon-li">
+						<li id="wallet"><i class="left myicon7"></i><span class="left">我的钱包</span><i class="right fa fa-angle-right"></i></li>
+						<!--<li><i class="left myicon1"></i><span class="left">我的订单</span><i class="right fa fa-angle-right"></i></li>-->
+						<li id="collect"><i class="left myicon2"></i><span class="left">我的收藏</span><i class="right fa fa-angle-right"></i></li>
+						<!--<li id="address"><i class="left myicon3"></i><span class="left">我的地址</span><i class="right fa fa-angle-right"></i></li>
+						<li id="passenger"><i class="left myicon4"></i><span class="left">旅客信息</span><i class="right fa fa-angle-right"></i></li>-->
+						<li id="editpw"><i class="left myicon5"></i><span class="left">修改密码</span><i class="right fa fa-angle-right"></i></li>
+						<li id="ouserdata"><i class="left myicon8"></i><span class="left">个人设置</span><i class="right fa fa-angle-right"></i></li>
+					</ul>
+
+					<ul class="defaultlist icon-li">
+						<!--			<li><i class="left myicon6"></i><span class="left">我是达人</span><i class="right fa fa-angle-right"></i></li>-->
+						<li id="upgrade-8" style="display: none;"><i class="left myicon9"></i><span class="left">申请体验师</span><i class="right fa fa-angle-right"></i></li>
+						<li id="upgrade-9" style="display: none;"><i class="left myicon10"></i><span class="left">申请定制师</span><i class="right fa fa-angle-right"></i></li>
+					</ul>
+
+					<div class="version">APP更新 - <span class="version-num"></span> <i class="fa fa-compass"></i></div>
+				</div>
+			</div>
+
+		</div>
+		<!--我的 end-->
+
+		<!--底部菜单导航-->
+		<div id="footermenu" class="blurbox">
+			<a vshow='1' class="mui-tab-item mui-active"><i class="mui-icon seticon"></i><i class="mui-icon seticon-on"></i><span
+				 class="mui-tab-label">首页</span></a>
+			<a vshow='0' class="mui-tab-item"><i class="mui-icon seticon"></i><i class="mui-icon seticon-on"></i><span class="mui-tab-label">路书</span></a>
+			<a vshow='0' class="mui-tab-item"><i class="mui-icon seticon"></i><i class="mui-icon seticon-on"></i><span class="mui-tab-label">发现</span></a>
+			<a vshow='0' class="mui-tab-item"><i class="mui-icon seticon"><b class="newmsg">1</b></i><i class="mui-icon seticon-on"><b
+					 class="newmsg">1</b></i><span class="mui-tab-label">消息</span></a>
+			<a vshow='0' class="mui-tab-item"><i class="mui-icon seticon"></i><i class="mui-icon seticon-on"></i><span class="mui-tab-label">我的</span></a>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/viewIndex.js"></script>
+		<script src="js/facebook.js"></script>
+		<script src="js/chat.js"></script>
+
+	</body>
+</html>

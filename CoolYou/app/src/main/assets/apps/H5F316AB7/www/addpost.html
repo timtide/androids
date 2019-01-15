@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/post.css" />
+		<title></title>
+		<script>
+			function clip(ImgD) {
+				if (ImgD.width > 0 && ImgD.height > 0) {
+					if (ImgD.width / ImgD.height >= 1) {
+						ImgD.style.height = '100%';
+						ImgD.style.width = 'auto';
+					} else {
+						ImgD.style.width = '100%';
+						ImgD.style.height = 'auto';
+					}
+				}
+			}
+		</script>
+		<style>
+			.photolist {
+				background-color: #fafafa;
+				padding: 0;
+			}
+
+			.photolist .msgimg {
+				border-radius: 4px;
+			}
+
+			.photolist dd {
+				width: 25%;
+			}
+		</style>
+	</head>
+	<body style="background-color: #fff;">
+
+		<header class="defaulthead headfixed">
+			<i id="headback" style="font-size: 16px;">取消</i>
+			<h1>发帖</h1>
+			<i id="headact">发表</i>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="editbox">
+			<textarea id="pcontent" placeholder="分享精彩瞬间~"></textarea>
+			<dl class="photolist">
+				<!--		<dd><i class="fa fa-times"></i><span class="msgimg"><img  onload="clip(this);" src="img/custslistbg.jpg" data-preview-src="" data-preview-group="1"/></span></dd>-->
+				<dd id="addphoto"><img src="img/camera.jpg" /></dd>
+			</dl>
+			<!--<div class="footer"><span class="left"><i class="fa fa-map-marker"></i>四川省甘孜藏族自治州稻城亚丁风景区...</span></div>-->
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			
+			mui.previewImage();
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('textarea').blur();
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+			var imgh = '';
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				imgh = $('#addphoto').height();
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			mui('body').on('tap', '#headact', function(e) {
+				$('textarea').blur();
+				addNote();
+			});
+
+			function addNote() {
+				var contentval = $('#pcontent').val();
+
+				//获取图片id
+				var coverids = '';
+				$('.msgimg img').each(function(index, item) {
+					if (index < $('.msgimg').length - 1) {
+						coverids += $(item).attr('coverid') + ',';
+					} else {
+						coverids += $(item).attr('coverid');
+					}
+				});
+
+				if (coverids == '' && contentval == '') {
+					plus.nativeUI.toast('内容不能为空');
+					return;
+				}
+
+				contentval = contentval.replace(new RegExp('\n', 'gm'), '<br/>');
+
+				var subjson = {
+					'title': '无标题',
+					'content': contentval,
+					'description': '',
+					'category_id': '20',
+					'cover_id': coverids,
+					'status': 1
+				};
+
+				showcssWaiting();
+
+				mui.post(localStorage.getItem('ajaxlinkhead') + '/user/note/add', subjson, function(map) {
+					if (map.code == '1') {
+						var postpage = plus.webview.getWebviewById('post.html');
+						if (postpage) {
+							postpage.evalJS("nextpage=1;loading=0;getlist();");
+						}
+						setTimeout(function() {
+							plus.webview.currentWebview().close('slide-out-right', 200);
+						}, 1000)
+					} else {
+						closecssWaiting();
+					}
+
+					plus.nativeUI.toast(map.msg);
+				}, 'json');
+
+			};
+
+			mui('body').on('tap', '#addphoto', function() {
+				$('textarea').blur();
+
+				if ($('.msgimg').length == 9) {
+					mui.toast("当前已达到最大数量");
+					return
+				}
+
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: [{
+							title: "拍照"
+						},
+						{
+							title: "从相册中选择"
+						}
+					]
+				}, function(e) { //1 是拍照  2 从相册中选择
+					switch (e.index) {
+						case 1:
+							appendByCamera();
+							break;
+						case 2:
+							appendByGallery();
+							break;
+					}
+				});
+			});
+
+			// 拍照添加文件
+			function appendByCamera() {
+				plus.camera.getCamera().captureImage(function(e) {
+					plus.io.resolveLocalFileSystemURL(e, function(entry) {
+						var path = entry.toLocalURL();
+
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(path, 1000);
+							} else {
+								//上传图片
+								uploadImg(path);
+							}
+						});
+
+						//上传图片
+						//uploadImg(path);
+					}, function(e) {
+						mui.toast("读取拍照文件错误：" + e.message);
+					});
+				});
+			}
+
+			var gpaths = [];
+			var lineuping = 0;
+			var nowuping = -1;
+
+			// 从相册添加文件
+			function appendByGallery() {
+				var maxl = 9 - $('.msgimg').length;
+				gpaths = [];
+				plus.gallery.pick(function(e) {
+					for (var i in e.files) {
+						gpaths[i] = e.files[i];
+					}
+					if (gpaths.length > 1) {
+						lineuping = 1;
+						nowuping = 0;
+					}
+					checksizeanup(gpaths[0]);
+				}, function(e) {
+					plus.nativeUI.toast('取消选择图片');
+				}, {
+					filter: 'image',
+					multiple: true,
+					maximum: maxl,
+					system: false,
+					onmaxed: function() {
+						plus.nativeUI.toast('最多只能选择' + maxl + '张图片');
+					}
+				});
+
+			}
+
+			function checksizeanup(path) {
+				plus.io.resolveLocalFileSystemURL(path, function(entry) {
+					entry.file(function(file) {
+						var fz = file.size / 1024;
+						fz = fz / 1024;
+						if (fz >= 1) {
+							compressImage(path, 1000);
+						} else {
+							//上传图片
+							uploadImg(path);
+						}
+					});
+				}, function(e) {
+					mui.toast("读取拍照文件错误：" + e.message);
+				});
+			}
+
+			// 压缩图片
+			function compressImage(csrc, widthnum) {
+				showcssWaiting();
+
+				var randomx = Math.floor(Math.random() * 10000000000);
+				var coption = {
+					'src': csrc,
+					'dst': "_doc/cm" + randomx + ".jpg",
+					'quality': 100,
+					'overwrite': true,
+					'width': widthnum + 'px',
+					'overwrite': true,
+					'format': 'jpg'
+				}
+
+				plus.zip.compressImage(coption, function(i) {
+					var newpath = i.target;
+					plus.io.resolveLocalFileSystemURL(newpath, function(entry) {
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(newpath, widthnum - 100);
+							} else {
+								//上传图片
+								uploadImg(newpath);
+							}
+						});
+					}, function(e) {
+						plus.nativeUI.toast("Resolve file URL failed: " + e.message);
+					});
+				}, function(e) {
+					closecssWaiting();
+					plus.nativeUI.toast("压缩图片失败");
+				});
+			}
+
+			//上传图片
+			function uploadImg(path) {
+				showcssWaiting();
+				var uploadUrl = localStorage.getItem('ajaxlinkhead') + '/user/upload/upload';
+				var task = plus.uploader.createUpload(
+					uploadUrl, {
+						method: "POST"
+					},
+					function(t, status) { //上传完成
+						if (status == 200) {
+							mui.toast("上传成功");
+							var map = JSON.parse(t.responseText);
+							var newimg = '<dd><i class="fa fa-times"></i><span class="msgimg"><img  onload="clip(this);" src="' + path +
+								'" coverid="' + map.info.id + '"   data-preview-src="" data-preview-group="1"/></span></dd>';
+							$('#addphoto').before(newimg);
+							if (lineuping == 1 && gpaths[nowuping + 1]) {
+								nowuping++;
+								checksizeanup(gpaths[nowuping]);
+							} else {
+								lineuping = 0;
+								nowuping = 0;
+								closecssWaiting();
+							}
+						} else {
+							if (lineuping == 1 && gpaths[nowuping + 1]) {
+								nowuping++;
+								checksizeanup(gpaths[nowuping]);
+							} else {
+								lineuping = 0;
+								nowuping = 0;
+								closecssWaiting();
+							}
+							mui.toast("上传失败：图片格式不正确 / 大小不得大于两MB");
+						}
+					}
+				);
+				//添加其他参数
+				task.addData('flash', '1');
+				task.addData('fileType', 'service');
+				task.addData('filename', 'images');
+				task.addFile(path, {
+					key: "file"
+				});
+				task.start();
+			}
+
+			mui('body').on('tap', '.fa-times', function(e) {
+				$(this).parent('dd').remove();
+			});
+		</script>
+	</body>
+</html>

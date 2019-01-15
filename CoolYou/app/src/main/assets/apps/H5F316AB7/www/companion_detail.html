@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				font-size: 14px;
+				background-color: #F7F8FA;
+			}
+
+			.my_content {
+				background-color: #fff;
+			}
+
+			.mui-table-view:before {
+				height: 0;
+			}
+
+			.mui-table-view:after {
+				background-color: #eee;
+			}
+
+			.mui-table-view-cell {
+				padding: 20px 26px;
+			}
+
+			.companion_title {
+				color: #666666;
+			}
+
+			.padding_box {
+				padding: 0px 25px;
+			}
+
+			.desc_title {
+				color: #666666;
+				padding: 17px 0px;
+			}
+
+			.desc_content {
+				padding-bottom: 25px;
+			}
+
+			.companion_people {
+				text-align: center;
+			}
+
+			.people_title {
+				padding: 28px;
+			}
+
+			.people_title span {
+				font-size: 20px;
+				font-weight: bold;
+				color: #70D3BE;
+			}
+
+			.people_list {
+				width: 100%;
+				text-align: center;
+				margin-bottom: 190px;
+			}
+
+			.list_item {
+				width: 18%;
+				display: inline-block;
+				padding-bottom: 25px;
+				text-align: center;
+			}
+
+			.item_img {
+				width: 47px;
+				height: 47px;
+				border: 2px #fff solid;
+				border-radius: 100%;
+				box-shadow: 1px 1px 12px #ddd;
+			}
+
+			.item_username {
+				margin-top: -7px;
+				font-size: 10px;
+				color: #666;
+			}
+
+			.add_btn {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background-color: #70D3BE;
+				padding: 23px;
+				text-align: center;
+				color: #fff;
+				font-size: 16px;
+				font-weight: bold;
+			}
+
+			.add_btn.my_disabled {
+				background-color: #ddd;
+				color: #eee;
+			}
+
+			.success_tips {
+				display: none;
+				position: fixed;
+				z-index: 10000;
+				top: 50%;
+				left: 50%;
+				overflow: hidden;
+				width: 70%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+				color: #000;
+				border-radius: 5px;
+				background: #fff;
+				padding: 25px 20px;
+			}
+
+			.tips_icon {
+				width: 25%;
+			}
+
+			.tips_title {
+				color: #000;
+				font-weight: bold;
+				padding: 5px;
+			}
+
+			.tips_text {
+				color: #666;
+				font-size: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1 class="title">-正在发起的约伴</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="my_content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-row">
+					<div class="mui-col-xs-4 companion_title">
+						出行日期
+					</div>
+					<div class="mui-col-xs-8 companion_date">&nbsp;
+						<!--2018-05-20-->
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-row">
+					<div class="mui-col-xs-4 companion_title">
+						联系方式
+					</div>
+					<div class="mui-col-xs-8 companion_contact">&nbsp;
+						<!--18720984244-->
+					</div>
+				</li>
+			</ul>
+			<div class="padding_box">
+				<div class="desc_title">
+					简单描述
+				</div>
+				<div class="desc_content">&nbsp;
+					<!--想去青海或西安，大概4天左右，有一起的吗？行程看自由调整。-->
+				</div>
+			</div>
+		</div>
+		
+		<div class="companion_people">
+			<div class="people_title">
+				共有 <span>0</span> 人加入此约伴
+			</div>
+			<div class="people_list mui-row">
+				<!--<div class="list_item"><img class="item_img" src="img/find/test_02.png" /><div class="item_username">张三丰</div></div>
+				<div class="list_item"><img class="item_img" src="img/find/test_02.png" /><div class="item_username">张三丰</div></div>
+				<div class="list_item"><img class="item_img" src="img/find/test_02.png" /><div class="item_username">张三丰</div></div>
+				<div class="list_item"><img class="item_img" src="img/find/test_02.png" /><div class="item_username">张三丰</div></div>-->
+			</div>
+		</div>
+		
+		<div class="add_btn">
+			加入约伴
+		</div>
+		
+		<!--弹窗-->
+		<div class="success_tips">
+			<img class="tips_icon" src="img/companion/check_o.png" />
+			<div class="tips_title">
+				加入约伴成功 !
+			</div>
+			<div class="tips_text">
+				你可以去个人中心 "我的约伴" 中查看状态
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				mui('body').on('tap', '#headback', function(e) {
+					plus.webview.currentWebview().close('slide-out-right', 200);
+				})
+				//获取约伴详情
+				var currentView = plus.webview.currentWebview();
+				var inviteid = currentView.inviteid;
+				if (inviteid) {
+					var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+					var uid = plus.storage.getItem('user_uid');
+					showcssWaiting();
+					$.getJSON(ajaxlinkhead + '/invite/detail-' + inviteid, {
+						is_ajax: 1
+					}, function(map) {
+						//console.log(JSON.stringify(map));
+						$('.companion_date').html(new Date(map.info.start_date * 1000).format('yyyy-MM-dd'));
+						$('.companion_contact').html(map.info.contact);
+						$('.desc_content').html(map.info.description);
+						var invs = map.info.invs;
+						var peopleNum = 0;
+						for (var key in invs) {
+							var listItem = '<div class="list_item"><img class="item_img" src="' +
+								ajaxlinkhead + invs[key].avatar + '" /><div class="item_username">' +
+								invs[key].nickname + '</div></div>';
+							$('.people_list').append(listItem);
+							peopleNum++;
+						}
+						$('.people_title span').html(peopleNum);
+						//修改标题
+						if (uid == map.info.uid) {
+							$('.title').html('我正在发起的约伴');
+							$('.add_btn').hide();
+						} else {
+							$('.title').html(map.info.invs[map.info.uid].nickname + '-正在发起的约伴');
+						}
+						//判断是否已加入该约伴
+						if (map.info.members.indexOf(uid) != -1) {
+							//修改按钮显示
+							$('.add_btn').addClass('my_disabled');
+							$('.add_btn').html('已加入该约伴');
+						}
+
+						closecssWaiting();
+					}).fail(function(e) {
+						mui.toast('网络异常...');
+						closecssWaiting();
+					});
+				} else {
+					mui.toast('错误的请求，请返回上一页重试')
+				}
+
+				var mask = mui.createMask(function() {
+					return false;
+				});
+				
+				mui('body').on('tap', '.add_btn', function(e) {
+					var _self = this;
+					if ($(_self).hasClass('my_disabled')) {
+						mui.toast('你已在该约伴中');
+					} else {
+						showcssWaiting();
+						$.get(ajaxlinkhead + '/user/member/sub_invite?is_ajax=1&id=' + inviteid, function(map) {
+							//console.log(JSON.stringify(map));
+							if (map.err == 0) {
+								//加入成功后
+								mask.show();
+								$('.success_tips').show();
+								mui.toast('3秒后自动返回路书详情');
+								var bookdetail = plus.webview.getWebviewById('bookdetail.html');
+								var current = plus.webview.getWebviewById('companion_detail.html');
+								var listview = plus.webview.getWebviewById('companion_list.html');
+								mui.later(function() {
+									mui.back();
+									bookdetail.show();
+									setTimeout(function() {
+										listview.close('none');
+										current.close('none');
+									}, 300)
+								}, 3000);
+							} else {
+								mui.toast(map.msg);
+							}
+							closecssWaiting();
+						}, 'json').fail(function(e) {
+							mui.toast('网络异常...');
+							closecssWaiting();
+						});
+					}
+				})
+
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

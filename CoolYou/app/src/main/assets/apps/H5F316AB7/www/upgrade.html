@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			.exper,.cust{
+				display: none;
+			}
+
+			.formlist{
+				background-color: #fff;
+				overflow: hidden;
+			}
+
+			.formlist h1{
+				font-size: 20px;
+				padding: 34px 25px 10px;
+				font-weight: bold;
+			}
+
+			.formlist li{
+				border-bottom: 1px #eee solid;
+				clear: both;
+				overflow: hidden;
+				font-size: 14px;
+				padding: 16px 25px 0;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.formlist li:active{
+				background-color: #eee;
+			}
+
+			.formlist li .left{
+				float: left;
+				line-height: 46px;
+			}
+
+			.formlist li div.left{
+				max-width: 60%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.formlist li span.left{
+				width: 30%;
+				color: #666;
+			}
+
+			.formlist li input.left{
+				width: 70%;
+				border: none;
+				font-size: 14px;
+				line-height: 20px;
+				padding-left: 0;
+				padding-right: 0;
+				margin: 0;
+				background-color: transparent;
+				height: 46px;
+			}
+
+			.formlist li button.left{
+				color: #70d3be;
+				border: 1px #70d3be solid;
+				border-radius: 4px;
+				line-height: 24px;
+				margin-top: 10px;
+				padding: 0 16px;
+				background-color: transparent;
+				margin-bottom: 15px;
+			}
+
+			.formlist li button.left.active{
+				margin-left: 96px;
+			}
+
+			.formlist li .right{
+				float: right;
+				line-height: 46px;
+				font-size: 20px;
+				color: #a0abb2;
+			}
+
+			.formlist li .cardimg{
+				display: none;
+				float: left;
+				background-position: center;
+				background-size: cover;
+				background-color: #ccc;
+				background-repeat: no-repeat;
+				width: 140px;
+				padding-bottom: 90px;
+			}
+
+			.formlist .cardimg-big{
+				display: none;
+				position: fixed;
+				z-index: 101;
+				background-position: center;
+				background-size: contain;
+				background-color: rgba(0,0,0,0.5);
+				background-repeat: no-repeat;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+			}
+
+			.formlist .myradio{
+				margin: 25px;
+				line-height: 40px;
+				font-size: 14px;
+				color: #70d3be;
+			}
+
+			.formlist .myradio i{
+				color: #ccc;
+			}
+
+			.formlist .myradio .fa-check-circle{
+				display: none;
+			}
+
+			.formlist .myradio span.active .fa-circle-o{
+				display: none;
+			}
+
+			.formlist .myradio span.active .fa-check-circle{
+				display: inline-block;
+				color: #70d3be;
+			}
+
+			.formlist .myradio a{
+				color: #70d3be;
+				text-decoration: underline;
+			}
+
+			.formlist .subupgrade{
+				margin: 25px;
+				margin-bottom: 60px;
+				background-color: #d5d4d5;
+				text-align: center;
+				line-height: 40px;
+				border-radius: 4px;
+				color: #fff;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.formlist .subupgrade.ready{
+				background-color: #70d3be;
+			}
+
+			.formlist .subupgrade:active{
+				background-color: #42ab95;
+			}
+
+			.destinationlist,.travelslist,.agreement{
+				display: none;
+				position: fixed;
+				z-index: 101;
+				background-color: #fff;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+			}
+
+			.destinationlist h1,.travelslist h1,.agreement h1{
+				font-size: 20px;
+				padding: 54px 25px 10px;
+				font-weight: bold;
+				box-shadow: 0 0 15px rgba(0,0,0,0.1);
+			}
+
+			.destinationlist h1 span,.travelslist h1 span,.agreement h1 span{
+				float: right;
+				color: #999;
+				font-size: 16px;
+				font-weight: normal;
+				letter-spacing: 5px;
+				line-height: 20px;
+			}
+
+			.destinationlist ul{
+				border-bottom: 1px #eee solid;
+				margin: 25px;
+				overflow: hidden;
+				padding-bottom: 10px;
+			}
+
+			.destinationlist ul:first-child{
+				padding-top: 25px;
+				margin-top: 0;
+			}
+
+			.destinationlist ul:last-child{
+				border: none;
+			}
+
+			.destinationlist ul li{
+				border:1px solid #ccc;
+				float: left;
+				margin-right: 10px;
+				color: #666;
+				font-size: 14px;
+				border-radius: 4px;
+				padding: 3px 15px ;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+				margin-bottom: 10px;
+			}
+
+			.destinationlist ul li:active{
+				opacity: 0.7;
+				border:1px solid #ff9800;
+				background-color: #ff9800;
+				color: #fff;
+			}
+
+			.destinationlist ul li.active{
+				border:1px solid #ff9800;
+				background-color: #ff9800;
+				color: #fff;
+			}
+
+			.destinationlist .pick,.agreement .pick{
+				position: absolute;
+				z-index: 10;
+				bottom: 0;
+				width: 100%;
+				text-align: center;
+				line-height: 48px;
+				background-color: #ff9800;
+				font-size: 16px;
+				color: #fff;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.destinationlist .pick:hover,.agreement .pick:hover{
+				opacity: 0.7;
+			}
+
+			.destinationlist .pick:active,.agreement .pick:active{
+				background-color: #ff5722;
+			}
+
+			.leverbox,.travelsbox,.agreementbox{
+				overflow-y: auto;
+			}
+
+			.agreementbox{
+				padding: 20px;
+				font-size: 14px;
+				color: #333;
+			}
+
+			.travelsbox{
+				padding: 20px 0;
+			}
+
+			.travelsbox li{
+				border-bottom: 1px #eee solid;
+				font-size: 14px;
+				padding: 15px  20px ;
+				padding-right: 40px;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.travelsbox li:active{
+				background-color: #eee;
+			}
+
+			.travelsbox li b{
+				position: absolute;
+				right: 15px;
+				color: #ddd;
+				margin-top: -5px;
+				font-size: 16px;
+			}
+
+			.travelsbox li i{
+				margin-right: 5px;
+				color: #ccc;
+			}
+
+			.travelsbox li p{
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #444;
+				line-height: 18px;
+			}
+
+			.travelsbox li span{
+				color: #ccc;
+			}
+
+			.travelsbox .nextpage{
+				text-align: center;
+				border: 1px #eee dashed;
+				margin: 15px;
+				line-height: 40px;
+				color: #666;
+				border-radius: 3px;
+				font-size: 14px;
+				background-color: #eee;
+			}
+
+			.formlist .status{
+				display: none;
+				color: #999;
+				font-size: 16px;
+				margin-left: 10px;
+			}
+
+			.tips{
+				display: none;
+				width: 80%;
+				position: fixed;
+				z-index: 101;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				background-color: #fff;
+				padding: 25px;
+				border-radius: 16px;
+				box-shadow: 0 0 15px rgba(0,0,0,0.1);
+				color: #444;
+				font-size: 16px;
+			}
+
+			.tips i{
+				margin-right: 10px;
+				color: #9E9E9E;
+				font-size: 18px;
+			}
+
+			.tips span{
+				margin-left: 3px;
+				font-weight: bold;
+			}
+
+			.tips button{
+				margin-top: 40px;
+				float: right;
+				border-radius: 60px;
+				padding: 6px 24px 4px;
+				line-height: 18px;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="exper">体验师申请</span><span class="cust">定制师申请</span></h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="formlist">
+			<h1>实名认证<span class="status">待审核</span></h1>
+			<ul>
+				<li><span class="left">姓名</span><input id="name-val" class="left" type="text" placeholder="请填写真实姓名" /></li>
+				<li id="gender"><span class="left">性别</span>
+					<div id="gender-val" class="left">选择性别</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li><span class="left">出生日期</span><input id="birthday-val" class="left" type="date" placeholder="填选出生日期" value="1988-01-01" /></li>
+				<li><span class="left">居住地</span><input id="residence-val" class="left" type="text" placeholder="填写长居地城市名称，如深圳" /></li>
+				<li><span class="left">联系方式</span><input id="tel-val" class="left" type="tel" placeholder="手机号" maxlength="16" /></li>
+				<li id="education"><span class="left">学历</span>
+					<div id="education-val" class="left">请选择最高学历</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li><span class="left">职业</span><input id="title-val" class="left" type="text" placeholder="填写职业" /></li>
+				<li id="cardtype"><span class="left">证件类型</span>
+					<div id="cardtype-val" class="left">请选择</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li><span class="left">上传证件</span>
+					<div csrc="" class="cardimg" style="background-image: url(img/nochatimg.jpg);"></div><button class="left" id="cardimg">选择文件</button>
+				</li>
+				<li id="destination" cid=""><span class="left">擅长目的地</span>
+					<div class="left">请选择</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li class="exper" id="travels"><span class="left">旅行游记链接</span>
+					<div id="travels-val" class="left">选择一篇游记</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li id="image"><span class="left">形象图</span>
+					<div id="image-val" class="left">未设置</div><i class="fa fa-angle-right right"></i>
+				</li>
+				<li id="signature"><span class="left">签名介绍</span>
+					<div id="signature-val" class="left">未设置</div><i class="fa fa-angle-right right"></i>
+				</li>
+			</ul>
+			<div class="myradio"><span id="hasread" class=""><i class="fa fa-circle-o"></i><i class="fa fa-check-circle"></i>
+					我已阅读</span> <a id="agreementtext">申请协议</a></div>
+			<div class="subupgrade">提 交</div>
+			<div class="cardimg-big" style="background-image: url(img/nochatimg.jpg);"></div>
+		</div>
+
+		<div class="destinationlist">
+			<h1 id="destinationtitle">选择目的地 <span class="cancel">取消</span></h1>
+			<div class="leverbox">
+				<ul class="lever1"></ul>
+				<ul class="lever2"></ul>
+				<ul class="lever3"></ul>
+			</div>
+			<div id="destinationpick" class="pick">确 定</div>
+		</div>
+
+		<div class="travelslist">
+			<h1 id="travelstitle">选择游记 <span class="cancel">取消</span></h1>
+			<ul class="travelsbox">
+				<li>
+					<p>这次是给老同学定制的周末帝都吃吃吃路线。周五下午高铁抵达，周日下午离开。满打满算两天半</p>
+					<i class="fa fa-map-marker"></i><span>高铁，高铁</span><b class="fa fa-hand-o-left"></b>
+				</li>
+				<div class="nextpage">下一页</div>
+			</ul>
+		</div>
+
+		<div class="agreement">
+			<h1 id="agreementtitle">申请协议 <span class="cancel">取消</span></h1>
+			<div class="agreementbox">正在拟定中...</div>
+			<div id="agreementpick" class="pick">同 意 协 议</div>
+		</div>
+
+		<div class="tips">
+			<i class="fa  fa-info-circle"></i>当前已提交了<span class="cust">体验师</span><span class="exper">定制师</span> 申请
+			<button id="uptypechange">现在变更</button>
+		</div>
+		<div class="coverbox"></div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+			var upgradeid = '';
+
+			switch (gdata.uptype) {
+				case '8':
+					$('.cust').hide();
+					$('.exper').show();
+					break;
+				case '9':
+					$('.exper').hide();
+					$('.cust').show();
+					break;
+			}
+
+			mui('body').on('tap', '#headback', function(e) {
+				var inpage = plus.webview.getWebviewById('resetdata.html');
+				if (inpage) {
+					inpage.close('none');
+				}
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			//获取 年月日格式的日期
+			function getDateFormat_n(date) {
+				var timestamp = Number(date);
+				var newDate = new Date();
+				newDate.setTime(timestamp * 1000);
+				return newDate.format('yyyy-MM-dd');
+			}
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+
+			var sextype = {
+				'0': '保密',
+				'1': '男',
+				'2': '女'
+			};
+
+			function plusReady() {
+
+				getcategory();
+				var user_sex = plus.storage.getItem("user_sex");
+				if (user_sex) {
+					$('#gender-val').text(sextype[user_sex]);
+				}
+
+				var user_mobile = plus.storage.getItem("user_mobile")
+				if (user_mobile) {
+					$('#tel-val').val(user_mobile);
+				}
+
+				var birthday = plus.storage.getItem("user_birthday");
+				if (birthday) {
+					birthday = getDateFormat_n(birthday)
+					$('#birthday-val').val(birthday);
+				}
+
+				if (plus.storage.getItem("user_image")) {
+					$('#image div.left').text('已设置');
+				} else {
+					$('#image div.left').text('未设置');
+				}
+				$('#signature div.left').text(plus.storage.getItem("user_signature") || '未设置');
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			mui('body').on('tap', '#gender', function(e) {
+				$('input').blur();
+				plus.nativeUI.actionSheet({
+					title: "选择您的性别",
+					cancel: "取消",
+					buttons: [{
+						title: "男"
+					}, {
+						title: "女"
+					}]
+				}, function(e) {
+					switch (e.index) {
+						case 1:
+							$('#gender div.left').text('男');
+							break;
+						case 2:
+							$('#gender div.left').text('女');
+							break;
+					}
+					checkexpar();
+				});
+			});
+
+			mui('body').on('tap', '#education', function(e) {
+				$('input').blur();
+				var bts = [{
+					title: "初中"
+				}, {
+					title: "高中"
+				}, {
+					title: "专科"
+				}, {
+					title: "本科"
+				}, {
+					title: "研究生"
+				}, {
+					title: "博士"
+				}]
+				plus.nativeUI.actionSheet({
+					title: "选择您的最高学历",
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						$('#education div.left').text(bts[e.index - 1].title || '最高学历');
+						checkexpar();
+					}
+				});
+			});
+
+			mui('body').on('tap', '#cardtype', function(e) {
+				$('input').blur();
+				var bts = [{
+					title: "身份证"
+				}, {
+					title: "护照"
+				}]
+				plus.nativeUI.actionSheet({
+					title: "选择您的最高学历",
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if (e.index > 0) {
+						$('#cardtype div.left').text(bts[e.index - 1].title || '请选择');
+						checkexpar();
+					}
+				});
+			});
+
+			mui('body').on('tap', '#cardimg', function(e) {
+				$('input').blur();
+				var btnArray = [{
+					title: "拍照"
+				}, {
+					title: "从相册选择"
+				}];
+				plus.nativeUI.actionSheet({
+					title: "选择照片",
+					cancel: "取消",
+					buttons: btnArray
+				}, function(e) {
+					switch (e.index) {
+						case 1:
+							plus.camera.getCamera().captureImage(function(path) {
+								checksize("file://" + plus.io.convertLocalFileSystemURL(path))
+							}, function(err) {});
+							break;
+						case 2:
+							plus.gallery.pick(function(path) {
+								checksize(path);
+							}, function(err) {}, null);
+							break;
+					}
+				});
+			});
+
+			mui('body').on('tap', '#image', function(e) {
+				mui.openWindow({
+					url: 'userimage.html',
+					id: 'userimage.html',
+					styles: {
+						top: 0,
+						bottom: 0
+					}
+				});
+			});
+
+			mui('body').on('tap', '#signature', function(e) {
+				var inpage = plus.webview.getWebviewById('resetdata.html');
+				if (inpage) {
+					inpage.evalJS('setform("signature");');
+					inpage.show('slide-in-right', 200);
+				} else {
+					plus.webview.create('resetdata.html', 'resetdata.html', {
+						top: 0,
+						bottom: 0
+					});
+					var newinpage = plus.webview.getWebviewById('resetdata.html');
+					newinpage.addEventListener('loaded', function() {
+						newinpage.evalJS('setform("signature");');
+						newinpage.show('slide-in-right', 200);
+					})
+				}
+			});
+
+			function checksize(path) {
+				plus.io.resolveLocalFileSystemURL(path, function(entry) {
+					entry.file(function(file) {
+						var fz = file.size / 1024;
+						fz = fz / 1024;
+						if (fz >= 1) {
+							compressImage(path, 1000);
+						} else {
+							//上传图片
+							uploadfile(path, 'image');
+						}
+					});
+				}, function(e) {
+					mui.toast("读取拍照文件错误：" + e.message);
+				});
+			}
+
+			// 压缩图片
+			function compressImage(csrc, widthnum) {
+				showcssWaiting();
+
+				var randomx = Math.floor(Math.random() * 10000000000);
+				var coption = {
+					'src': csrc,
+					'dst': "_doc/cm" + randomx + ".jpg",
+					'quality': 100,
+					'overwrite': true,
+					'width': widthnum + 'px',
+					'overwrite': true,
+					'format': 'jpg'
+				}
+
+				plus.zip.compressImage(coption, function(i) {
+					var newpath = i.target;
+					plus.io.resolveLocalFileSystemURL(newpath, function(entry) {
+						entry.file(function(file) {
+							var fz = file.size / 1024;
+							fz = fz / 1024;
+							if (fz >= 1) {
+								compressImage(newpath, widthnum - 100);
+							} else {
+								//上传图片
+								uploadfile(newpath, 'image');
+							}
+						});
+					}, function(e) {
+						plus.nativeUI.toast("Resolve file URL failed: " + e.message);
+					});
+				}, function(e) {
+					closecssWaiting();
+					plus.nativeUI.toast("压缩图片失败");
+				});
+			}
+
+			//上传
+			function uploadfile(gpath) {
+				showcssWaiting();
+				var uploadUrl = localStorage.getItem('ajaxlinkhead') + '/user/upload/upload';
+				var task = plus.uploader.createUpload(uploadUrl, {
+					method: "POST"
+				}, function(t, status) { //上传完成
+					if (status == 200) {
+						var map = JSON.parse(t.responseText);
+						var dataurl = localStorage.getItem('ajaxlinkhead') + map.info.url;
+						$('.cardimg,.cardimg-big').css('background-image', 'url(' + dataurl + ')');
+						$('.cardimg').attr('csrc', dataurl);
+						$('.cardimg').show();
+						$('#cardimg').addClass('active');
+						checkexpar();
+						closecssWaiting();
+					} else {
+						closecssWaiting();
+						mui.toast("上传失败：格式不正确 / 大小不得大于两MB");
+					}
+				});
+
+				//添加其他参数
+				task.addData('flash', '1');
+				task.addData('fileType', 'service');
+				task.addData('filename', 'image');
+				task.addFile(gpath, {
+					key: "file"
+				});
+				task.start();
+			}
+
+			mui('body').on('tap', '.cardimg', function(e) {
+				$('input').blur();
+				$('.cardimg-big').fadeIn();
+			});
+
+			mui('body').on('tap', '.cardimg-big', function(e) {
+				$('.cardimg-big').fadeOut();
+			});
+
+			mui('body').on('tap', '#destination', function(e) {
+				$('input').blur();
+				$('.destinationlist').fadeIn();
+				var leverboxH = $(window).height() - document.getElementById('destinationtitle').clientHeight - document.getElementById(
+					'destinationpick').clientHeight;
+				$('.leverbox').css('height', leverboxH + 'px');
+			});
+
+			mui('body').on('tap', '.destinationlist .cancel', function(e) {
+				$('.destinationlist').fadeOut();
+			});
+
+			var category = {};
+			var categoryquick = {};
+			var lever1 = '';
+
+			function getcategory() {
+				$.get(localStorage.getItem('ajaxlinkhead') + '/index/index/category.html', {
+					model: 'line',
+					is_ajax: 1,
+					level: 3
+				}, function(data) {
+					$.each(data.list, function(i, v) {
+						categoryquick[v.id] = v.title;
+						if (i == 0) {
+							lever1 = v.id
+						}
+						$('.lever1').append('<li cid="' + v.id + '">' + v.title + '</li>');
+						category[v.id] = {
+							'title': v.title,
+							'child': {}
+						}
+						$.each(v._child, function(a, b) {
+							categoryquick[b.id] = b.title;
+							if (i == 0) {
+								$('.lever2').append('<li cid="' + b.id + '">' + b.title + '</li>');
+							}
+							category[v.id].child[b.id] = {
+								'title': b.title,
+								'child': {}
+							};
+							$.each(b._child, function(c, d) {
+								categoryquick[d.id] = d.title;
+								if (i == 0 && a == 0) {
+									$('.lever3').append('<li cid="' + d.id + '">' + d.title + '</li>');
+								}
+								category[v.id].child[b.id].child[d.id] = {
+									'title': d.title
+								};
+							});
+						});
+					});
+					gethistory();
+				}, 'json').fail(function() {
+					mui.toast('目的地获取失败');
+				})
+			}
+
+			mui('body').on('tap', '.destinationlist ul li', function(e) {
+				$('.destinationlist ul li').removeClass('active')
+				$(this).addClass('active');
+				var thislever = $(this).parents('ul').attr('class');
+				var thiscid = $(this).attr('cid');
+				if (thislever == 'lever1') {
+					lever1 = thiscid;
+					var thisdata = category[thiscid].child;
+					$('.lever2,.lever3').empty();
+					var first = 1;
+					$.each(thisdata, function(i, v) {
+						$('.lever2').append('<li cid="' + i + '">' + v.title + '</li>');
+						if (first == 1) {
+							$.each(v.child, function(c, d) {
+								$('.lever3').append('<li cid="' + c + '">' + d.title + '</li>');
+							});
+						}
+						first++;
+					})
+				}
+
+				if (thislever == 'lever2') {
+					var thisdata = category[lever1].child;
+					thisdata = thisdata[thiscid] || {};
+					thisdata = thisdata.child || {};
+					$('.lever3').empty();
+					$.each(thisdata, function(i, v) {
+						$('.lever3').append('<li cid="' + i + '">' + v.title + '</li>');
+					})
+				}
+
+			});
+
+			mui('body').on('tap', '.destinationlist .pick', function(e) {
+				var pickcid = $('.destinationlist li.active').attr('cid') || '';
+				var picktext = $('.destinationlist li.active').text() || '请选择';
+				if (pickcid == '') {
+					mui.toast('请选择一个目的地');
+				} else {
+					$('#destination').attr('cid', pickcid);
+					$('#destination div.left').text(picktext);
+					$('.destinationlist').fadeOut();
+				}
+				checkexpar();
+			});
+
+			mui('body').on('tap', '#travels', function(e) {
+				$('input').blur();
+				$('.travelslist').fadeIn();
+				var boxH = $(window).height() - document.getElementById('travelstitle').clientHeight;
+				$('.travelsbox').css('height', boxH + 'px');
+			});
+
+			mui('body').on('tap', '.travelslist .cancel', function(e) {
+				$('.travelslist').fadeOut();
+			});
+
+			var listdata = {};
+			var nextpage = 1;
+			var currentpage = 0;
+			var loading = 0;
+
+			getlist();
+
+			function getlist() {
+				if (currentpage == nextpage) {
+					mui.toast('已加载完全部');
+					$('.travelsbox .nextpage').hide();
+					return;
+				}
+
+				if (loading == 1) {
+					return
+				}
+				loading = 1;
+				showcssWaiting();
+
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/travels/index?is_ajax=1&page=' + nextpage, function(result) {
+					if (result.list) {
+						currentpage = result.list.current_page;
+
+						if (result.list.last_page > currentpage) {
+							nextpage++;
+						} else {
+							$('.travelsbox .nextpage').hide();
+						}
+
+						$.each(result.list.data, function(i, v) {
+							var li = '<li tlink="' + localStorage.getItem('ajaxlinkhead') + '/travels/detail-' + v.id + '.html"><p>' + v
+								.title + '</p><i class="fa fa-map-marker"></i><span>' + v.city +
+								'</span><b class="fa fa-hand-o-left"></b></li>';
+							$('.travelsbox .nextpage').before(li);
+						})
+
+					} else {
+						mui.toast('获取失败');
+					};
+
+					loading = 0;
+					closecssWaiting();
+				}, 'json').fail(function() {
+					loading = 0;
+					closecssWaiting();
+					mui.toast('获取失败，发生错误');
+				});
+			};
+
+			mui('body').on('tap', '.travelsbox .nextpage', function(e) {
+				getlist();
+			});
+
+			mui('body').on('tap', '.travelsbox li', function(e) {
+				var pickcid = $(this).attr('tlink') || '';
+				var picktext = $(this).find('p').text() || '请选择';
+				if (picktext == '') {
+					mui.toast('请选择一个正确的游记');
+				} else {
+					$('#travels div.left').text(picktext + ' 链接地址：' + pickcid);
+					$('.travelslist').fadeOut();
+				}
+				checkexpar();
+			});
+
+			mui('body').on('tap', '#agreementtext', function(e) {
+				$('input').blur();
+				$('.agreement').fadeIn();
+				var boxH = $(window).height() - document.getElementById('agreementtitle').clientHeight - document.getElementById(
+					'agreementpick').clientHeight;
+				$('.agreementbox').css('height', boxH + 'px');
+			});
+
+			mui('body').on('tap', '.agreement .cancel', function(e) {
+				$('.agreement').fadeOut();
+			});
+
+			mui('body').on('tap', '#hasread', function(e) {
+				var thisclass = $(this).attr('class');
+				if (thisclass == 'active') {
+					$(this).removeClass('active');
+				} else {
+					$(this).addClass('active');
+				}
+				checkexpar();
+			});
+
+			mui('body').on('tap', '#agreementpick', function(e) {
+				$('#hasread').addClass('active');
+				$('.agreement').fadeOut();
+				checkexpar();
+			});
+
+			$('input').bind('input propertychange', function() {
+				checkexpar();
+			});
+
+			function checkexpar() {
+
+				$('.subupgrade').removeClass('ready');
+
+				if ($('#name-val').val() == '') {
+					return
+				};
+				if ($('#gender-val').text() == '选择性别') {
+					return
+				};
+				if ($('#birthday-val').val() == '') {
+					return
+				};
+				if ($('#residence-val').val() == '') {
+					return
+				};
+				if ($('#tel-val').val() == '') {
+					return
+				} else if ($('#tel-val').val().length < 4) {
+					return
+				};
+				if ($('#education-val').text() == '请选择最高学历') {
+					return
+				};
+				if ($('#title-val').val() == '') {
+					return
+				};
+				if ($('#cardtype-val').text() == '请选择') {
+					return
+				};
+				if ($('.cardimg').attr('csrc') == '') {
+					return
+				};
+				if ($('#destination').attr('cid') == '') {
+					return
+				};
+				if ($('#image-val').text() == '未设置') {
+					return
+				};
+				if ($('#signature-val').text() == '未设置') {
+					return
+				};
+
+				if (gdata.uptype == '8') {
+					if ($('#travels-val').text() == '选择一篇游记') {
+						return
+					};
+				}
+
+				if ($('#hasread').attr('class') != 'active') {
+					return
+				};
+
+				$('.subupgrade').addClass('ready');
+				$('.subupgrade').text('提交');
+			}
+
+			mui('body').on('tap', '.subupgrade', function(e) {
+				$('input').blur();
+				subupgrade();
+			});
+
+			var subing = 0;
+
+			function subupgrade() {
+
+				var subjson = {
+					'is_ajax': 1,
+					'uptype': gdata.uptype,
+					'name': $('#name-val').val(),
+					'gender': $('#gender-val').text(),
+					'birthday': $('#birthday-val').val(),
+					'residence': $('#residence-val').val(),
+					'tel': $('#tel-val').val(),
+					'education': $('#education-val').text(),
+					'title': $('#title-val').val(),
+					'cardtype': $('#cardtype-val').text(),
+					'cardimg': $('.cardimg').attr('csrc'),
+					'category_id': $('#destination').attr('cid')
+				};
+
+				$('.subupgrade').removeClass('ready');
+
+				if (subjson.name == '') {
+					mui.toast('姓名不能为空');
+					return
+				};
+				if (subjson.gender == '选择性别') {
+					mui.toast('请选择性别');
+					return
+				};
+				if (subjson.birthday == '') {
+					mui.toast('出生日期不能为空');
+					return
+				};
+				if (subjson.residence == '') {
+					mui.toast('居住地不能为空');
+					return
+				};
+				if (subjson.tel == '') {
+					mui.toast('电话不能为空');
+					return
+				} else if (subjson.tel < 4) {
+					mui.toast('电话号码长度不对');
+					return
+				};
+				if (subjson.education == '请选择最高学历') {
+					mui.toast('请选择学历');
+					return
+				};
+				if (subjson.title == '') {
+					mui.toast('职业不能为空');
+					return
+				};
+				if (subjson.cardtype == '请选择') {
+					mui.toast('请选择证件类型');
+					return
+				};
+				if (subjson.cardimg == '') {
+					mui.toast('请上传证件正面照');
+					return
+				};
+				if (subjson.category_id == '') {
+					mui.toast('请选择旅行目的地');
+					return
+				};
+				if ($('#image-val').text() == '未设置') {
+					mui.toast('请设置形象图');
+					return
+				};
+				if ($('#signature-val').text() == '未设置') {
+					mui.toast('请设置签名介绍');
+					return
+				};
+
+
+				if (gdata.uptype == '8') {
+					subjson.travels = $('#travels-val').text();
+					if (subjson.travels == '选择一篇游记') {
+						mui.toast('请选择一篇推荐游记');
+						return
+					};
+				}
+
+				if ($('#hasread').attr('class') != 'active') {
+					mui.toast('您还未同意协议');
+					return
+				};
+
+				if (subing == 1) {
+					return
+				}
+				subing = 1;
+				showcssWaiting();
+
+				$('.subupgrade').addClass('ready');
+				$('.subupgrade').text('提交');
+
+				var url = localStorage.getItem('ajaxlinkhead') + '/user/upgrades/add';
+
+				if (upgradeid != '') {
+					url = localStorage.getItem('ajaxlinkhead') + '/user/upgrades/edit/id/' + upgradeid;
+					subjson.status = 0;
+				}
+
+				$.post(url, subjson, function(result) {
+					if (result.code == '1') {
+						//添加成功
+						$('.formlist .status').show();
+						changegroup();
+						gethistory();
+					} else {
+						mui.toast(result.msg);
+					}
+					subing = 0;
+					closecssWaiting();
+				}, 'json').fail(function() {
+					subing = 0;
+					closecssWaiting();
+					mui.toast('提交失败，发生错误');
+				});
+
+			}
+
+			function gethistory() {
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/upgrades/index?is_ajax=1&page=1', function(result) {
+					if (result.list) {
+
+						var v = result.list.data[0];
+						if (v) {
+
+							if (String(v.uptype) != gdata.uptype) {
+								$('.tips,.coverbox').show();
+							}
+
+							upgradeid = v.id;
+							$('#name-val').val(v.name);
+							$('#gender-val').text(v.gender);
+							$('#birthday-val').attr('value', v.birthday);
+							$('#residence-val').val(v.residence);
+							$('#tel-val').val(v.tel);
+							$('#education-val').text(v.education);
+							$('#title-val').val(v.title);
+							$('#cardtype-val').text(v.cardtype);
+							$('.cardimg').attr('csrc', v.cardimg);
+							$('.cardimg,.cardimg-big').css('background-image', 'url(' + v.cardimg + ')');
+							$('.cardimg').show();
+							$('#cardimg').addClass('active');
+							$('#destination').attr('cid', v.category_id);
+							$('#destination div.left').text(categoryquick[v.category_id]);
+							$('#travels-val').text(v.travels);
+
+							var upstatus = '';
+
+							switch (String(v.status)) {
+								case '-1':
+									upstatus = '删除';
+									break;
+								case '0':
+									upstatus = '待审核';
+									break;
+								case '1':
+									upstatus = '已审核，待处理';
+									break;
+								case '2':
+									upstatus = '正常';
+									break;
+								case '3':
+									upstatus = '草稿';
+									break;
+							}
+
+							$('#hasread').addClass('active')
+
+							$('.formlist .status').text(upstatus);
+							$('.formlist .status').show();
+
+							$('.subupgrade').removeClass('ready');
+							$('.subupgrade').text(upstatus);
+
+						}
+
+					} else {
+						mui.toast('获取失败');
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					closecssWaiting();
+					mui.toast('获取失败，发生错误');
+				});
+			};
+
+			function changegroup(type) {
+
+				showcssWaiting();
+				var subjson = {
+					is_ajax: 1
+				};
+
+				if (type == 'cancel') {
+					subjson.has_c = 'yes';
+				} else {
+					subjson.gpid = gdata.uptype;
+				}
+
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/profile/group_status', subjson, function(result) {
+					if (type != 'cancel') {
+						mui.toast(result.msg);
+					}
+					closecssWaiting();
+				}, 'json').fail(function(result) {
+					closecssWaiting();
+					mui.toast('申请失败，发生错误');
+				});
+
+			}
+
+			mui('body').on('tap', '#uptypechange', function(e) {
+				$('.tips,.coverbox').fadeOut();
+				changegroup('cancel');
+				checkexpar();
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				width: 100%;
+				background-color: #F1F2F6;
+			}
+
+			.detail_content {
+				background-color: #fff;
+			}
+
+			.detail_msg {
+				font-size: 20px;
+				color: #262C3A;
+				font-weight: bold;
+				padding: 36px 20px;
+				border-bottom: 1px solid #F1F2F6;
+			}
+
+			.detail_info {
+				font-size: 13px;
+				color: #AFB8BF;
+				padding: 20px 20px 12px;
+			}
+
+			.detail_info .mui-row {
+				padding: 7px 0;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>交易明细</h1>
+		</header>
+		<div class="headpush"></div>
+		<div class="detail_content">
+			<div class="detail_msg">
+				<div class="msg_title mui-pull-left">
+					成功
+				</div>
+				<div class="msg_num mui-pull-right">
+					10元
+				</div>
+				<div class="mui-clearfix"></div>
+			</div>
+			<div class="detail_info">
+				<div class="mui-row">
+					<div class="mui-col-xs-4">
+						类型
+					</div>
+					<div class="mui-col-xs-8">
+						张某某打赏给我
+					</div>
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-xs-4">
+						时间
+					</div>
+					<div class="mui-col-xs-8">
+						2018-07-28 15:33
+					</div>
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-xs-4">
+						支付方式
+					</div>
+					<div class="mui-col-xs-8">
+						支付宝
+					</div>
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-xs-4">
+						流水号
+					</div>
+					<div class="mui-col-xs-8">
+						0
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				//获取详情
+				var currentView = plus.webview.currentWebview();
+				var logid = currentView.logid;
+				var orderTypeText = {
+					'21': '打赏成功',
+					'22': '获得打赏',
+					'2': '充值成功',
+					'1': '提现成功',
+				}
+				var payTypeText = ['余额', '微信', '支付宝'];
+				if (logid) {
+					var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+					var data = {
+						is_ajax: 1,
+						log_id: logid
+					}
+					$.getJSON(ajaxlinkhead + '/user/order/paylog', data, function(map) {
+						console.log(JSON.stringify(map));
+						if (map.err == 0) {
+							var data = map.data;
+							var typeList = {
+								'21': '我打赏给' + data.t_uname,
+								'22': data.f_uname + '打赏给我',
+								'2': payTypeText[data.pay_type] + '充值',
+								'1': '提现到' + payTypeText[data.pay_type]
+							}
+							$('.msg_title').html(orderTypeText[data.order_type]);
+							$('.msg_num').html(data.order_amount + '元');
+							$('.detail_info .mui-row .mui-col-xs-8').eq(0).html(typeList[data.order_type]);
+							$('.detail_info .mui-row .mui-col-xs-8').eq(1).html(new Date(data.create_time * 1000).format(
+								'yyyy-MM-dd hh:mm'));
+							$('.detail_info .mui-row .mui-col-xs-8').eq(2).html(payTypeText[data.pay_type]);
+							$('.detail_info .mui-row .mui-col-xs-8').eq(3).html(data.order_id);
+						}
+					}).fail(function() {
+						mui.toast('网络异常...');
+					});
+				}
+
+			}
+
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

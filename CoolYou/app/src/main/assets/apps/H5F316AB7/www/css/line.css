@@ -1,0 +1,291 @@
+.bottombox {
+	position: fixed;
+	z-index: 10;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	text-align: center;
+}
+
+.bottombox div {
+	float: left;
+}
+
+.bottombox .left {
+	width: 20%;
+	padding-top: 5px;
+	height: 55px;
+	border-right: 1px #eee solid;
+}
+
+.bottombox .left i {
+	font-size: 24px;
+	color: #f7b940;
+}
+
+.bottombox .left span,
+.bottombox .mid span {
+	display: block;
+	color: #999fa6;
+	font-size: 14px;
+}
+
+.bottombox .mid {
+	width: 40%;
+	padding-top: 5px;
+	height: 55px;
+
+}
+
+.bottombox .mid b {
+	font-size: 18px;
+	color: #f7b940;
+}
+
+.bottombox .mid b strong {
+	font-size: 22px;
+}
+
+.bottombox .right {
+	width: 40%;
+	background-color: #67cacb;
+	color: #fff;
+	line-height: 55px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.pushbottom {
+	height: 55px;
+}
+
+#mui-slider-shop .mui-slider-indicator {
+	width: 100px;
+	right: 15px;
+}
+
+.mui-slider-indicator .mui-indicator {
+	width: 8px;
+	height: 8px;
+	margin: 1px 3px;
+}
+
+.mui-slider-indicator .mui-active.mui-indicator {
+	background: #f7b940;
+}
+
+.headinfo {
+	background-color: #fff;
+}
+
+.headinfo h1 {
+	font-size: 20px;
+	font-weight: bold;
+	padding: 10px 20px;
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+}
+
+.headinfo .lineprice {
+	display: block;
+	line-height: 30px;
+	text-align: center;
+	color: #f7b940;
+	font-size: 18px;
+	border-bottom: 2px #ededed solid;
+	padding-bottom: 10px;
+}
+
+.headinfo .lineprice strong {
+	font-size: 28px;
+}
+
+.headinfo ul li {
+	border-bottom: 1px #ededed solid;
+	clear: both;
+	overflow: hidden;
+}
+
+.headinfo ul li:last-child {
+	border: none;
+}
+
+.headinfo ul li .left {
+	width: 30%;
+	float: left;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.headinfo ul li .left b {
+	font-size: 15px;
+	color: #5e5e5e;
+}
+
+.headinfo ul li .left span {
+	font-size: 12px;
+	color: #999;
+	display: block;
+}
+
+.headinfo ul li .right {
+	width: 70%;
+	float: left;
+	line-height: 62px;
+	color: #607f96;
+	font-size: 15px;
+}
+
+.headinfo ul li .right i {
+	color: #fff;
+	font-size: 18px;
+	background-color: #7c94aa;
+	width: 28px;
+	line-height: 28px;
+	text-align: center;
+	border-radius: 30px;
+	margin-right: 10px;
+}
+
+.linedate {
+	background-color: #fff;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.linedate h1 {
+	padding: 18px 0;
+	width: 30%;
+	text-align: center;
+	font-size: 15px;
+	color: #5e5e5e;
+}
+
+.linedate .linedate-scroll.mui-scroll-wrapper {
+	padding: 0 18px;
+	position: relative;
+	height: 85px;
+}
+
+.linedate .linedate-scroll.mui-scroll-wrapper .mui-scroll {
+	width: 600px;
+}
+
+.linedate .linedate-scroll .datelist {
+	width: 600px;
+	display: block;
+	height: 65px;
+}
+
+.linedate .linedate-scroll .datelist li {
+	display: block;
+	float: left;
+	width: 105px;
+	padding: 8px;
+	border: 1px solid #e6e7e9;
+	border-radius: 5px;
+	margin-right: 8px;
+	text-align: center;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.linedate .linedate-scroll .datelist li:active {
+	background-color: #fff1d4;
+}
+
+.linedate .linedate-scroll .datelist li.active {
+	color: #f7b940;
+	border: 1px solid #f7b940;
+}
+
+.linedate .linedate-scroll .datelist li b {
+	font-size: 12px;
+	color: #999;
+	font-weight: bold;
+}
+
+.linedate .linedate-scroll .datelist li b strong {
+	font-size: 18px;
+}
+
+.linedate .linedate-scroll .datelist li span {
+	display: block;
+	color: #333;
+	font-size: 12px;
+}
+
+.linedate .linedate-scroll .datelist li.active b,
+.linedate .linedate-scroll .datelist li.active b strong,
+.linedate .linedate-scroll .datelist li.active span {
+	color: #f7b940;
+}
+
+.detailbox {
+	background-color: #fff;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.detailbox .tapbox {
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+	padding: 0 18px;
+}
+
+.detailbox .tapbox li {
+	float: left;
+	width: 25%;
+	text-align: center;
+	color: #999;
+	font-size: 15px;
+	line-height: 38px;
+	border-top: 2px #fff solid;
+	border-bottom: 2px #fff solid;
+}
+
+.detailbox .tapbox li.active {
+	color: #f7b940;
+	border-bottom: 2px #f7b940 solid;
+}
+
+.detailbox .contentbox {
+	display: none;
+}
+
+.detailbox .contentbox.active {
+	display: block;
+}
+
+.detailbox .contentbox .noinfo {
+	text-align: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	color: #ccc;
+}
+
+.isend {
+	text-align: center;
+	color: #ccc;
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
+#defaulthead {
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+.defaulthead {
+	border: none;
+}
+
+.defaulthead h1 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/userdata.css" />
+		<style>
+
+			.defaultlist li.forminput input[type=password]{
+				height: 52px;
+				margin: 0;
+				padding-left: 25px;
+				font-size: 15px;
+				width: 240px;
+			}
+
+			.defaultlist li i{
+				line-height: 52px;
+			}
+
+			.defaultlist li .left{
+				font-size: 15px;
+			}
+
+			.defaultlist li .sendcode{
+				width: 80px;
+				color: #6bc9b4;
+				text-align: center;
+				font-size: 15px;
+				position: absolute;
+				right: 25px;
+				line-height: 36px;
+				border-radius: 5px;
+				margin-top: 8px;
+			}
+
+			.defaultlist li .sendcode.sending{
+				background-color: #fafafa;
+				color: #ccc;
+			}
+
+			#subedit{
+				line-height: 48px;
+				border-radius: 10px;
+				width: 84%;
+				margin-top: 25px;
+				margin-left: 8%;
+				font-size:18px;
+				background-color: #e6e6e6;
+			}
+
+			.cansub#subedit{
+				background-color: #6bc9b4;
+			}
+
+			.defaultlist{
+				padding: 0;
+			}
+
+			.defaultlist li.forminput input{
+				padding-left: 25px;
+			}
+
+		</style>
+		<title></title>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>修改密码</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<ul class="defaultlist noicon" style="margin-top: 3px;">
+			<li class="forminput">
+				<input type="tel" class="left changedata" id="userphone" placeholder="输入手机号" disabled="disabled" style="color: #999;" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+			<li class="forminput">
+				<input type="tel" class="left changedata" id="verify" placeholder="验证码" maxlength="8" style="width: 160px;">
+				<div class="sendcode">获取验证码</div>
+				<span class="fa-stack right" style="margin-right: 110px;"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<ul class="defaultlist noicon">
+			<li class="forminput">
+				<input type="password" class="left" id="newpw" placeholder="新密码 , 至少6位英文数字结合" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+			<li class="forminput">
+				<input type="password" class="left" id="againpw" placeholder="再次输入密码" />
+				<span class="fa-stack right"><i class="fa fa-circle fa-stack-2x"></i><i class="fa  fa-close fa-stack-1x fa-inverse"></i></span>
+			</li>
+		</ul>
+
+		<button id="subedit">完成</button>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				$('#userphone.changedata').val(plus.storage.getItem("user_mobile"));
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+
+			$('input').keyup(function() {
+				var thisval = $(this).val();
+				if (thisval.length > 0) {
+					$(this).siblings('.fa-stack').show();
+				} else {
+					$(this).siblings('.fa-stack').hide();
+				}
+
+				var cansub = 0;
+
+				var userphone = $('#userphone.changedata').val();
+				var verify = $('#verify.changedata').val();
+				userphone = $.trim(userphone);
+				var newpw = $('#newpw').val();
+				var againpw = $('#againpw').val();
+				if (userphone == "") {
+					cansub++
+				};
+				if (verify == "") {
+					cansub++
+				};
+				if (sendone == 0) {
+					cansub++
+				};
+				if (newpw == "") {
+					cansub++
+				};
+				if (againpw == "") {
+					cansub++
+				};
+				if (newpw.length < 6) {
+					cansub++
+				};
+				if (againpw.length < 6) {
+					cansub++
+				};
+				if (againpw != newpw) {
+					cansub++
+				}
+
+				if (cansub == 0) {
+					$('#subedit').addClass('cansub');
+				} else {
+					$('#subedit').removeClass('cansub');
+				}
+			})
+
+			mui('body').on('tap', '.fa-stack', function(e) {
+				$(this).siblings('input').val('');
+				$(this).hide();
+			})
+
+			mui('body').on('tap', '#newpw,#againpw', function(e) {
+				$('input').blur();
+				$('.defaultlist li input').removeClass('keying');
+				$(this).addClass('keying');
+			})
+
+			//验证码
+			var send = 0;
+			var sendone = 0;
+			mui('body').on('tap', '.sendcode', function(e) {
+
+				$('input').blur();
+
+				var phoneval = $('#userphone.changedata').val();
+
+				if (phoneval == '') {
+					plus.nativeUI.toast('请输入手机号');
+					return;
+				}
+
+				if (send != 0) {
+					return
+				};
+				send = 1;
+
+				showcssWaiting();
+				$.post(localStorage.getItem('ajaxlinkhead') + '/api/dysms/sendsms', {
+					is_ajax: '1',
+					mobile: phoneval
+				}, function(result) {
+
+					closecssWaiting();
+					if (String(result.code) == '2') {
+						var readnum = 60;
+						$('.sendcode').text(readnum + " 秒重发");
+						$('.sendcode').addClass('sending');
+						var timeread = setInterval(function() {
+							if (readnum > 1) {
+								readnum = readnum - 1;
+								$('.sendcode').text(readnum + " 秒重发");
+							} else {
+								$('.sendcode').text("发送验证码");
+								window.clearInterval(timeread)
+								send = 0;
+								$('.sendcode').removeClass('sending');
+							}
+						}, 1000);
+						sendone = 1;
+					} else {
+						plus.nativeUI.toast('发送失败，未知错误');
+						send = 0;
+					}
+
+				}, 'json').fail(function() {
+					closecssWaiting();
+					plus.nativeUI.toast('发送失败，未知错误');
+					$('.sendcode').text("发送验证码");
+					send = 0;
+					$('.sendcode').removeClass('sending');
+				});
+
+			})
+
+			var subsigning = 0;
+
+			mui('body').on('tap', '#subedit', function(e) {
+				$('input').blur();
+
+				if (subsigning == 1) {
+					plus.nativeUI.toast('资料提交中，请勿重复操作');
+					return;
+				};
+
+				var userphone = $('#userphone.changedata').val();
+				var verify = $('#verify.changedata').val();
+				userphone = $.trim(userphone);
+
+				var newpw = $('#newpw').val();
+				var againpw = $('#againpw').val();
+
+				if (userphone == "") {
+					plus.nativeUI.toast('手机号不能为空');
+					return;
+				} else if (sendone == 0) {
+					plus.nativeUI.toast('验证码未发送');
+					return;
+				} else if (verify == "") {
+					plus.nativeUI.toast('验证码不能为空');
+					return;
+				}
+
+				if (newpw == "") {
+					plus.nativeUI.alert('新密码不能为空');
+				} else if (againpw == "") {
+					plus.nativeUI.alert('请确认密码');
+				} else if (newpw.length != 6) {
+					plus.nativeUI.alert('新密码长度不正确');
+				} else if (againpw.length != 6) {
+					plus.nativeUI.alert('确认密码长度不正确');
+				} else if (againpw != newpw) {
+					plus.nativeUI.alert('两次密码不相同');
+				} else {
+
+					subsigning = 1
+					showcssWaiting()
+					$.post(localStorage.getItem('ajaxlinkhead') + "/user/profile/editpw", {
+						is_ajax: 1,
+						act: "first",
+						mobile: userphone,
+						verify_code: verify,
+						password: newpw,
+						repassword: againpw
+					}, function(data) {
+						plus.nativeUI.toast(data.msg);
+
+						if (data.code == 1) {
+
+							setTimeout(function() {
+								closecssWaiting();
+								plus.webview.currentWebview().close('slide-out-right', 200);
+							}, 1000)
+
+						} else {
+							closecssWaiting();
+							subsigning = 0;
+						}
+
+					}, 'json').fail(function() {
+						closecssWaiting();
+						subsigning = 0;
+						plus.nativeUI.toast('修改失败，发生错误');
+					})
+				}
+			})
+		</script>
+	</body>
+</html>

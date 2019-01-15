@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.findheadpush {
+				height: 94px;
+				background-color: #fefefe;
+				width: 100%;
+			}
+
+			.findbox .findlist {
+				padding-left: 24px;
+				padding-top: 15px;
+				padding-bottom: 24px;
+			}
+
+			.findbox .findlist li {
+				padding-top: 20px;
+				padding-bottom: 15px;
+				border-bottom: 1px #ededed solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.findbox .findlist li:active {
+				opacity: 0.7;
+			}
+
+			.findbox .findlist li i {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				border-radius: 50px;
+				text-align: center;
+				line-height: 40px;
+				color: #fff;
+				float: left;
+			}
+
+			.findbox .findlist li h1 {
+				font-size: 14px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				float: left;
+				line-height: 40px;
+			}
+
+			.findbox .findlist li h1 b {
+				font-size: 12px;
+				color: #bbb;
+			}
+
+			.findbox .findlist li p {
+				clear: both;
+				font-size: 12px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin: 0;
+				padding-left: 50px;
+			}
+
+			.refreshtip {
+				text-align: center;
+				font-size: 12px;
+				color: #ccc;
+				position: absolute;
+				width: 70%;
+				margin-left: 15%;
+				padding-top: 5px;
+				border-top: 1px #eee solid;
+				margin-top: -75px;
+			}
+
+			.msgtime {
+				color: #ccc;
+				font-size: 12px;
+				display: none;
+				padding-left: 50px;
+			}
+
+			.msgtime.active {
+				display: block;
+			}
+
+			.havenew {
+				width: 8px;
+				height: 8px;
+				background-color: #FF7043;
+				position: absolute;
+				box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+				border-radius: 30px;
+				display: none;
+				margin-left: 30px;
+				margin-top: 2px;
+				opacity: 0.8;
+			}
+
+			.havenew.active {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>
+				<span class="msg-center">消息中心</span>
+			</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="mui-scroll-wrapper-follow findbox msg-center" id="findbox">
+			<div class="mui-scroll">
+				<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+				<ul class="findlist">
+
+					<li openstatus="msg-comment">
+						<i class="fa fa-commenting-o" style="background-color: #b4da80; line-height: 38px;"></i>
+						<div class="havenew"></div>
+						<h1>评论我的<b>（ <span class="messageNum">0</span> ）</b></h1>
+						<p class="messageTxt">暂无最新评论信息</p>
+						<span class="msgtime" time='0'></span>
+					</li>
+
+					<li openstatus="msg-like">
+						<i class="fa fa fa-heart-o" style="background-color: #FFC107; line-height: 43px;"></i>
+						<div class="havenew"></div>
+						<h1>被赞<b>（ <span class="messageNum">0</span> ）</b></h1>
+						<p class="messageTxt">暂无最新被赞动态</p>
+						<span class="msgtime active" time='1'></span>
+					</li>
+
+					<li openstatus="msg-focus">
+						<i class="fa fa-user" style="background-color: #607d8b; line-height: 39px;"></i>
+						<div class="havenew"></div>
+						<h1>关注<b>（ <span class="messageNum">0</span> ）</b></h1>
+						<p class="messageTxt">暂无最新关注</p>
+						<span class="msgtime active" time='2'></span>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getlist();
+			}
+
+			mui('body').on('tap', '.findlist li', function(e) {
+				var thisattr = $(this).attr('openstatus');
+				mui.openWindow({
+					url: 'msglist.html?act=' + thisattr,
+					id: 'msglist.html'
+				});
+				plus.webview.getWebviewById('msglist.html').addEventListener('close', function() {
+					getlist();
+				})
+			});
+
+			$(function() {
+				//滑动初始化
+				var bodyheight = $(window).height() - document.querySelector('.defaulthead').clientHeight;
+				$('.mui-scroll-wrapper-follow').css({
+					'height': bodyheight
+				});
+				$('.mui-scroll-wrapper-follow .mui-scroll').css({
+					'min-height': bodyheight + 1
+				});
+				mui('.mui-scroll-wrapper-follow').scroll({
+					indicators: false,
+					deceleration: 0.003
+				});
+				scrolllistener();
+			})
+
+			var loadfirst = 0;
+
+			function scrolllistener() {
+				document.getElementById('findbox').addEventListener('scroll', function(e) {
+					if (e.detail.y > 70) {
+						loadfirst = 1;
+					}
+				});
+				document.getElementById('findbox').addEventListener('scrollend', function(e) {
+					if (loadfirst == 1 && e.detail.y == 0) {
+						getlist();
+						loadfirst = 0;
+					}
+				});
+			}
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				plus.webview.currentWebview().close();
+			})
+
+			function getlist() {
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/message/index', {
+					is_ajax: 1
+				}, function(map) {
+
+					resetcenter();
+					var user_nickname = plus.storage.getItem("user_nickname"); //用户签名
+					var usingname = '';
+
+					//消息数
+					$('.messageNum').eq(0).text(map.countComment);
+					$('.messageNum').eq(1).text(map.countLike);
+					$('.messageNum').eq(2).text(map.countFocus);
+
+					var commentMsg = map.commentMsg;
+					var focusMsg = map.focusMsg;
+					var likeMsg = map.likeMsg;
+
+					if (!!commentMsg) {
+						$('.havenew').eq(0).addClass('active');
+						$('.msgtime[time="0"]').addClass('active');
+						//回复
+						if (commentMsg.nickname) {
+							if (commentMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = commentMsg.nickname;
+							}
+							$('.messageTxt').eq(0).text(usingname + ' 回复了你的动态');
+						} else {
+							$('.messageTxt').eq(0).text('有新的回复');
+						}
+						//时间
+						$('.msgtime[time="0"]').html(commentMsg.create_time);
+					}
+
+					if (!!likeMsg) {
+						$('.havenew').eq(1).addClass('active');
+						$('.msgtime[time="1"]').addClass('active');
+						//回复
+						if (likeMsg.nickname) {
+							if (likeMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = likeMsg.nickname;
+							}
+							$('.messageTxt').eq(1).text(usingname + ' 赞了你的动态');
+						} else {
+							$('.messageTxt').eq(1).text('有新的被赞动态');
+						}
+						//时间
+						var date = new Date(Number(likeMsg.create_time));
+						$('.msgtime[time="1"]').text(getDateFormat(date));
+					}
+
+					if (!!focusMsg) {
+						$('.havenew').eq(2).addClass('active');
+						$('.msgtime[time="2"]').addClass('active');
+
+						//回复
+						if (focusMsg.nickname) {
+							if (focusMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = focusMsg.nickname;
+							}
+							$('.messageTxt').eq(2).text(usingname + ' 关注了你');
+						} else {
+							$('.messageTxt').eq(2).text('有新的关注');
+						}
+
+						//时间
+						var date = new Date(Number(focusMsg.create_time));
+						$('.msgtime[time="2"]').text(getDateFormat(date));
+					}
+
+					closecssWaiting();
+				}, 'json').fail(function() {
+					resetcenter();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			function resetcenter() {
+				$('.messageNum').text('-');
+				$('.havenew,.msgtime').removeClass('active');
+				$('.messageTxt').eq(0).text('暂无最新评论信息');
+				$('.messageTxt').eq(1).text('暂无最新被赞');
+				$('.messageTxt').eq(2).text('暂无最新关注');
+			}
+		</script>
+	</body>
+</html>

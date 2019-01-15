@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			body {
+				font-size: 14px;
+				background-color: #F7F8FA;
+			}
+			
+			.my_content{
+				background-color: #fff;
+			}
+			
+			.mui-table-view:before {
+				height: 0;
+			}
+			
+			.mui-table-view:after {
+				background-color: #eee;
+			}
+			
+			.mui-table-view-cell {
+				padding: 20px 26px;
+			}
+			
+			.companion_title {
+				color: #666666;
+			}
+			
+			.padding_box {
+				padding: 0px 25px;
+			}
+			
+			.desc_title {
+				color: #666666;
+				padding: 17px 0px;
+			}
+			
+			.desc_content {
+				padding-bottom: 25px;
+			}
+			
+			.companion_people{
+				text-align: center;
+			}
+			
+			.people_title{
+				padding: 28px;
+			}
+			
+			.people_title span{
+				font-size: 20px;
+				font-weight: bold;
+				color: #70D3BE;
+			}
+			
+			.people_list{
+				width: 100%;
+				text-align: center;
+				padding:0 5%;
+			}
+			
+			.list_item{
+				width: 18%;
+				display: inline-block;
+				padding-bottom: 25px;
+				text-align: center;
+			}
+			
+			.item_img{
+				width: 47px;
+    			height: 47px;
+			    border: 2px #fff solid;
+    			border-radius: 100%;
+    			box-shadow: 1px 1px 12px #ddd;
+			}
+			
+			.item_username{
+				margin-top: -7px;
+				font-size: 10px;
+				color: #666;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>约伴详情</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="my_content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-row">
+					<div class="mui-col-xs-4 companion_title">
+						出行日期
+					</div>
+					<div class="mui-col-xs-8 companion_date" >&nbsp;
+						<!--2018-05-20-->
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-row">
+					<div class="mui-col-xs-4 companion_title">
+						联系方式
+					</div>
+					<div class="mui-col-xs-8 companion_contact">&nbsp;
+						<!--18720984244-->
+					</div>
+				</li>
+			</ul>
+			<div class="padding_box">
+				<div class="desc_title">
+					简单描述
+				</div>
+				<div class="desc_content ">&nbsp;
+					<!--想去青海或西安，大概4天左右，有一起的吗？行程看自由调整。-->
+				</div>
+			</div>
+		</div>
+		<div class="companion_people">
+			<div class="people_title">
+				共有 <span>0</span> 人加入过此约伴
+			</div>
+			<div class="people_list mui-row">
+				<!--<div class="list_item"><img class="item_img" src="img/find/test_02.png"/><div class="item_username">张三丰</div></div>-->
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API 
+			function plusReady() {
+				//获取约伴详情
+				var currentView = plus.webview.currentWebview();
+				var inviteid = currentView.inviteid;
+				if(inviteid){
+					var ajaxlinkhead = localStorage.getItem('ajaxlinkhead');
+					$.getJSON(ajaxlinkhead+'/invite/detail-'+inviteid,{is_ajax: 1},function(map){
+						//console.log(JSON.stringify(map));
+						$('.companion_date').html(new Date(map.info.start_date*1000).format('yyyy-MM-dd'));
+						$('.companion_contact').html(map.info.contact);
+						$('.desc_content').html(map.info.description);
+						var invs = map.info.invs;
+						var peopleNum = 0;
+						for(var key in invs){
+							var listItem = '<div class="list_item"><img class="item_img" src="'+
+								ajaxlinkhead+invs[key].avatar+'" /><div class="item_username">'+
+								invs[key].nickname+'</div></div>';
+							$('.people_list').append(listItem);
+							peopleNum++;
+						}
+						$('.people_title span').html(peopleNum);
+						closecssWaiting();
+					}).fail(function(e){
+						mui.toast('网络异常...');
+						closecssWaiting();
+					});
+				}else{
+					mui.toast('错误的请求，请返回上一页重试')
+				}
+			}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+
+</html>

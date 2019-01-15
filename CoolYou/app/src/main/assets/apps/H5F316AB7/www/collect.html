@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/travels.css" />
+		<title></title>
+		<style>
+			.category li {
+				background: -webkit-linear-gradient(90deg, #7ae5c1, #64c1c9);
+				background: linear-gradient(90deg, #7ae5c1, #64c1c9);
+				color: #fff;
+				overflow: hidden;
+				border-radius: 15px;
+				margin: 15px;
+				padding: 15px;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.category li:active {
+				opacity: 0.7;
+			}
+
+			.category li span {
+				line-height: 40px;
+				float: left;
+				margin-left: 10px;
+			}
+
+			.category li b {
+				float: right;
+				line-height: 40px;
+				font-size: 22px;
+				opacity: 0.5;
+			}
+
+			.category li i {
+				float: left;
+				display: block;
+				background-position: center;
+				background-size: 80%;
+				background-repeat: no-repeat;
+				border-radius: 50px;
+				overflow: hidden;
+				background-color: #fff;
+				width: 40px;
+				height: 40px;
+				margin-left: 5px;
+			}
+
+			.category li i.icon-1 {
+				background-image: url(img/my/my_02.png);
+			}
+
+			.category li i.icon-2 {
+				background-image: url(img/my/my_01.png);
+			}
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>我的收藏</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<ul class="category">
+			<li id="collecttravels"><i class="icon-1"></i><span>游记</span><b class="fa fa-angle-right"></b></li>
+			<li id="collectbooks"><i class="icon-2"></i><span>路书</span><b class="fa fa-angle-right"></b></li>
+		</ul>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			mui('body').on('tap', '#collecttravels', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'collecttravels.html',
+					id: 'collecttravels.html'
+				})
+			});
+
+			mui('body').on('tap', '#collectbooks', function(e) {
+				if (loginIf() == 0) {
+					return
+				};
+				mui.openWindow({
+					url: 'collectbooks.html',
+					id: 'collectbooks.html'
+				})
+			});
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			// function plusReady(){}
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			// if(window.plus){plusReady();}else{document.addEventListener('plusready',plusReady,false);};
+		</script>
+	</body>
+</html>

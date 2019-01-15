@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.msg-comment,
+			.msg-like,
+			.msg-focus {
+				display: none;
+			}
+
+			.isempty {
+				display: none;
+				text-align: center;
+				font-size: 12px;
+				color: #bbb;
+				line-height: 40px;
+				margin-top: 30px;
+			}
+
+			.isempty i {
+				display: block;
+				font-size: 30px;
+				color: #ccc;
+			}
+
+			.msglist {
+				padding-top: 10px;
+			}
+
+			.msglist li {
+				clear: both;
+				border-bottom: 1px #eee solid;
+				padding: 20px;
+				overflow: hidden;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.msglist li:active {
+				opacity: 0.6;
+			}
+
+			.msglist li img {
+				float: left;
+				width: 40px;
+				height: 40px;
+				border-radius: 40px;
+				margin-right: 12px;
+			}
+
+			.msglist li h1 {
+				margin-bottom: 5px;
+				color: #222;
+				display: inline-block;
+			}
+
+			.msglist li span {
+				font-size: 12px;
+				color: #bbb;
+				float: left;
+				width: 60%;
+				line-height: 16px;
+			}
+
+			.msglist li b {
+				color: #00BCD4;
+				font-size: 12px;
+				margin-left: 5px;
+				line-height: 16px;
+			}
+
+			.msglist li b i {
+				color: #ffd79c;
+			}
+
+			.msglist li div {
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				width: 40px;
+				height: 40px;
+				clear: both;
+				float: right;
+				border-radius: 4px;
+				opacity: 0.4;
+			}
+
+			.msglist li p {
+				clear: both;
+				padding-left: 52px;
+				padding-top: 8px;
+				font-size: 12px;
+				line-height: 18px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>
+				<span class="msg-comment">评论我的</span>
+				<span class="msg-like">动态评价</span>
+				<span class="msg-focus">新的粉丝</span>
+			</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="msg-comment">
+			<ul class="msglist">
+				<!--<li>
+			<div style="background-image:url(img/customer/customer_01.jpg);"></div>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1><b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+			<span>2018-06-08 22:11:00</span>
+			<p>asdasdasdsadsadsad,赞了你的动态,赞了你的动态,赞了你的动态,赞了你的动态,赞了你的动态,赞了你的动态,赞了你的动态,赞了你的动态</p>
+		</li>
+		<li>
+			<div style="background-image:url(img/customer/customer_01.jpg);"></div>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1><span>2018-06-08 22:11:00</span>
+			<b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+		</li>
+		<li>
+			<div style="background-image:url(img/customer/customer_01.jpg);"></div>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1><span>2018-06-08 22:11:00</span>
+			<b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+		</li>-->
+			</ul>
+			<div class="isempty"><i class="fa fa-binoculars"></i><span>暂无新的评论~</span></div>
+		</div>
+
+		<div class="msg-like">
+			<ul class="msglist">
+				<!--<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+			<span>2018-06-08 22:11:00</span>
+		</li>
+		<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+			<span>2018-06-08 22:11:00</span>
+		</li>
+		<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>赞了你的动态 <i class="fa fa-thumbs-up"></i></b>
+			<span>2018-06-08 22:11:00</span>
+		</li>-->
+			</ul>
+			<div class="isempty"><i class="fa fa-binoculars"></i><span>暂无新的消息~</span></div>
+		</div>
+
+		<div class="msg-focus">
+			<ul class="msglist">
+				<!--<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>关注了你</b>
+			<span>2018-06-08 22:11:00</span>
+		</li>
+		<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>关注了你</b>
+			<span>2018-06-08 22:11:00</span>
+		</li>
+		<li>
+			<img  src='img/find/test_03.png' onerror="nofind()" />
+			<h1>清河(万源)</h1>
+			<b>关注了你</b>
+			<span>2018-06-08 22:11:00</span>
+		</li>-->
+			</ul>
+			<div class="isempty"><i class="fa fa-binoculars"></i><span>暂无新的关注~</span></div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				switch (gdata.act) {
+					case 'msg-comment':
+						getcommentlist();
+						$('.msg-focus,.msg-center,.msg-like').hide();
+						break;
+					case 'msg-like':
+						getlikelist();
+						$('.msg-focus,.msg-comment,.msg-center').hide();
+						break;
+					case 'msg-focus':
+						getfocuslist();
+						$('.msg-center,.msg-comment,.msg-like').hide();
+						break;
+				}
+				$('.' + gdata.act).show();
+			}
+
+			function nofind() {
+				var img = event.srcElement;
+				img.src = "img/my-head.png";
+				img.onerror = null;
+			}
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				plus.webview.currentWebview().close();
+			})
+
+			function getlist() {
+				showcssWaiting();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/message/index', {
+					is_ajax: 1
+				}, function(map) {
+
+					resetcenter();
+					var user_nickname = plus.storage.getItem("user_nickname"); //用户签名
+					var usingname = '';
+
+					//消息数
+					$('.messageNum').eq(0).text(map.countComment);
+					$('.messageNum').eq(1).text(map.countLike);
+					$('.messageNum').eq(2).text(map.countFocus);
+
+					var commentMsg = map.commentMsg;
+					var focusMsg = map.focusMsg;
+					var likeMsg = map.likeMsg;
+
+					if (!!commentMsg) {
+						$('.havenew').eq(0).addClass('active');
+						$('.msgtime[time="0"]').addClass('active');
+						//回复
+						if (commentMsg.nickname) {
+							if (commentMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = commentMsg.nickname;
+							}
+							$('.messageTxt').eq(0).text(usingname + ' 回复了你的动态');
+						} else {
+							$('.messageTxt').eq(0).text('有新的回复');
+						}
+						//时间
+						$('.msgtime[time="0"]').html(commentMsg.create_time);
+					}
+
+					if (!!likeMsg) {
+						$('.havenew').eq(1).addClass('active');
+						$('.msgtime[time="1"]').addClass('active');
+						//回复
+						if (likeMsg.nickname) {
+							if (likeMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = likeMsg.nickname;
+							}
+							$('.messageTxt').eq(1).text(usingname + ' 赞了你的动态');
+						} else {
+							$('.messageTxt').eq(1).text('有新的被赞动态');
+						}
+						//时间
+						var date = new Date(Number(likeMsg.create_time));
+						$('.msgtime[time="1"]').text(getDateFormat(date));
+					}
+
+					if (!!focusMsg) {
+						$('.havenew').eq(2).addClass('active');
+						$('.msgtime[time="2"]').addClass('active');
+
+						//回复
+						if (focusMsg.nickname) {
+							if (focusMsg.nickname == user_nickname) {
+								usingname = '你自己';
+							} else {
+								usingname = focusMsg.nickname;
+							}
+							$('.messageTxt').eq(2).text(usingname + ' 关注了你');
+						} else {
+							$('.messageTxt').eq(2).text('有新的关注');
+						}
+
+						//时间
+						var date = new Date(Number(focusMsg.create_time));
+						$('.msgtime[time="2"]').text(getDateFormat(date));
+					}
+
+					closecssWaiting();
+				}, 'json').fail(function() {
+					resetcenter();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			function resetcenter() {
+				$('.messageNum').text('-');
+				$('.havenew,.msgtime').removeClass('active');
+				$('.messageTxt').eq(0).text('暂无最新评论信息');
+				$('.messageTxt').eq(1).text('暂无最新被赞');
+				$('.messageTxt').eq(2).text('暂无最新关注');
+			}
+
+			//获取likelist
+			function getlikelist() {
+				showcssWaiting();
+				$('.msg-like .msglist li').remove();
+				$('.msg-like .isempty').hide();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/message/like', {
+					is_ajax: 1
+				}, function(data) {
+
+					if (data.err == 0) {
+						if (data.likes.length > 0) {
+							$.each(data.likes, function(i, v) {
+								console.log(JSON.stringify(v));
+
+								var imgSrc = 'img/noimg.jpg';
+								var avatar = v.avatar;
+								if (!avatar) {
+									avatar = imgSrc;
+								} else {
+									avatar = localStorage.getItem('ajaxlinkhead') + avatar;
+								}
+
+								var li = '<li><div cid="' + v.cid + '" style="background-image:url(img/check.jpg);"></div><img  src="' +
+									avatar + '" onerror="nofind()"  uid="' + v.uid + '"/><h1  uid="' + v.uid + '">' + v.username +
+									'</h1><b cid="' + v.cid + '">赞了你的动态 <i class="fa fa-thumbs-up"></i></b><span>' + getDateFormat(v.create_time) +
+									'</span></li>';
+
+								$('.msg-like .msglist').append(li);
+							});
+						} else {
+							$('.msg-like .isempty').show();
+						}
+					} else {
+						plus.nativeUI.toast(map.msg);
+						$('.msg-like .isempty').show();
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					$('.msg-like .isempty').show();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			//获取focuslist
+			function getfocuslist() {
+				showcssWaiting();
+				$('.msg-focus .msglist li').remove();
+				$('.msg-focus .isempty').hide();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/message/follow', {
+					is_ajax: 1
+				}, function(data) {
+					if (data.err == 0) {
+						if (data.follows.length > 0) {
+							$.each(data.follows, function(i, v) {
+								//console.log(JSON.stringify(v));
+								var imgSrc = 'img/noimg.jpg';
+								var avatar = v.avatar;
+								if (!avatar) {
+									avatar = imgSrc;
+								} else {
+									avatar = localStorage.getItem('ajaxlinkhead') + avatar;
+								}
+								var li = '<li uid="' + v.uid + '" ><img  src="' + avatar + '" onerror="nofind()" /><h1>' + v.nickname +
+									'</h1><b>关注了你</b><span>' + getDateFormat(v.create_time) + '</span></li>';
+								$('.msg-focus .msglist').append(li);
+							});
+						} else {
+							$('.msg-focus .isempty').show();
+						}
+					} else {
+						plus.nativeUI.toast(map.msg);
+						$('.msg-focus .isempty').show();
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					$('.msg-focus .isempty').show();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			//获取commentslist
+			function getcommentlist() {
+				showcssWaiting();
+				$('.msg-comment .msglist li').remove();
+				$('.msg-comment .isempty').hide();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/message/comment', {
+					is_ajax: 1
+				}, function(data) {
+
+					if (data.err == 0) {
+						if (data.comments.length > 0) {
+							$.each(data.comments, function(i, v) {
+
+								var imgSrc = 'img/noimg.jpg';
+								var avatar = v.avatar;
+								var covernoteid = v.covernoteid;
+								if (!avatar) {
+									avatar = imgSrc;
+								} else {
+									avatar = localStorage.getItem('ajaxlinkhead') + avatar;
+								}
+								if (!covernoteid || covernoteid == '/static/images/default.png') {
+									covernoteid = '<div cid="' + v.cid + '" style="background-image:url(img/check.jpg);"></div>';
+								} else {
+									covernoteid = '<div cid="' + v.cid + '" style="background-image:url(' + localStorage.getItem(
+										'ajaxlinkhead') + covernoteid + ');"></div>';
+								}
+								var li = '<li>' + covernoteid + '<img  src="' + avatar + '" onerror="nofind()" uid="' + v.uid +
+									'"/><h1  uid="' + v.uid + '">' + v.nickname + '</h1><b  cid="' + v.cid + '">评论了你的动态</i></b><span>' + v.create_time +
+									'</span><p  cid="' + v.cid + '">' + v.content + '</p></li>'
+								$('.msg-comment .msglist').append(li);
+							});
+						} else {
+							$('.msg-comment .isempty').show();
+						}
+					} else {
+						plus.nativeUI.toast(map.msg);
+						$('.msg-comment .isempty').show();
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					$('.msg-comment .isempty').show();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			mui('.msg-focus').on('tap', 'li', function(e) {
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+				var open_url = 'expertdetail.html?uid=' + $(this).attr('uid');
+				plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+			});
+
+			mui('.msg-comment').on('tap', 'img,h1', function(e) {
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+				var open_url = 'expertdetail.html?uid=' + $(this).attr('uid');
+				plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+			});
+
+			mui('.msg-like').on('tap', 'img,h1', function(e) {
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+				var open_url = 'expertdetail.html?uid=' + $(this).attr('uid');
+				plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+			});
+
+			mui('.msg-comment').on('tap', 'div,p,b', function(e) {
+				mui.openWindow({
+					url: 'postdetail.html?cid=' + $(this).attr('cid'),
+					id: 'postdetail.html'
+				});
+			});
+
+			mui('.msg-like').on('tap', 'div,b', function(e) {
+				var cid = $(this).attr('cid');
+				console.log(cid);
+				if (cid && cid != '' && cid != undefined && cid != null && cid != 'undefined' && cid != 'null') {
+					mui.openWindow({
+						url: 'postdetail.html?cid=' + $(this).attr('cid'),
+						id: 'postdetail.html'
+					});
+				} else {
+					mui.toast('找不到相关动态')
+				}
+			});
+		</script>
+	</body>
+</html>

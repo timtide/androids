@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<title></title>
+		<style>
+			.findbox {
+				background-color: #fefefe;
+				overflow: hidden;
+				position: absolute;
+				height: 100%;
+				width: 100%;
+			}
+
+			.findbox .head {
+				text-align: center;
+				color: #444;
+				font-size: 16px;
+				margin: 0;
+				padding-top: 40px;
+				line-height: 50px;
+				background-color: rgba(250, 250, 250, 0.95);
+				padding-bottom: 4px;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 100;
+				font-weight: bold;
+				width: 100%;
+				box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+			}
+
+			.findbox .head i {
+				position: absolute;
+				right: 20px;
+				background-color: #f6b83f;
+				border-radius: 50px;
+				color: #fff;
+				width: 36px;
+				text-align: center;
+				line-height: 35px;
+				float: right;
+				margin-top: 6px;
+				padding-bottom: 1px;
+				font-size: 19px;
+			}
+
+			.findheadpush {
+				height: 94px;
+				background-color: #fefefe;
+				width: 100%;
+			}
+
+			.findbox .findlist {
+				padding-left: 24px;
+				padding-bottom: 24px;
+			}
+
+			.findbox .findlist li {
+				padding-top: 20px;
+				padding-bottom: 15px;
+				border-bottom: 1px #ededed solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.findbox .findlist li:active {
+				opacity: 0.7;
+			}
+
+			.findbox .findlist li img {
+				width: 48px;
+				height: 48px;
+				float: left;
+				margin-right: 15px;
+				border-radius: 50px;
+				background-color: #eee;
+			}
+
+			.findbox .findlist li i.newmsg {
+				width: 8px;
+				height: 8px;
+				display: block;
+				border-radius: 10px;
+				background-color: #F44336;
+				position: absolute;
+				margin-top: 3px;
+				margin-left: 3px;
+				display: none;
+			}
+
+			.findbox .findlist li i.newmsg.show {
+				display: block;
+			}
+
+			.findbox .findlist li h1 {
+				font-size: 16px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin-top: 5px;
+				line-height: 20px;
+			}
+
+			.findbox .findlist li p {
+				font-size: 12px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin: 0;
+				color: #bbb;
+			}
+
+			.mui-scroll-wrapper-find .mui-scroll {
+				background-color: #fefefe;
+			}
+
+			#findbox .etcctr {
+				float: right;
+				margin-top: -20px;
+			}
+
+			#findbox .etcctr i {
+				margin-right: 20px;
+				color: #67cacb;
+				background-color: #f6f6f6;
+				padding: 5px 10px;
+				line-height: 16px;
+				border-radius: 15px;
+			}
+
+			#findbox .etcctr i.member_focus {
+				color: #b9c5cb;
+				font-size: 12px;
+			}
+
+			#findbox .refreshtip {
+				text-align: center;
+				font-size: 12px;
+				color: #ccc;
+				position: absolute;
+				width: 70%;
+				margin-left: 15%;
+				padding-top: 5px;
+				border-top: 1px #eee solid;
+				margin-top: -75px;
+			}
+
+			#notready,
+			#notlogin {
+				font-size: 12px;
+				color: #bbb;
+				position: absolute;
+				margin-left: 6px;
+			}
+
+			#notready {
+				display: none;
+			}
+
+			.isend {
+				display: none;
+				text-align: center;
+				font-size: 12px;
+				color: #ccc;
+				line-height: 40px;
+				margin-bottom: 10px;
+			}
+
+			.isempty {
+				display: none;
+				text-align: center;
+				font-size: 12px;
+				color: #bbb;
+				line-height: 40px;
+				margin-top: 30px;
+			}
+
+			.isempty i {
+				display: block;
+				font-size: 30px;
+				color: #ccc;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		<header class="defaulthead headfixed" id="defaulthead">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1>附近的人</h1>
+		</header>
+		<div class="headpush"></div>
+
+		<div class="mui-scroll-wrapper-find findbox" id="findbox">
+			<div class="mui-scroll">
+				<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+				<ul class="findlist">
+					<!--<li><img src='img/find/test_01.png' onerror="nofind()" /><h1>alicklia</h1><p>我不知道自己在追逐什么,也许只是想要奔跑</p></li>
+			<li><img src='img/find/test_02.png' onerror="nofind()" /><h1>我是你大王</h1><p>遇见生命初色 如无声黑白电影的清欢...</p></li>
+			<li><img src='img/find/test_03.png' onerror="nofind()" /><h1>清河(万源) </h1><p>杜鹃花开的时候,我们穿越廖家岭</p></li>
+			<li><img src='img/find/test_04.png' onerror="nofind()" /><h1>一个童话梦</h1><p>现实里的我,童话里的他</p></li>
+			<li><img src='img/find/test_05.png' onerror="nofind()" /><h1>会飞的鱼</h1><p>英雄一个人美美的睡一觉,才会觉得踏实幸.</p></li>
+			<li><img src='img/find/test_06.png' onerror="nofind()" /><h1>百利甜酒</h1><p>等你以后再翻看的时候就会想起,当时我..</p></li>
+			<li><img src='img/my-head.png' onerror="nofind()" /><h1>333</h1><p>123123</p></li>-->
+				</ul>
+				<div class="isend">没有更多了~</div>
+				<div class="isempty"><i class="fa fa-binoculars"></i><span>没有找到附近的会员</span></div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui('body').on('tap', '#headback', function(e) {
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			var bodyheight = $(window).height();
+			if (bodyheight == 812) {
+				bodyheight = bodyheight - 34;
+			}
+
+			$(function(){
+
+				var finalheight = bodyheight - document.getElementById('defaulthead').clientHeight;
+				$('.mui-scroll-wrapper-find').css({
+					'height': finalheight
+				});
+				$('.mui-scroll-wrapper-find .mui-scroll').css({
+					'min-height': finalheight + 1
+				});
+
+				//滑动初始化
+				mui('.mui-scroll-wrapper-find').scroll({
+					indicators: false,
+					deceleration: 0.003
+				});
+
+			})
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getfindlist();
+				scrolllistenerfind();
+			}
+
+			var followsdata = {};
+
+			mui('body').on('tap', '.findbox .findlist li', function(e) {
+				var tid = $(this).attr('uid');
+				var avatar = $(this).find('img').attr('src');
+
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+
+				var open_url = 'expertdetail.html?uid=' + tid + '&hsrc=' + avatar;
+				var expertdetail = plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+
+				expertdetail.addEventListener('close', function() {
+					setbcolor('dark');
+				})
+			});
+
+			var findloadfirst = 0;
+
+			function scrolllistenerfind() {
+				document.getElementById('findbox').addEventListener('scroll', function(e) {
+					if (e.detail.y > 70) {
+						findloadfirst = 1;
+					}
+				});
+				document.getElementById('findbox').addEventListener('scrollend', function(e) {
+					if (findloadfirst == 1 && e.detail.y == 0) {
+						getfindlist();
+						findloadfirst = 0;
+					}
+				});
+			}
+
+			function getfindlist() {
+				showcssWaiting();
+				$('.findlist li').remove();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/find', {
+					'is_ajax': 1
+				}, function(result) {
+
+					$('#findbox .isend,#findbox .isempty').hide();
+					if (result.userData) {
+						if (result.userData != '') {
+
+							var myuid = plus.storage.getItem("user_uid");
+							var li, nickname, signature;
+							$.each(result.userData, function(i, v) {
+								if (v.uid == myuid) {
+									return
+								}
+
+								followsdata[v.uid] = v;
+
+								if (v.nickname == '') {
+									nickname = v.username;
+								} else {
+									nickname = v.nickname
+								}
+
+								if (v.signature && v.signature != '') {
+									signature = v.signature;
+								} else {
+									signature = '未设置签名';
+								}
+
+								li = '<li uid="' + v.uid + '"><img src="' + localStorage.getItem('ajaxlinkhead') + v.avatar +
+									'" onerror="nofind()"/><h1>' + nickname + '</h1><div class="etcctr"></div><p>' + signature + '</p></li>';
+								$('.findlist').append(li);
+
+							})
+							if ($('.findlist li').length != 0) {
+								$('#findbox .isend').show();
+							} else {
+								$('#findbox .isempty').show();
+							}
+						} else {
+							$('#findbox .isempty').show();
+						}
+					} else {
+						$('#findbox .isempty').show();
+					}
+					closecssWaiting();
+				}, 'json').fail(function() {
+					$('#findbox .isempty').show();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			};
+		</script>
+	</body>
+</html>

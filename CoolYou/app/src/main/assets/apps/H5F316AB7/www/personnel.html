@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<title></title>
+		<style>
+			body {
+				background-color: #fff;
+			}
+
+			.findheadpush {
+				height: 94px;
+				background-color: #fefefe;
+				width: 100%;
+			}
+
+			.findbox .findlist {
+				padding-left: 24px;
+				padding-top: 15px;
+				padding-bottom: 24px;
+			}
+
+			.findbox .findlist li {
+				padding-top: 20px;
+				padding-bottom: 15px;
+				border-bottom: 1px #ededed solid;
+				-webkit-transition: all 0.3s;
+				transition: all 0.3s;
+			}
+
+			.findbox .findlist li:active {
+				opacity: 0.7;
+			}
+
+			.findbox .findlist li img {
+				width: 48px;
+				height: 48px;
+				float: left;
+				margin-right: 15px;
+				border-radius: 50px;
+			}
+
+			.findbox .findlist li h1 {
+				font-size: 16px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin-top: 5px;
+				line-height: 20px;
+			}
+
+			.findbox .findlist li p {
+				font-size: 12px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				margin: 0;
+				color: #bbb;
+			}
+
+			.refreshtip {
+				text-align: center;
+				font-size: 12px;
+				color: #ccc;
+				position: absolute;
+				width: 70%;
+				margin-left: 15%;
+				padding-top: 5px;
+				border-top: 1px #eee solid;
+				margin-top: -75px;
+			}
+
+			.isend {
+				display: none;
+				text-align: center;
+				font-size: 12px;
+				color: #ccc;
+				line-height: 40px;
+				margin-bottom: 10px;
+			}
+
+			.isempty {
+				display: none;
+				text-align: center;
+				font-size: 12px;
+				color: #bbb;
+				line-height: 40px;
+				margin-top: 30px;
+			}
+
+			.isempty i {
+				display: block;
+				font-size: 30px;
+				color: #ccc;
+			}
+
+			.etcctr {
+				float: right;
+				margin-top: -20px;
+			}
+
+			.etcctr i {
+				margin-right: 20px;
+				color: #67cacb;
+				background-color: #f6f6f6;
+				padding: 5px 10px;
+				line-height: 16px;
+				border-radius: 15px;
+			}
+
+			.etcctr i.member_focus {
+				color: #b9c5cb;
+				font-size: 12px;
+			}
+
+			.ctxt {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+
+		<header id="defaulthead" class="defaulthead headfixed">
+			<i id="headback" class="fa fa-chevron-left"></i>
+			<h1><span class="ctxt" ct='follow'>我的关注</span><span class="ctxt" ct='fans'>我的粉丝</span></h1>
+		</header>
+		<div class="headpush"></div>
+
+
+		<div class="mui-scroll-wrapper-follow findbox" id="findbox">
+			<div class="mui-scroll">
+				<div class="refreshtip"><i class="fa fa-refresh"></i> 松开刷新</div>
+				<ul class="findlist"></ul>
+				<div class="isend">没有更多了~</div>
+				<div class="isempty"><i class="fa fa-binoculars"></i><span>没有获取到列表哦</span></div>
+				<div class="isempty"><i class="fa fa-binoculars"></i><span>还没有相关的会员哦</span></div>
+			</div>
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			var gdata = GetRequest();
+			$('.ctxt[ct="' + gdata.act + '"]').show();
+
+			// 判断扩展API是否准备，否则监听'plusready'事件
+			if (window.plus) {
+				plusReady()
+			} else {
+				document.addEventListener('plusready', plusReady, false)
+			};
+
+			// 扩展API加载完毕，现在可以正常调用扩展API
+			function plusReady() {
+				getlist(gdata.act);
+			}
+
+			$(function() {
+				//滑动初始化
+				var bodyheight = $(window).height() - document.querySelector('.defaulthead').clientHeight;
+				$('.mui-scroll-wrapper-follow').css({
+					'height': bodyheight
+				});
+				$('.mui-scroll-wrapper-follow .mui-scroll').css({
+					'min-height': bodyheight + 1
+				});
+				mui('.mui-scroll-wrapper-follow').scroll({
+					indicators: false,
+					deceleration: 0.003
+				});
+				scrolllistener();
+			})
+
+			var loadfirst = 0;
+
+			function scrolllistener() {
+				document.getElementById('findbox').addEventListener('scroll', function(e) {
+					if (e.detail.y > 70) {
+						loadfirst = 1;
+					}
+				});
+				document.getElementById('findbox').addEventListener('scrollend', function(e) {
+					if (loadfirst == 1 && e.detail.y == 0) {
+						getlist(gdata.act);
+						loadfirst = 0;
+					}
+				});
+			}
+
+			mui('body').on('tap', '#headback', function(e) {
+				$('input').blur();
+				plus.webview.currentWebview().close('slide-out-right', 200);
+			})
+
+			function nofind() {
+				var img = event.srcElement;
+				img.src = "img/my-head.png";
+				img.onerror = null;
+			}
+
+			function getlist(linkact) {
+				var subjson = {
+					'is_ajax': 1
+				};
+				showcssWaiting();
+				$('.findlist li').remove();
+				$.get(localStorage.getItem('ajaxlinkhead') + '/user/note/' + linkact, subjson, function(result) {
+					$('.isend,.isempty').hide();
+
+					var newact = gdata.act;
+					if (gdata.act == 'follow') {
+						newact = 'follows';
+					}
+
+					if (String(result.err) == '0') {
+						if (result[newact]) {
+							if (result[newact] != '') {
+
+								var findlist = $('.findlist');
+								var li, nickname, signature;
+
+								$.each(result[newact], function(i, v) {
+
+									if (v.nickname == '') {
+										nickname = v.username;
+									} else {
+										nickname = v.nickname
+									}
+
+									if (v.signature && v.signature != '') {
+										signature = v.signature;
+									} else {
+										signature = '未设置签名';
+									}
+
+									if (String(v.isfocus) == '1') {
+										isfocus = '<i class="fa add_btn fa-check-circle-o member_focus" uid="' + v.uid + '"> 已关注</i>';
+									} else {
+										isfocus = '<i class="fa add_btn fa-user-plus"></i>';
+									}
+
+									if (newact == 'follows') {
+										isfocus = '<i class="fa add_btn fa-check-circle-o member_focus" uid="' + v.uid + '"> 已关注</i>';
+									}
+
+									li = '<li uid="' + v.uid + '"><img src="' + localStorage.getItem('ajaxlinkhead') + v.avatar +
+										'" onerror="nofind()"/><h1>' + nickname + '</h1><div class="etcctr">' + isfocus + '</div><p>' + signature +
+										'</p></li>';
+									findlist.append(li);
+								})
+								if ($('.findlist li').length != 0) {
+									$('.isend').show();
+								} else {
+									$('.isempty').eq(1).show();
+								}
+							} else {
+								$('.isempty').eq(0).show();
+							}
+						} else {
+							$('.isempty').eq(0).show();
+						}
+					} else {
+						$('.isempty').eq(0).show();
+						plus.nativeUI.toast(result.msg);
+					};
+					closecssWaiting();
+				}, 'json').fail(function() {
+					$('.isempty').eq(0).show();
+					closecssWaiting();
+					plus.nativeUI.toast('获取失败，发生错误');
+				});
+			};
+
+			mui('body').on('tap', '.isempty', function(e) {
+				$('.isempty').hide();
+				getlist(gdata.act)
+			});
+
+			//关注按钮事件
+			mui('body').on('tap', '.add_btn', function() {
+				var uid = $(this).parents('li').attr('uid');
+				var that = $(this);
+				if ($(that).hasClass('member_focus')) {
+					plus.nativeUI.confirm("您是否要取消对该用户的关注？", function(e) {
+						if (e.index == 0) {
+
+							mui.post(localStorage.getItem('ajaxlinkhead') + '/user/member/unfocus', {
+								id: uid
+							}, function(data) {
+								if (data.code == '1') {
+									that.removeClass('member_focus');
+									that.removeClass('fa-check-circle-o');
+									that.addClass('fa-user-plus');
+									that.text('');
+								}
+								closecssWaiting();
+								mui.toast(data.msg);
+							}, 'json');
+
+						}
+					})
+				} else {
+					mui.post(localStorage.getItem('ajaxlinkhead') + '/user/member/focus', {
+						id: uid
+					}, function(data) {
+						if (data.code == '1') {
+							that.addClass('member_focus');
+							that.addClass('fa-check-circle-o');
+							that.removeClass('fa-user-plus');
+							that.text(' 已关注');
+						}
+						closecssWaiting();
+						mui.toast(data.msg);
+					}, 'json');
+
+				}
+			});
+
+			//2018-07-14
+			mui('body').on('tap', '.findlist li img,.findlist li h1,.findlist li p', function(e) {
+
+				showcssWaiting();
+				var olddetail = plus.webview.getWebviewById('expertdetail.html');
+				if (olddetail) {
+					olddetail.close('none')
+				};
+
+				var open_url = 'expertdetail.html?uid=' + $(this).parents('li').attr('uid') + '&hsrc=' + $(this).parents('li').attr(
+					'hsrc');
+				var expertdetail = plus.webview.create(open_url, 'expertdetail.html', {
+					top: 0,
+					bottom: 0
+				});
+
+				expertdetail.addEventListener('close', function() {
+					setbcolor('dark');
+				})
+			})
+		</script>
+	</body>
+</html>

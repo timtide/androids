@@ -1,0 +1,102 @@
+body {
+	background-color: #fff;
+}
+
+.defaultlist {
+	padding: 0 24px;
+	background-color: #fff;
+	margin-top: 0;
+}
+
+.defaultlist li * {
+	line-height: 48px;
+}
+
+.defaultlist.noicon li span.left {
+	font-size: 15px;
+	color: #333;
+	margin-left: 1px;
+}
+
+.defaultlist li span.right {
+	font-size: 15px;
+	color: #a5a9b2;
+}
+
+.defaultlist li#signature span.right {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 66%;
+}
+
+.defaultlist li i.right {
+	margin-right: 0;
+}
+
+.defaultlist li .dataheadimg {
+	margin-top: -2px;
+	display: block;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+	background-position: center;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	display: block;
+	height: 54px;
+	width: 54px;
+	border-radius: 54px;
+	background-color: #c8d0d6;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.defaultlist li.forminput input {
+	border: none;
+	width: 220px;
+	margin: 0;
+	height: 52px;
+	line-height: 26px;
+}
+
+.defaultlist li.forminput input[type=password] {
+	width: 200px;
+	color: #666;
+	letter-spacing: 4px;
+	height: 24px;
+	line-height: 24px;
+	padding: 0 15px;
+	margin-top: 14px;
+	font-size: 14px;
+}
+
+.defaultlist li.forminput input[type=password]::-webkit-input-placeholder {
+	letter-spacing: 0;
+	color: #ccc;
+}
+
+.defaultlist li.forminput input[type=password]:-ms-input-placeholder {
+	letter-spacing: 0;
+	color: #ccc;
+}
+
+.defaultlist li.forminput input[type=password]::-moz-placeholder {
+	letter-spacing: 0;
+	color: #ccc;
+}
+
+.defaultlist li.forminput input[type=password]:-moz-placeholder {
+	letter-spacing: 0;
+	color: #ccc;
+}
+
+.tip {
+	padding: 6px 15px 0;
+	line-height: 18px;
+	font-size: 14px;
+	margin: 0;
+}
+
+.tip b {
+	font-size: 14px;
+	font-weight: bold;
+}
